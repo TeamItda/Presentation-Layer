@@ -21,7 +21,8 @@ git clone https://github.com/TeamItda/Client.git
 1. 개발을 시작할 때는 현재(Origin) Repository에서 Issue를 생성합니다.
    <img width="1024" alt="시작 1" src="https://github.com/TeamItda/GITHUB-TEST/blob/182877d04e844f592efba6f44c84f56bef664cb6/2%EB%8B%A8%EA%B3%84.PNG">
 
-2. 이후 Issue에서 Origin Repository의 Dev Branch에서 새로운 Branch를 생성합니다. **오른쪽 아래에 `Create a Branch`를 통해서 생성합니다!!**
+2. 이후 Issue에서 Origin Repository의 Dev Branch에서 새로운 Branch를 생성합니다. 
+**오른쪽 아래에 `Create a Branch`를 통해서 생성합니다!!**
    <img width="1024" alt="시작 2" src="https://github.com/TeamItda/GITHUB-TEST/blob/182877d04e844f592efba6f44c84f56bef664cb6/3%EB%8B%A8%EA%B3%84.PNG">
 
    - 이때 브랜치 이름은 다음을 따릅니다.
@@ -38,7 +39,7 @@ git clone https://github.com/TeamItda/Client.git
 git fetch origin
 ```
 
-4. 해당 Branch로 checkout 이후 기능 개발을 진행합니다.
+4. 2.에서 만든 해당 Branch로 checkout 이후 기능 개발을 진행합니다.
 
 ```Shell
 git checkout feature/1 # 예시입니다.
