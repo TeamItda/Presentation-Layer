@@ -26,7 +26,8 @@
 
 <img width="1024" alt="시작 3" src="https://github.com/TeamItda/GITHUB-TEST/blob/182877d04e844f592efba6f44c84f56bef664cb6/4%EB%8B%A8%EA%B3%84.PNG">
 
-3. Loacl에서 Fetch를 통해 만든 New Branch(feature or fix or refactor)을 들고옵니다.
+3. Local에서 Fetch를 통해 만든 New Branch(feature or fix or refactor)을 들고옵니다. 
+(VScode의 경우 확장 프로그램 또는 터미널 기능을 이용하면 됩니다.)
 
 ```Shell
 git fetch origin
@@ -105,3 +106,7 @@ git pull origin dev
 | 🚑   | :ambulance | Urgent fixes                      |
 | ✨   | :sparkles  | Introduce new features            |
 | 💄   | :lipstick  | Add/modify UI/style files         |
+
+
+## 참고 링크
+https://develoft.tistory.com/7 #vscode를 이용한 방법
