@@ -16,7 +16,7 @@
 
 0. repository를 local로 가져옵니다. #예시입니다. 프로젝트를 처음 시작할 때 한 번만 하면 됩니다.
 ```Shell
-git clone https://github.com/TeamItda/Client.git
+git clone https://github.com/TeamItda/Client.git](https://github.com/TeamItda/itda-flutter-app.git
 ```
 
 1. 개발을 시작할 때는 현재(Origin) Repository에서 Issue를 생성합니다.
