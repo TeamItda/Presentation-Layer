@@ -1,0 +1,1570 @@
+[
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzUxIyQxIyQxIyQ3MiQyNjE4MzIjNTEjJDEjJDIjJDgz",
+    "name": "365열린동대문약국",
+    "addr": "서울특별시 종로구 종로 323, 1층 (창신동)",
+    "tel": "",
+    "lat": 37.572639,
+    "lng": 127.0135269
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQxIyQzIyQ5OSQ0NjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "가람약국",
+    "addr": "서울특별시 종로구 사직로8길 4, 301동 B127호 (사직동, 광화문 풍림스페이스본)",
+    "tel": "02-733-9303",
+    "lat": 37.5744035,
+    "lng": 126.9686008
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQzIyQ2MiQzNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "건강약국",
+    "addr": "서울특별시 종로구 혜화로 2, 1층 (혜화동)",
+    "tel": "02-764-9918",
+    "lat": 37.5860916,
+    "lng": 127.0009187
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxOTYxIzUxIyQxIyQxIyQ3OSQzNjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "건강한세상약국",
+    "addr": "서울특별시 종로구 새문안로 21, 1,2,3,지하1층 (평동)",
+    "tel": "02-733-7870",
+    "lat": 37.5675159,
+    "lng": 126.9679867
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQxIyQ1IyQ2MiQ0NjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "경일약국",
+    "addr": "서울특별시 종로구 평창문화로 35, (평창동)",
+    "tel": "02-391-3469",
+    "lat": 37.6050735,
+    "lng": 126.9653228
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQwMyQzNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "경희궁햇살약국",
+    "addr": "서울특별시 종로구 송월길 99, 203동 2218호 (홍파동, 경희궁자이 2단지)",
+    "tel": "02-733-3342",
+    "lat": 37.5708754,
+    "lng": 126.9638823
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxMzUxIzIxIyQxIyQ5IyQ4OSQyNjEyMjIjNjEjJDEjJDAjJDgz",
+    "name": "광교약국",
+    "addr": "서울특별시 종로구 청계천로 49, (관철동)",
+    "tel": "02-734-4690",
+    "lat": 37.5690898,
+    "lng": 126.9831415
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQ5IyQ5OSQ0NjEwMDIjODEjJDEjJDIjJDgz",
+    "name": "광장약국",
+    "addr": "서울특별시 종로구 종로 193-2, 1,2층 (종로4가)",
+    "tel": "02-2272-0380",
+    "lat": 37.5710737,
+    "lng": 126.9992237
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzQxIyQxIyQ3IyQxMyQyNjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "광화문123약국",
+    "addr": "서울특별시 종로구 삼봉로 44, 1층 (청진동)",
+    "tel": "02-723-0124",
+    "lat": 37.5723902,
+    "lng": 126.979693
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzUxIyQxIyQ1IyQ4MiQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "광화문윤약국",
+    "addr": "서울특별시 종로구 세종대로 159, 4층 (세종로)",
+    "tel": "02-720-1717",
+    "lat": 37.5706115,
+    "lng": 126.9763604
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQzIyQ3MiQyNjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "광화문이층약국",
+    "addr": "서울특별시 종로구 새문안로 89, 정우빌딩 201호 (신문로1가)",
+    "tel": "",
+    "lat": 37.5704736,
+    "lng": 126.9745322
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQ3IyQ2MiQyNjE4MzIjNjEjJDEjJDgjJDgz",
+    "name": "교회옆약국",
+    "addr": "서울특별시 종로구 대학로5길 35, 101호, 201호 (연건동)",
+    "tel": "02-763-7639",
+    "lat": 37.5790266,
+    "lng": 127.0006881
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ3OSQzNjE0ODEjODEjJDEjJDYjJDgz",
+    "name": "국일약국",
+    "addr": "서울특별시 종로구 종로16길 12, (관철동)",
+    "tel": "02-2275-7225",
+    "lat": 37.5695603,
+    "lng": 126.9885196
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzUxIyQxIyQxIyQxMyQzNjE4MzIjNzEjJDEjJDgjJDgz",
+    "name": "국화약국",
+    "addr": "서울특별시 종로구 평창11길 3, 1층 (평창동, 쇼핑센타뉴본)",
+    "tel": "02-395-9105",
+    "lat": 37.6060341,
+    "lng": 126.9666375
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzExIyQxIyQ3IyQxMyQzNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "글로리아약국",
+    "addr": "서울특별시 종로구 평창문화로 75, A109호 (평창동, 글로리아타운)",
+    "tel": "02-3216-6700",
+    "lat": 37.6068376,
+    "lng": 126.9690288
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQxIyQxIyQ3OSQzNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "김해약국",
+    "addr": "서울특별시 종로구 종로 206, (종로5가)",
+    "tel": "02-2267-1551",
+    "lat": 37.5707081,
+    "lng": 127.0007103
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQxIyQ3MiQzNjEyMjIjNTEjJDEjJDIjJDgz",
+    "name": "남영약국",
+    "addr": "서울특별시 종로구 삼일대로 461, (경운동, 운현궁SK허브)",
+    "tel": "02-733-4774",
+    "lat": 37.5755955,
+    "lng": 126.985829
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzUxIyQxIyQ1IyQwMyQzNjEyMjIjNjEjJDEjJDAjJDgz",
+    "name": "내자약국",
+    "addr": "서울특별시 종로구 사직로 107, 1층 (내자동, 한빛빌딩)",
+    "tel": "02-6326-2007",
+    "lat": 37.5763351,
+    "lng": 126.9707733
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzUxIyQxIyQ1IyQ4MiQyNjEyMjIjNjEjJDEjJDgjJDgz",
+    "name": "늘푸른약국",
+    "addr": "서울특별시 종로구 새문안로 17, 4.19기념도서관 2층 (평동)",
+    "tel": "02-734-9600",
+    "lat": 37.5673583,
+    "lng": 126.9676
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzIxIyQxIyQ1IyQ2MiQ0NjE0ODEjNTEjJDEjJDYjJDgz",
+    "name": "다가가는약국",
+    "addr": "서울특별시 종로구 새문안로 17, 4.19기념도서관 3층 (평동)",
+    "tel": "02-6261-7575",
+    "lat": 37.567445,
+    "lng": 126.9676938
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxOTYxIzUxIyQxIyQxIyQ3MiQyNjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "다나약국",
+    "addr": "서울특별시 종로구 종로 128, 302호 (종로3가)",
+    "tel": "02-2263-9293",
+    "lat": 37.5701516,
+    "lng": 126.9919191
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxNzAyIzQxIyQxIyQ3IyQ5OSQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "단골온누리약국",
+    "addr": "서울특별시 종로구 지봉로 50, (숭인동, 필빌딩)",
+    "tel": "02-745-0731",
+    "lat": 37.5745114,
+    "lng": 127.0159516
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQxIyQ5IyQ5MiQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "당근약국",
+    "addr": "서울특별시 종로구 새문안로 83, 1층 (신문로1가)",
+    "tel": "02-735-0709",
+    "lat": 37.5703743,
+    "lng": 126.9739745
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQxIyQxIyQwMyQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "대경약국",
+    "addr": "서울특별시 종로구 종로51나길 2, (창신동)",
+    "tel": "02-744-2434",
+    "lat": 37.5726665,
+    "lng": 127.0122924
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxMzUxIzExIyQxIyQ3IyQwMyQzNjEwMDIjODEjJDEjJDYjJDgz",
+    "name": "대도약국",
+    "addr": "서울특별시 종로구 우정국로 38-1, 1층 (견지동)",
+    "tel": "02-737-4510",
+    "lat": 37.5724922,
+    "lng": 126.983275
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzIxIyQxIyQ5IyQ4MiQzNjE4MzIjNjEjJDEjJDgjJDgz",
+    "name": "대명약국",
+    "addr": "서울특별시 종로구 종로 256-1, 대명빌딩 1층 (종로5가)",
+    "tel": "02-2274-0980",
+    "lat": 37.5708528,
+    "lng": 127.0062836
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQ5IyQ2MiQ0NjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "대박약국",
+    "addr": "서울특별시 종로구 종로 19, 3층 327호 (종로1가, 르메이에르종로타운)",
+    "tel": "02-2075-7171",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzQxIyQyIyQ3IyQwMCQ0NjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "대서울약국",
+    "addr": "서울특별시 종로구 창경궁로 158, 2층 (원남동)",
+    "tel": "02-762-6060",
+    "lat": 37.5764239,
+    "lng": 126.9975942
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzQxIyQxIyQ3IyQ2MiQzNjEyMjIjNjEjJDEjJDgjJDgz",
+    "name": "대웅약국",
+    "addr": "서울특별시 종로구 종로 190, 1층 (종로4가)",
+    "tel": "02-2272-9947",
+    "lat": 37.5705876,
+    "lng": 126.9988031
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQwMyQ0NjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "대학로대학약국",
+    "addr": "서울특별시 종로구 대학로 119, 1~2층 (명륜4가)",
+    "tel": "02-762-1190",
+    "lat": 37.5819294,
+    "lng": 127.0016822
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQxIyQ1IyQ5OSQyNjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "대학약국",
+    "addr": "서울특별시 종로구 창경궁로 162, 1,2층 (원남동)",
+    "tel": "02-3672-3672",
+    "lat": 37.5768148,
+    "lng": 126.9974867
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkOCMkMDMkMzgxMzUxIzExIyQyIyQzIyQwMCQzNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "대한약국",
+    "addr": "서울특별시 종로구 대학로5길 57, 1,2층 (연건동)",
+    "tel": "02-3676-1720",
+    "lat": 37.5796275,
+    "lng": 127.0015857
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzUxIyQxIyQ1IyQ5MiQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "동남약국",
+    "addr": "서울특별시 종로구 종로 124, (종로3가)",
+    "tel": "02-2273-3233",
+    "lat": 37.5701274,
+    "lng": 126.9912977
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ2MiQyNjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "동대문연약국",
+    "addr": "서울특별시 종로구 종로 272, 동대문종합시장 신관 신관동 지하1층 018호 (종로6가)",
+    "tel": "02-2274-7889",
+    "lat": 37.5708266,
+    "lng": 127.0081219
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQxMyQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "동묘약국",
+    "addr": "서울특별시 종로구 종로58길 44, 1층 (숭인동, 청계 로벤하임)",
+    "tel": "02-2238-7119",
+    "lat": 37.5715022,
+    "lng": 127.0183676
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ1IyQ5MiQyNjEyMjIjNzEjJDEjJDgjJDgz",
+    "name": "동묘호약국",
+    "addr": "서울특별시 종로구 종로 344, 106호 (숭인동, 종로대우디오빌)",
+    "tel": "02-2233-0961",
+    "lat": 37.5727249,
+    "lng": 127.0161059
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxNzAyIzQxIyQxIyQ3IyQ2MiQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "동서약국",
+    "addr": "서울특별시 종로구 종로 222, (종로5가)",
+    "tel": "02-2278-2140",
+    "lat": 37.5707598,
+    "lng": 127.0023703
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQxIyQ5IyQ2MiQyNjE4MzIjODEjJDEjJDYjJDgz",
+    "name": "동시약국",
+    "addr": "서울특별시 종로구 종로 202-1, (종로4가, 동흥빌딩)",
+    "tel": "02-2268-4055",
+    "lat": 37.5706152,
+    "lng": 127.0002436
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzMxIyQxIyQ3IyQ4MiQyNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "동아약국",
+    "addr": "서울특별시 종로구 종로 192, (종로4가)",
+    "tel": "02-2285-5702",
+    "lat": 37.570605,
+    "lng": 126.999073
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzMxIyQxIyQ3IyQ4OSQyNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "동인약국",
+    "addr": "서울특별시 종로구 창신길 11, 1층 (창신동)",
+    "tel": "02-743-7371",
+    "lat": 37.5722122,
+    "lng": 127.0105439
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ4MiQzNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "동호약국",
+    "addr": "서울특별시 종로구 성균관로 53, (명륜3가)",
+    "tel": "02-742-4816",
+    "lat": 37.5874315,
+    "lng": 126.9964575
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQzIyQ2MiQzNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "따뜻한약국",
+    "addr": "서울특별시 종로구 종로 19, 르메이에르종로타운1 304-1호 (종로1가)",
+    "tel": "02-2075-7333",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQxIyQxIyQ3OSQzNjE4MzIjNjEjJDEjJDQjJDgz",
+    "name": "메디칼서울약국",
+    "addr": "서울특별시 종로구 대학로9길 6, 1층,2층 (명륜4가)",
+    "tel": "02-766-9000",
+    "lat": 37.5818199,
+    "lng": 127.0015281
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzExIyQxIyQzIyQ4OSQzNjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "메디칼약국",
+    "addr": "서울특별시 종로구 경교장길 35, 3136호 (평동, 경희궁자이 3단지)",
+    "tel": "02-739-0399",
+    "lat": 37.5691438,
+    "lng": 126.9659909
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzMxIyQxIyQ3IyQ4OSQzNjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "메디팜삼현약국",
+    "addr": "서울특별시 종로구 새문안로3길 15, 동원빌딩 1층 (당주동)",
+    "tel": "02-722-8468",
+    "lat": 37.5717083,
+    "lng": 126.9723185
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzExIyQxIyQ3IyQ5OSQ0NjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "명륜시장약국",
+    "addr": "서울특별시 종로구 성균관로 56-1, (명륜1가)",
+    "tel": "02-747-3443",
+    "lat": 37.5877004,
+    "lng": 126.9968049
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQxIyQ3IyQ4OSQzNjEyMjIjNDEjJDEjJDQjJDgz",
+    "name": "명문약국",
+    "addr": "서울특별시 종로구 통일로 254, 1층, 지하1층 (무악동)",
+    "tel": "02-737-1543",
+    "lat": 37.574939,
+    "lng": 126.9577007
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQyIyQxIyQwMCQzNjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "문우약국",
+    "addr": "서울특별시 종로구 율곡로 62, 3호선 안국역 지하3층 316호 (안국동)",
+    "tel": "02-733-1088",
+    "lat": 37.5767204,
+    "lng": 126.985823
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ4MiQyNjE0ODEjNTEjJDEjJDYjJDgz",
+    "name": "민약국",
+    "addr": "서울특별시 종로구 사직로12길 26, (내자동)",
+    "tel": "02-738-8816",
+    "lat": 37.5749408,
+    "lng": 126.9708733
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxOTYxIzQxIyQxIyQ3IyQwMyQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "믿음약국",
+    "addr": "서울특별시 종로구 종로 335-1, 명제빌딩 지하1층 (창신동)",
+    "tel": "02-745-6678",
+    "lat": 37.57302,
+    "lng": 127.0146651
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQxIyQ5OSQzNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "바로약국",
+    "addr": "서울특별시 종로구 종로 33, 그랑서울 1층 103, 104호 (청진동)",
+    "tel": "02-2158-7900",
+    "lat": 37.57096,
+    "lng": 126.9814392
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzQxIyQxIyQ3IyQ2MiQzNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "바른약국",
+    "addr": "서울특별시 종로구 대학로 89, 대학로빌딩 1층 (연건동)",
+    "tel": "02-744-8908",
+    "lat": 37.5792324,
+    "lng": 127.0018278
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQyIyQ3IyQwMCQyNjEyMjIjNjEjJDEjJDQjJDgz",
+    "name": "백수약국",
+    "addr": "서울특별시 종로구 종로 233-1, 신화빌딩 (종로5가)",
+    "tel": "02-766-1083",
+    "lat": 37.5712908,
+    "lng": 127.0037613
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxNzAyIzIxIyQxIyQ1IyQ2MiQ0NjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "백화점약국",
+    "addr": "서울특별시 종로구 종로 234-1, (종로5가)",
+    "tel": "02-2264-1161",
+    "lat": 37.5707752,
+    "lng": 127.0037425
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzExIyQxIyQ3IyQwMyQyNjEyMjIjNTEjJDEjJDYjJDgz",
+    "name": "보광약국",
+    "addr": "서울특별시 종로구 대학로 93-3, 1층 (연건동)",
+    "tel": "02-762-2515",
+    "lat": 37.5794911,
+    "lng": 127.0017435
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzIxIyQxIyQ5IyQ3OSQ0NjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "보람약국",
+    "addr": "서울특별시 종로구 종로 326, (창신동)",
+    "tel": "02-766-3366",
+    "lat": 37.5723074,
+    "lng": 127.0139988
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzQxIyQxIyQ3IyQ3OSQzNjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "보령약국",
+    "addr": "서울특별시 종로구 종로 203, (종로5가)",
+    "tel": "02-763-8182",
+    "lat": 37.5713394,
+    "lng": 127.0005033
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzQxIyQxIyQ3IyQ5OSQyNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "보배종로약국",
+    "addr": "서울특별시 종로구 종로 226-1, 1층 (종로5가)",
+    "tel": "02-2276-1773",
+    "lat": 37.5707838,
+    "lng": 127.0029822
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxOTYxIzQxIyQxIyQ3IyQ2MiQyNjEyMjIjNTEjJDEjJDIjJDgz",
+    "name": "보생약국",
+    "addr": "서울특별시 종로구 종로 197-2, (종로4가)",
+    "tel": "02-763-7877",
+    "lat": 37.5710649,
+    "lng": 126.999649
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ3MiQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "보성온누리약국",
+    "addr": "서울특별시 종로구 명륜길 22, (명륜1가)",
+    "tel": "02-762-6654",
+    "lat": 37.5884254,
+    "lng": 126.995691
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzMxIyQxIyQzIyQ4OSQyNjE4MzIjNTEjJDEjJDIjJDgz",
+    "name": "봄약국",
+    "addr": "서울특별시 종로구 지봉로 37-1, 1층 (창신동)",
+    "tel": "02-741-9737",
+    "lat": 37.5732589,
+    "lng": 127.0153386
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzQxIyQyIyQ3IyQwMCQ0NjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "부광약국",
+    "addr": "서울특별시 종로구 종로 223-1, (종로5가)",
+    "tel": "02-762-8844",
+    "lat": 37.5712431,
+    "lng": 127.0026255
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQxIyQzIyQ3MiQzNjEwMDIjNjEjJDEjJDAjJDgz",
+    "name": "북촌약국",
+    "addr": "서울특별시 종로구 율곡로3길 71, 1층 (소격동)",
+    "tel": "02-720-8081",
+    "lat": 37.5787658,
+    "lng": 126.9820345
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzUxIyQxIyQ1IyQ5OSQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "빨간문약국",
+    "addr": "서울특별시 종로구 송월길 99, 2124호 (홍파동, 경희궁자이 2단지)",
+    "tel": "",
+    "lat": 37.5708754,
+    "lng": 126.9638823
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzMxIyQxIyQzIyQ4MiQyNjEyMjIjNDEjJDEjJDQjJDgz",
+    "name": "사랑약국",
+    "addr": "서울특별시 종로구 진흥로 432, 1층 3호 (구기동)",
+    "tel": "02-379-5632",
+    "lat": 37.6082018,
+    "lng": 126.9566038
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQzIyQ5MiQyNjEyMjIjNDEjJDEjJDQjJDgz",
+    "name": "삼성대학약국",
+    "addr": "서울특별시 종로구 새문안로 19, 1층,2층 (평동)",
+    "tel": "02-730-6063",
+    "lat": 37.5674431,
+    "lng": 126.9679122
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ1IyQ2MiQyNjEwMDIjNzEjJDEjJDgjJDgz",
+    "name": "삼성제일약국",
+    "addr": "서울특별시 종로구 새문안로 15-1, 1층 (평동)",
+    "tel": "",
+    "lat": 37.5672049,
+    "lng": 126.9674861
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQxIyQ4OSQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "삼원온누리약국",
+    "addr": "서울특별시 종로구 새문안로 103-1, 1층 1호 (신문로1가)",
+    "tel": "02-739-8744",
+    "lat": 37.5704842,
+    "lng": 126.9762033
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQ3MiQyNjE4MzIjNzEjJDEjJDgjJDgz",
+    "name": "삼정김약국",
+    "addr": "서울특별시 종로구 새문안로 19, 지하층 (평동)",
+    "tel": "02-723-0890",
+    "lat": 37.5674431,
+    "lng": 126.9679122
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxOTYxIzUxIyQxIyQxIyQ5MiQ0NjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "새동서약국",
+    "addr": "서울특별시 종로구 동호로 403, 19호 (종로5가)",
+    "tel": "02-2285-1055",
+    "lat": 37.5705008,
+    "lng": 127.0016832
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQxIyQ1IyQ3MiQ0NjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "새명성약국",
+    "addr": "서울특별시 종로구 새문안로 85, 1층 (신문로1가)",
+    "tel": "02-735-2870",
+    "lat": 37.5704241,
+    "lng": 126.9741249
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ5IyQ2MiQyNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "새봄약국",
+    "addr": "서울특별시 종로구 종로 374, 1층 (숭인동)",
+    "tel": "02-2138-1665",
+    "lat": 37.5737711,
+    "lng": 127.0190725
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQxIyQxMyQyNjE4MzIjNTEjJDEjJDYjJDgz",
+    "name": "새종로약국",
+    "addr": "서울특별시 종로구 종로 199-2, 1-3층 (종로4가)",
+    "tel": "",
+    "lat": 37.5711432,
+    "lng": 126.9999397
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ2MiQ0NjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "새현대약국",
+    "addr": "서울특별시 종로구 사직로 130, 적선현대빌딩 지하층 10호 (적선동)",
+    "tel": "02-720-5662",
+    "lat": 37.5753767,
+    "lng": 126.9733437
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQ5OSQzNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "서대문권약국",
+    "addr": "서울특별시 종로구 경교장길 35, 3151호 (평동, 경희궁자이 3단지)",
+    "tel": "02-735-7735",
+    "lat": 37.5691438,
+    "lng": 126.9659908
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzQxIyQxIyQ3IyQ3MiQzNjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "서울온누리약국",
+    "addr": "서울특별시 종로구 대학로5길 54, 1층 (연건동, 우욱하우스)",
+    "tel": "02-745-8272",
+    "lat": 37.5794601,
+    "lng": 127.0014711
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQzIyQ2MiQzNjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "서울이약국",
+    "addr": "서울특별시 종로구 대학로5길 51, 101호 (연건동)",
+    "tel": "02-742-5888",
+    "lat": 37.5795147,
+    "lng": 127.0013354
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzQxIyQxIyQ3IyQwMyQzNjE4MzIjNzEjJDEjJDgjJDgz",
+    "name": "서울종로약국",
+    "addr": "서울특별시 종로구 대학로 117, (명륜4가)",
+    "tel": "02-3676-4000",
+    "lat": 37.5818155,
+    "lng": 127.0016605
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ5OSQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "성당약국",
+    "addr": "서울특별시 종로구 수표로 115, 1층 (낙원동)",
+    "tel": "02-765-4342",
+    "lat": 37.5715523,
+    "lng": 126.9890666
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzUxIyQxIyQ1IyQ2MiQyNjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "성심약국",
+    "addr": "서울특별시 종로구 지봉로 61, 1층 (창신동)",
+    "tel": "02-743-2062",
+    "lat": 37.5755293,
+    "lng": 127.01549610000001
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ4OSQzNjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "성진약국",
+    "addr": "서울특별시 종로구 창경궁로 271-1, (혜화동)",
+    "tel": "02-762-2211",
+    "lat": 37.5855683,
+    "lng": 127.0006014
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQ3MiQ0NjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "세검정약국",
+    "addr": "서울특별시 종로구 세검정로6길 104, 1층 (신영동)",
+    "tel": "02-394-3949",
+    "lat": 37.6016358,
+    "lng": 126.9617969
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzExIyQxIyQzIyQ2MiQzNjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "세계로약국",
+    "addr": "서울특별시 종로구 우정국로 36, 1층 (공평동)",
+    "tel": "02-737-3338",
+    "lat": 37.5721784,
+    "lng": 126.9832791
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzExIyQxIyQ3IyQ5OSQ0NjE0ODEjODEjJDEjJDYjJDgz",
+    "name": "세민약국",
+    "addr": "서울특별시 종로구 자하문로7길 73, 101호 (누하동, 트라이빌)",
+    "tel": "02-739-8851",
+    "lat": 37.5803882,
+    "lng": 126.9687989
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQyIyQ1IyQwMCQ0NjEwMDIjNDEjJDEjJDQjJDgz",
+    "name": "세종약국",
+    "addr": "서울특별시 종로구 세종대로23길 54, 세종빌딩 지하1층 130호 (당주동)",
+    "tel": "02-3210-2292",
+    "lat": 37.5718397,
+    "lng": 126.9733018
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzUxIyQxIyQ1IyQwMyQzNjEwMDIjNjEjJDEjJDAjJDgz",
+    "name": "소담약국",
+    "addr": "서울특별시 종로구 성균관로 18, (명륜2가)",
+    "tel": "02-765-2126",
+    "lat": 37.5844025,
+    "lng": 126.9976533
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQxIyQxIyQ5OSQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "소망약국",
+    "addr": "서울특별시 종로구 종로 335, 1층 (창신동, 원풍빌딩)",
+    "tel": "02-742-0075",
+    "lat": 37.573106,
+    "lng": 127.0148389
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQ3IyQ5MiQyNjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "송송약국",
+    "addr": "서울특별시 종로구 종로 19, 116-1 (종로1가)",
+    "tel": "02-733-4425",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzMxIyQxIyQzIyQ5OSQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "송이약국",
+    "addr": "서울특별시 종로구 종로 19, 르메이에르종로타운1 2층 206-1호 (종로1가)",
+    "tel": "02-720-1777",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ4OSQyNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "수도약국",
+    "addr": "서울특별시 종로구 인사동길 40, (관훈동)",
+    "tel": "02-732-3336",
+    "lat": 37.5740572,
+    "lng": 126.9851575
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxMTkxIzExIyQxIyQzIyQ5MiQzNjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "숭인다모아약국",
+    "addr": "서울특별시 종로구 지봉로8길 54, (숭인동)",
+    "tel": "02-765-5885",
+    "lat": 37.5767381,
+    "lng": 127.0157474
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzExIyQxIyQzIyQxMyQzNjE4MzIjNTEjJDEjJDIjJDgz",
+    "name": "숭인약국",
+    "addr": "서울특별시 종로구 종로 407, (숭인동)",
+    "tel": "02-929-0754",
+    "lat": 37.5754969,
+    "lng": 127.0223428
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQxIyQxIyQ5MiQyNjEwMDIjNzEjJDEjJDgjJDgz",
+    "name": "스타약국",
+    "addr": "서울특별시 종로구 대학로 146, 혜화동씨티밸리 102-2호 (혜화동)",
+    "tel": "02-763-0902",
+    "lat": 37.5842573,
+    "lng": 127.0020351
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ2MiQyNjEyMjIjNjEjJDEjJDQjJDgz",
+    "name": "시민약국",
+    "addr": "서울특별시 종로구 자하문로 2, (적선동)",
+    "tel": "02-736-6512",
+    "lat": 37.5763638,
+    "lng": 126.9727473
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzMxIyQxIyQ3IyQxMyQ0NjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "신두산약국",
+    "addr": "서울특별시 종로구 지봉로 39-1, 1층 (창신동)",
+    "tel": "02-747-4541",
+    "lat": 37.5735825,
+    "lng": 127.0154823
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ1IyQ4MiQyNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "신백제약국",
+    "addr": "서울특별시 종로구 종로 243, 1층 (종로5가)",
+    "tel": "02-745-8492",
+    "lat": 37.5713197,
+    "lng": 127.0049049
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzMxIyQxIyQ3IyQ5OSQ0NjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "신서대문대학약국",
+    "addr": "서울특별시 종로구 경교장길 35, 3137호 (평동, 경희궁자이 3단지)",
+    "tel": "02-730-0737",
+    "lat": 37.5691438,
+    "lng": 126.9659908
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxMzUxIzUxIyQxIyQxIyQ4MiQ0NjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "신세계약국",
+    "addr": "서울특별시 종로구 종로 124-1, (종로3가)",
+    "tel": "02-945-2636",
+    "lat": 37.570136,
+    "lng": 126.9914134
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzExIyQxIyQzIyQxMyQyNjE0ODEjNTEjJDEjJDYjJDgz",
+    "name": "신아산약국",
+    "addr": "서울특별시 종로구 종로 255-2, 1층 (종로5가)",
+    "tel": "02-763-4600",
+    "lat": 37.5713409,
+    "lng": 127.0062507
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQxIyQ3IyQ2MiQ0NjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "신정원약국",
+    "addr": "서울특별시 종로구 통일로 262, 1층 (무악동)",
+    "tel": "02-733-9219",
+    "lat": 37.5755306,
+    "lng": 126.9570172
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxOTYxIzMxIyQxIyQ3IyQ5OSQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "신코아약국",
+    "addr": "서울특별시 종로구 종로12길 23, 1층 (관철동)",
+    "tel": "02-734-9020",
+    "lat": 37.5689574,
+    "lng": 126.9859278
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzExIyQxIyQ3IyQ5OSQ0NjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "안국365약국",
+    "addr": "서울특별시 종로구 북촌로 2, 1층 (재동)",
+    "tel": "070-4647-0680",
+    "lat": 37.5772626,
+    "lng": 126.9862043
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzExIyQxIyQzIyQ3OSQyNjE4MzIjODEjJDEjJDYjJDgz",
+    "name": "안국3층약국",
+    "addr": "서울특별시 종로구 율곡로 47, 305호 (안국동)",
+    "tel": "02-735-8242",
+    "lat": 37.5763394,
+    "lng": 126.9845959
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQxIyQ3IyQ3OSQyNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "안국온누리약국",
+    "addr": "서울특별시 종로구 삼일대로 461, 101동 203호 (경운동, 운현궁에스케이허브)",
+    "tel": "02-6283-8008",
+    "lat": 37.5755955,
+    "lng": 126.985829
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ2MiQ0NjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "엄마약국",
+    "addr": "서울특별시 종로구 종로 193-1, 1층 (종로4가)",
+    "tel": "02-765-6564",
+    "lat": 37.5710738,
+    "lng": 126.9991754
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzUxIyQxIyQ1IyQ3MiQzNjE4MzIjODEjJDEjJDYjJDgz",
+    "name": "엄약국",
+    "addr": "서울특별시 종로구 종로 227, (종로5가, 엄약국)",
+    "tel": "02-763-0380",
+    "lat": 37.5712511,
+    "lng": 127.0030108
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzMxIyQxIyQzIyQwMyQ0NjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "열린약국",
+    "addr": "서울특별시 종로구 종로 204, 1,2층 (종로4가)",
+    "tel": "02-2264-8210",
+    "lat": 37.5707113,
+    "lng": 127.0003589
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzMxIyQxIyQ3IyQwMyQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "열린온누리약국",
+    "addr": "서울특별시 종로구 숭인동길 21, (숭인동, 종로청계힐스테이트상가 가동 101호)",
+    "tel": "02-2242-3552",
+    "lat": 37.5760646,
+    "lng": 127.0211503
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxOTYxIzExIyQxIyQzIyQ3OSQzNjEwMDIjNDEjJDEjJDQjJDgz",
+    "name": "영화약국",
+    "addr": "서울특별시 종로구 종로41길 47, (종로6가)",
+    "tel": "02-764-4868",
+    "lat": 37.5733119,
+    "lng": 127.0058906
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQ1IyQ3OSQ0NjE0ODEjODEjJDEjJDYjJDgz",
+    "name": "예은약국",
+    "addr": "서울특별시 종로구 진흥로 456, 1층 (구기동)",
+    "tel": "02-379-9920",
+    "lat": 37.6068592,
+    "lng": 126.9584705
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzQxIyQxIyQ3IyQwMyQyNjEyMjIjNzEjJDEjJDgjJDgz",
+    "name": "옥광약국",
+    "addr": "서울특별시 종로구 창경궁로 162-1, (원남동)",
+    "tel": "02-741-0808",
+    "lat": 37.5768956,
+    "lng": 126.9974528
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxOTYxIzExIyQxIyQzIyQxMyQyNjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "옥인온누리약국",
+    "addr": "서울특별시 종로구 자하문로2길 4, 103호 (적선동, 경복빌딩)",
+    "tel": "02-725-1491",
+    "lat": 37.5763837,
+    "lng": 126.9728746
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ5MiQzNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "온유약국",
+    "addr": "서울특별시 종로구 종로 205, 1층 (종로5가)",
+    "tel": "02-745-5487",
+    "lat": 37.5712072,
+    "lng": 127.0005649
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzExIyQyIyQzIyQwMCQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "올리브약국",
+    "addr": "서울특별시 종로구 새문안로 91, 지하1층 (신문로1가, 고려빌딩)",
+    "tel": "02-737-5035",
+    "lat": 37.5704971,
+    "lng": 126.974762
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQzIyQwMyQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "옵티마 웰니스 뮤지엄 종각약국",
+    "addr": "서울특별시 종로구 청계천로 41, 영풍빌딩 지하2층 B202호 (서린동)",
+    "tel": "",
+    "lat": 37.5696712,
+    "lng": 126.9821965
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQyIyQzIyQwMCQ0NjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "우리약국",
+    "addr": "서울특별시 종로구 옥인길 32-5, (옥인동)",
+    "tel": "02-738-9179",
+    "lat": 37.5811074,
+    "lng": 126.9667596
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzExIyQxIyQ3IyQ3MiQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "우정약국",
+    "addr": "서울특별시 종로구 종로 200-4, 제우빌딩 1층 (종로4가)",
+    "tel": "02-2277-8566",
+    "lat": 37.5705713,
+    "lng": 126.9998936
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzUxIyQxIyQ1IyQ5MiQzNjE4MzIjNjEjJDEjJDQjJDgz",
+    "name": "위드팜삼정바로약국",
+    "addr": "서울특별시 종로구 경교장길 35, 3152,3153,3154호 (평동, 경희궁자이 3단지)",
+    "tel": "02-738-8511",
+    "lat": 37.5691438,
+    "lng": 126.9659909
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkOCMkMDMkMzgxMzUxIzExIyQxIyQzIyQ3MiQzNjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "유성약국",
+    "addr": "서울특별시 종로구 동호로 408, 흥일빌딩 (종로5가)",
+    "tel": "02-2263-9666",
+    "lat": 37.5707237,
+    "lng": 127.0022455
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzUxIyQxIyQ1IyQwMyQyNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "유한약국",
+    "addr": "서울특별시 종로구 종로 230-2, 1층 (종로5가)",
+    "tel": "02-2272-4746",
+    "lat": 37.5707848,
+    "lng": 127.0034135
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ5OSQyNjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "은성약국",
+    "addr": "서울특별시 종로구 삼일대로 434, (낙원동)",
+    "tel": "02-765-4808",
+    "lat": 37.5733544,
+    "lng": 126.988154
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQxIyQ1IyQxMyQ0NjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "이약국",
+    "addr": "서울특별시 종로구 지봉로 43, (창신동)",
+    "tel": "02-763-4197",
+    "lat": 37.57407,
+    "lng": 127.0154387
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzQxIyQxIyQ3IyQ4OSQzNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "이화약국",
+    "addr": "서울특별시 종로구 대학로5길 53, 1층 (연건동)",
+    "tel": "02-763-0300",
+    "lat": 37.5795758,
+    "lng": 127.0014749
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxOTYxIzExIyQxIyQzIyQ2MiQzNjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "인성약국",
+    "addr": "서울특별시 종로구 통일로 250, (무악동)",
+    "tel": "02-363-8311",
+    "lat": 37.5747345,
+    "lng": 126.957956
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzIxIyQxIyQ5IyQ5MiQyNjE4MzIjNDEjJDEjJDQjJDgz",
+    "name": "인앤아웃약국",
+    "addr": "서울특별시 종로구 종로 19, 421호 (종로1가)",
+    "tel": "02-2075-7505",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxMTkxIzUxIyQxIyQ1IyQ3OSQzNjEwMDIjNTEjJDEjJDIjJDgz",
+    "name": "인제약국",
+    "addr": "서울특별시 종로구 종로 194, (종로4가)",
+    "tel": "02-2266-4312",
+    "lat": 37.5706339,
+    "lng": 126.9991693
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzUxIyQyIyQxIyQwMCQyNjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "일등약국",
+    "addr": "서울특별시 종로구 경교장길 35, 상가동 3148,3149호 (평동, 경희궁자이 3단지)",
+    "tel": "02-723-7581",
+    "lat": 37.5691438,
+    "lng": 126.9659909
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzUxIyQxIyQxIyQ2MiQzNjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "일신약국",
+    "addr": "서울특별시 종로구 종로 224, 1층 (종로5가)",
+    "tel": "02-2264-7885",
+    "lat": 37.5707576,
+    "lng": 127.0025166
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ3MiQzNjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "정다운약국",
+    "addr": "서울특별시 종로구 종로 339, 1층 (창신동)",
+    "tel": "02-3672-8959",
+    "lat": 37.5731663,
+    "lng": 127.0151281
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzUxIyQxIyQxIyQwMyQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "정문약국",
+    "addr": "서울특별시 종로구 창경궁로 162-2, 원남빌딩 1,2층 (원남동)",
+    "tel": "02-765-7200",
+    "lat": 37.5768757,
+    "lng": 126.9976973
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ3MiQ0NjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "정민약국",
+    "addr": "서울특별시 종로구 대학로9길 37, (명륜4가)",
+    "tel": "02-763-3248",
+    "lat": 37.5819748,
+    "lng": 127.0000178
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQxIyQ1IyQ5OSQyNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "정성약국",
+    "addr": "서울특별시 종로구 종로 399, (숭인동)",
+    "tel": "02-923-1363",
+    "lat": 37.5751475,
+    "lng": 127.0215975
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzIxIyQxIyQ5IyQwMyQ0NjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "정약국",
+    "addr": "서울특별시 종로구 종로 115, 낙원빌딩 4층 403호 (종로3가)",
+    "tel": "02-764-6024",
+    "lat": 37.5706126,
+    "lng": 126.990473
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzUxIyQxIyQxIyQ5MiQyNjE0ODEjNjEjJDEjJDgjJDgz",
+    "name": "제신약국",
+    "addr": "서울특별시 종로구 종로 266, 동대문종합시장 D동 1층 1호 (종로6가)",
+    "tel": "02-2267-3690",
+    "lat": 37.5706765,
+    "lng": 127.0073136
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ4OSQzNjEwMDIjODEjJDEjJDIjJDgz",
+    "name": "제일약국",
+    "addr": "서울특별시 종로구 삼봉로 74, (청진동)",
+    "tel": "02-739-3447",
+    "lat": 37.5721036,
+    "lng": 126.9812963
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQzIyQxMyQyNjEyMjIjNTEjJDEjJDIjJDgz",
+    "name": "종각역약국",
+    "addr": "서울특별시 종로구 종로 55, 종각지하철역사 152-114호 (종로1가)",
+    "tel": "02-6941-0453",
+    "lat": 37.5702141,
+    "lng": 126.9832397
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzIxIyQxIyQxIyQ5MiQyNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "종각팜약국",
+    "addr": "서울특별시 종로구 종로 68, 대한기독교서회 1층 (종로2가)",
+    "tel": "02-738-6500",
+    "lat": 37.5699064,
+    "lng": 126.9849451
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ5OSQzNjE4MzIjNDEjJDEjJDQjJDgz",
+    "name": "종각호약국",
+    "addr": "서울특별시 종로구 종로 88, 경영빌딩 1층 (종로2가)",
+    "tel": "02-6949-0940",
+    "lat": 37.5699513,
+    "lng": 126.9871991
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxMzUxIzUxIyQxIyQ1IyQ3OSQyNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "종근당약국",
+    "addr": "서울특별시 종로구 종로 230-1, (종로5가)",
+    "tel": "02-2274-1311",
+    "lat": 37.5707824,
+    "lng": 127.0033114
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzUxIyQxIyQ1IyQ4MiQzNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "종로1층엔약국",
+    "addr": "서울특별시 종로구 종로 33, 그랑서울 1층 107호 (청진동)",
+    "tel": "02-2158-7977",
+    "lat": 37.57096,
+    "lng": 126.9814392
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQyIyQxIyQwMCQyNjEwMDIjODEjJDEjJDIjJDgz",
+    "name": "종로5가8번출구약국",
+    "addr": "서울특별시 종로구 종로 210, B 104호, 1층 108호, 109호, 110호 (종로5가)",
+    "tel": "",
+    "lat": 37.5706594,
+    "lng": 127.001224
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQxIyQxIyQ3MiQzNjEyMjIjNTEjJDEjJDYjJDgz",
+    "name": "종로5가미래약국",
+    "addr": "서울특별시 종로구 종로 211-1, 소암빌딩 1층 (종로5가)",
+    "tel": "02-766-5466",
+    "lat": 37.5712127,
+    "lng": 127.0012655
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQxIyQ5OSQzNjEyMjIjNzEjJDEjJDgjJDgz",
+    "name": "종로밝은약국",
+    "addr": "서울특별시 종로구 종로 261, 1층 (종로6가)",
+    "tel": "02-747-7470",
+    "lat": 37.5713393,
+    "lng": 127.0070007
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzQxIyQxIyQ3IyQ3OSQzNjEwMDIjNjEjJDEjJDAjJDgz",
+    "name": "종로백세약국",
+    "addr": "서울특별시 종로구 종로 221, 1층 (종로5가)",
+    "tel": "02-744-2536",
+    "lat": 37.5712678,
+    "lng": 127.0023106
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ2MiQyNjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "종로백제약국",
+    "addr": "서울특별시 종로구 종로 235, 백제약국 1층 (종로5가)",
+    "tel": "02-745-8495",
+    "lat": 37.5712609,
+    "lng": 127.0039946
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQyIyQ1IyQwMCQzNjE0ODEjNzEjJDEjJDgjJDgz",
+    "name": "종로삼성약국",
+    "addr": "서울특별시 종로구 종로 244-1, 1층 (종로5가)",
+    "tel": "02-2285-5631",
+    "lat": 37.5707812,
+    "lng": 127.0049253
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzMxIyQxIyQ3IyQ3OSQzNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "종로성지약국",
+    "addr": "서울특별시 종로구 돈화문로 30, 3호선 종로3가역 319-306호 (묘동)",
+    "tel": "02-511-8283",
+    "lat": 37.5711403,
+    "lng": 126.9919944
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMTkxIzQxIyQxIyQ3IyQ4OSQyNjEyMjIjNjEjJDEjJDgjJDgz",
+    "name": "종로세란약국",
+    "addr": "서울특별시 종로구 종로41길 4, (종로6가)",
+    "tel": "02-763-3237",
+    "lat": 37.5715015,
+    "lng": 127.0068761
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQyIyQ1IyQwMCQyNjEwMDIjNjEjJDEjJDAjJDgz",
+    "name": "종로센트럴약국",
+    "addr": "서울특별시 종로구 종로 127-2, 영흥빌딩 104호 (종로3가)",
+    "tel": "02-743-1937",
+    "lat": 37.5706944,
+    "lng": 126.9917912
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQxMyQzNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "종로약국",
+    "addr": "서울특별시 종로구 종로 195, (종로4가)",
+    "tel": "02-745-3184",
+    "lat": 37.5710787,
+    "lng": 126.9993262
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQwMyQyNjE0ODEjODEjJDEjJDIjJDgz",
+    "name": "종로엔약국",
+    "addr": "서울특별시 종로구 종로 65, 103호 (종로2가)",
+    "tel": "02-739-9856",
+    "lat": 37.5704878,
+    "lng": 126.9847263
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxOTYxIzIxIyQxIyQ1IyQ3OSQyNjEwMDIjNDEjJDEjJDQjJDgz",
+    "name": "종로연세약국",
+    "addr": "서울특별시 종로구 종로 209-1, 1층 (종로5가)",
+    "tel": "02-747-0555",
+    "lat": 37.5711817,
+    "lng": 127.0010686
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxMzUxIzIxIyQxIyQ5IyQ5MiQyNjE4MzIjNjEjJDEjJDgjJDgz",
+    "name": "종로오가약국",
+    "addr": "서울특별시 종로구 종로 213-1, (종로5가)",
+    "tel": "02-763-8855",
+    "lat": 37.5711861,
+    "lng": 127.0015313
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQzIyQ5OSQyNjEyMjIjNTEjJDEjJDYjJDgz",
+    "name": "종로온누리약국",
+    "addr": "서울특별시 종로구 종로 293, 1층 (창신동, 하나저축은행)",
+    "tel": "02-742-0900",
+    "lat": 37.5718676,
+    "lng": 127.0104921
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzQxIyQxIyQ3IyQwMyQyNjEyMjIjNTEjJDEjJDIjJDgz",
+    "name": "종로우리약국",
+    "addr": "서울특별시 종로구 종로 202, 1층 (종로4가)",
+    "tel": "02-2275-4700",
+    "lat": 37.5706916,
+    "lng": 127.0000761
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzUxIyQyIyQ1IyQwMCQyNjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "종로이층약국",
+    "addr": "서울특별시 종로구 종로 19, 르메이에르종로타운1 2층 225(일부)호 (종로1가)",
+    "tel": "02-6953-2251",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQ3IyQ3OSQzNjEyMjIjODEjJDEjJDIjJDgz",
+    "name": "종로제일약국",
+    "addr": "서울특별시 종로구 종로 233, 1층 일부호 (종로5가)",
+    "tel": "02-766-7635",
+    "lat": 37.5712517,
+    "lng": 127.0036477
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzQxIyQxIyQ3IyQ5MiQzNjE4MzIjODEjJDEjJDIjJDgz",
+    "name": "종로중앙약국",
+    "addr": "서울특별시 종로구 대학로 1, 101호 (종로5가)",
+    "tel": "02-744-7233",
+    "lat": 37.5713376,
+    "lng": 127.0017799
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkOCMkMDMkMzgxMzUxIzExIyQxIyQ3IyQ3OSQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "종로탑약국",
+    "addr": "서울특별시 종로구 수표로 112, 1층 (낙원동)",
+    "tel": "",
+    "lat": 37.5711973,
+    "lng": 126.9894166
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQzIyQ4MiQyNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "종로태양약국",
+    "addr": "서울특별시 종로구 종로 191, 1층 (종로4가)",
+    "tel": "02-766-1777",
+    "lat": 37.5711058,
+    "lng": 126.9990105
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ1IyQ4MiQzNjEyMjIjNTEjJDEjJDIjJDgz",
+    "name": "종로팔팔온누리약국",
+    "addr": "서울특별시 종로구 돈화문로 30, 3호선 종로3가역 지하2층 319-205-4호 (묘동)",
+    "tel": "",
+    "lat": 37.5712712,
+    "lng": 126.9922588
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxOTYxIzUxIyQxIyQxIyQ3MiQ0NjEwMDIjNTEjJDEjJDYjJDgz",
+    "name": "종로프라자약국",
+    "addr": "서울특별시 종로구 자하문로 63, (옥인동)",
+    "tel": "02-736-0806",
+    "lat": 37.581608,
+    "lng": 126.9706023
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzIxIyQxIyQ1IyQ3OSQyNjEwMDIjODEjJDEjJDIjJDgz",
+    "name": "종로한사랑약국",
+    "addr": "서울특별시 종로구 종로 344, 309호 (숭인동)",
+    "tel": "02-2232-9339",
+    "lat": 37.5727249,
+    "lng": 127.0161059
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMzUxIzUxIyQxIyQxIyQ5OSQzNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "종오약국",
+    "addr": "서울특별시 종로구 종로 195-1, 1층 (종로4가)",
+    "tel": "02-763-7771",
+    "lat": 37.571136,
+    "lng": 126.9994653
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzIxIyQxIyQxIyQwMyQzNjE0ODEjODEjJDEjJDYjJDgz",
+    "name": "주차편한천사약국",
+    "addr": "서울특별시 종로구 대학로 87, 1~2층 (연건동)",
+    "tel": "02-6677-1009",
+    "lat": 37.5790121,
+    "lng": 127.0018721
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxNzAyIzUxIyQxIyQxIyQ4OSQzNjEyMjIjODEjJDEjJDYjJDgz",
+    "name": "지영오행당약국",
+    "addr": "서울특별시 종로구 성균관로 32-2, (명륜2가)",
+    "tel": "02-766-9438",
+    "lat": 37.5855487,
+    "lng": 126.9970925
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQyIyQ3IyQwMCQ0NjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "진약국",
+    "addr": "서울특별시 종로구 돈화문로9가길 20, (돈의동)",
+    "tel": "02-765-0473",
+    "lat": 37.5721797,
+    "lng": 126.9910549
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzUxIyQxIyQ1IyQ4OSQzNjE0ODEjNjEjJDEjJDAjJDgz",
+    "name": "참약국",
+    "addr": "서울특별시 종로구 종로 19, 르메이에르종로타운1 517호 (종로1가)",
+    "tel": "02-737-4855",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQzIyQ5OSQyNjE0ODEjNjEjJDEjJDgjJDgz",
+    "name": "참자연약국",
+    "addr": "서울특별시 종로구 송월길 99, 1층 2156호 (홍파동, 경희궁자이 2단지)",
+    "tel": "02-725-9880",
+    "lat": 37.5708754,
+    "lng": 126.9638824
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzQxIyQxIyQ3IyQxMyQ0NjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "참조은약국",
+    "addr": "서울특별시 종로구 종로 266, 동대문종합시장 A동 7층 705호 (종로6가)",
+    "tel": "02-2272-0535",
+    "lat": 37.5707065,
+    "lng": 127.0073287
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzIxIyQxIyQ5IyQ3MiQyNjE4MzIjNjEjJDEjJDgjJDgz",
+    "name": "창신종로약국",
+    "addr": "서울특별시 종로구 창신길 47, (창신동)",
+    "tel": "02-3672-0845",
+    "lat": 37.5737595,
+    "lng": 127.0104625
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxMzUxIzQxIyQxIyQ3IyQ4MiQyNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "캐슬온누리약국",
+    "addr": "서울특별시 종로구 종로 347, 207호 (숭인동, 롯데캐슬천지인상가)",
+    "tel": "02-3672-0305",
+    "lat": 37.5737459,
+    "lng": 127.0164919
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzQxIyQxIyQ3IyQ4OSQzNjE4MzIjNTEjJDEjJDYjJDgz",
+    "name": "타워약국",
+    "addr": "서울특별시 종로구 통일로 134, 지하1층 (평동)",
+    "tel": "",
+    "lat": 37.5667937,
+    "lng": 126.9662598
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxMzUxIzIxIyQyIyQ1IyQwMCQzNjE0ODEjNDEjJDEjJDgjJDgz",
+    "name": "태평양약국",
+    "addr": "서울특별시 종로구 수표로20길 43, 1층 (종로3가)",
+    "tel": "02-2274-6228",
+    "lat": 37.5700552,
+    "lng": 126.9919295
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzMxIyQxIyQ3IyQ4OSQyNjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "통인한약국",
+    "addr": "서울특별시 종로구 필운대로6길 29, (통인동)",
+    "tel": "070-8815-0123",
+    "lat": 37.5799966,
+    "lng": 126.969493
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxMTkxIzIxIyQxIyQ5IyQ4OSQyNjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "튼튼약국",
+    "addr": "서울특별시 종로구 창경궁로34길 18-5, 1층 (명륜2가)",
+    "tel": "02-762-2323",
+    "lat": 37.5841148,
+    "lng": 127.0008253
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQ3IyQ4OSQyNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "파랑새약국",
+    "addr": "서울특별시 종로구 대학로 121, 1호, 2호 (명륜4가)",
+    "tel": "02-743-7735",
+    "lat": 37.5820514,
+    "lng": 127.0016089
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzMxIyQxIyQ3IyQ3MiQyNjEyMjIjNjEjJDEjJDAjJDgz",
+    "name": "푸른소나무약국",
+    "addr": "서울특별시 종로구 삼봉로 81, 207호 (수송동, 두산위브파빌리온)",
+    "tel": "02-2198-5333",
+    "lat": 37.5725619,
+    "lng": 126.9815061
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzUxIyQyIyQxIyQwMCQyNjEwMDIjNjEjJDEjJDAjJDgz",
+    "name": "플러스약국",
+    "addr": "서울특별시 종로구 종로 78, 1층 (종로2가, 미려빌딩)",
+    "tel": "02-733-4163",
+    "lat": 37.569884,
+    "lng": 126.9860582
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQzIyQ3MiQyNjEyMjIjNjEjJDEjJDAjJDgz",
+    "name": "하늘약국",
+    "addr": "서울특별시 종로구 종로 19, 르메이에르종로타운1 2층 226-2호 (종로1가)",
+    "tel": "02-733-9006",
+    "lat": 37.5708345,
+    "lng": 126.9798606
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzUxIyQxIyQ1IyQ5MiQyNjEwMDIjNDEjJDEjJDgjJDgz",
+    "name": "하트약국",
+    "addr": "서울특별시 종로구 대학로 128, 1층 (동숭동)",
+    "tel": "02-766-8991",
+    "lat": 37.5827062,
+    "lng": 127.0021755
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzUxIyQxIyQ1IyQ2MiQzNjEyMjIjNDEjJDEjJDgjJDgz",
+    "name": "한누리약국",
+    "addr": "서울특별시 종로구 새문안로5가길 33, 한누리빌딩 1층 (내자동)",
+    "tel": "02-736-7980",
+    "lat": 37.5748436,
+    "lng": 126.9729452
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzIxIyQyIyQxIyQwMCQzNjEwMDIjNjEjJDEjJDQjJDgz",
+    "name": "한독약국",
+    "addr": "서울특별시 종로구 동숭길 52, (동숭동)",
+    "tel": "02-762-4636",
+    "lat": 37.5805788,
+    "lng": 127.0044499
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNTgxMzUxIzIxIyQxIyQxIyQ3OSQzNjE0ODEjNTEjJDEjJDIjJDgz",
+    "name": "한마음약국",
+    "addr": "서울특별시 종로구 창경궁로 158, (원남동)",
+    "tel": "02-3676-4411",
+    "lat": 37.5764239,
+    "lng": 126.9975942
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxMTkxIzExIyQyIyQzIyQwMCQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "함춘약국",
+    "addr": "서울특별시 종로구 대학로 93, 대한성공회 대학로교회 1,2층 (연건동)",
+    "tel": "02-741-0370",
+    "lat": 37.5796094,
+    "lng": 127.0018246
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQ1IyQ4MiQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "햇살약국",
+    "addr": "서울특별시 종로구 자하문로 58, 1층 (창성동)",
+    "tel": "02-723-5489",
+    "lat": 37.5812485,
+    "lng": 126.9712471
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzExIyQxIyQzIyQwMyQ0NjE0ODEjODEjJDEjJDYjJDgz",
+    "name": "행복약국",
+    "addr": "서울특별시 종로구 자하문로 1, 1층 1호 (내자동)",
+    "tel": "070-7576-3340",
+    "lat": 37.5763248,
+    "lng": 126.9722894
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxNzAyIzMxIyQyIyQ3IyQwMCQyNjE0ODEjNjEjJDEjJDQjJDgz",
+    "name": "행운약국",
+    "addr": "서울특별시 종로구 대명길 21-2, (명륜4가)",
+    "tel": "02-765-9997",
+    "lat": 37.5832383,
+    "lng": 127.000361
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkNDgxOTYxIzExIyQyIyQzIyQwMCQyNjE4MzIjNzEjJDEjJDgjJDgz",
+    "name": "현대약국",
+    "addr": "서울특별시 종로구 통일로 246-10, 113호 (무악동)",
+    "tel": "02-725-6569",
+    "lat": 37.5744586,
+    "lng": 126.9589731
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkMzgxNzAyIzExIyQxIyQ3IyQ4OSQzNjE0ODEjNDEjJDEjJDQjJDgz",
+    "name": "현대온누리약국",
+    "addr": "서울특별시 종로구 율곡로 75, 지하1층 (계동)",
+    "tel": "02-746-7750",
+    "lat": 37.578014,
+    "lng": 126.987517
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzMxIyQxIyQzIyQ5OSQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "혜화수약국",
+    "addr": "서울특별시 종로구 창경궁로 234, 동화빌딩 103호 (명륜4가)",
+    "tel": "02-762-0045",
+    "lat": 37.5824974,
+    "lng": 126.9985547
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxOTYxIzIxIyQxIyQxIyQ3MiQyNjEyMjIjNDEjJDEjJDQjJDgz",
+    "name": "혜화약국",
+    "addr": "서울특별시 종로구 혜화로 8, (혜화동)",
+    "tel": "02-762-0373",
+    "lat": 37.5864858,
+    "lng": 127.0005319
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzUxIyQxIyQ1IyQxMyQ0NjEwMDIjNjEjJDEjJDgjJDgz",
+    "name": "호수약국",
+    "addr": "서울특별시 종로구 삼봉로 57, 호수빌딩 지하1층 (수송동)",
+    "tel": "02-733-5300",
+    "lat": 37.5725615,
+    "lng": 126.9804738
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkMCMkMDMkMzgxNzAyIzExIyQxIyQzIyQ4OSQzNjEyMjIjNjEjJDEjJDgjJDgz",
+    "name": "효성약국",
+    "addr": "서울특별시 종로구 창신길 95, (창신동)",
+    "tel": "02-763-4386",
+    "lat": 37.575866,
+    "lng": 127.010319
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNTgxMzUxIzExIyQxIyQzIyQ5OSQzNjEyMjIjNjEjJDEjJDAjJDgz",
+    "name": "희망약국",
+    "addr": "서울특별시 종로구 율곡로 204, (연건동)",
+    "tel": "02-747-1139",
+    "lat": 37.5758847,
+    "lng": 127.0015328
+  },
+  {
+    "id": "JDQ4MTg4MSM1MSMkMSMkNCMkMDMkNDgxMTkxIzMxIyQxIyQzIyQxMyQyNjE4MzIjNDEjJDEjJDgjJDgz",
+    "name": "힐링약국",
+    "addr": "서울특별시 종로구 종로5길 13, 삼공빌딩 지하1층 (청진동)",
+    "tel": "02-723-6593",
+    "lat": 37.5710343,
+    "lng": 126.9804824
+  }
+]
