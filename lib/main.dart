@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+
 import 'app.dart';
 
 void main() async {
@@ -10,5 +11,5 @@ void main() async {
     // Allow the app to boot in local/dev environments where Firebase
     // configuration files have not been added yet.
   }
-  runApp(const MyApp());
+  runApp(const YeogiyoApp());
 }
