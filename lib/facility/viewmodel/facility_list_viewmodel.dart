@@ -93,6 +93,24 @@ class FacilityListViewModel extends ChangeNotifier {
           },
         )
         .toList();
+    _facilities = hospitals.map((h) => {
+      'id': h.id,
+      'name': h.name,
+      'addr': h.addr,
+      'tel': h.tel,
+      'rating': 0.0,
+      'dist': '',
+      'type': h.type,
+      'homepage': h.homepage,
+      'lat': h.lat,
+      'lng': h.lng,
+      'totalDocs': h.totalDocs,
+      'specialists': h.specialists,
+      'dept': h.departmentsText,
+      'equip': h.equipmentText,
+      'departments': h.departments,
+      'equipment': h.equipment.map((e) => {'name': e.name, 'count': e.count}).toList(),
+    }).toList();
   }
 
   Future<void> _loadPharmacies() async {
@@ -111,6 +129,16 @@ class FacilityListViewModel extends ChangeNotifier {
           },
         )
         .toList();
+    _facilities = pharmacies.map((p) => {
+      'id': p.id,
+      'name': p.name,
+      'addr': p.addr,
+      'tel': p.tel,
+      'rating': 0.0,
+      'dist': '',
+      'lat': p.lat,
+      'lng': p.lng,
+    }).toList();
   }
 
   Future<void> _loadSchools() async {
@@ -165,5 +193,20 @@ class FacilityListViewModel extends ChangeNotifier {
       _coordinateCache[address] = null;
       return null;
     }
+  }
+}
+    _facilities = schools.map((s) => {
+      'id': s.code,
+      'name': s.name,
+      'addr': '${s.addr} ${s.addrDetail}',
+      'tel': s.tel,
+      'rating': 0.0,
+      'dist': '',
+      'type': s.kind,
+      'fondType': s.fondType,
+      'homepage': s.homepage,
+      'coedu': s.coedu,
+      'hsType': s.hsType,
+    }).toList();
   }
 }

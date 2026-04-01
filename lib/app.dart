@@ -15,10 +15,10 @@ class YeogiyoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AuthViewModel()), // 추가
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityListViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityDetailViewModel()),
-        ChangeNotifierProvider(create: (_) => MapViewModel()),
       ],
       child: MaterialApp.router(
         title: 'Yeogiyo - 여기요',
