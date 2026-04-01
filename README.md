@@ -14,7 +14,7 @@
   > 3.Splash, Login, SignUp View, ViewModel 구현 <br>
   > 4.지도 View, ViewModel 구현 Constants 설정, Google Map API 연동 및 시설 탭 지도 추가 <br>
   > 5.ChatGPT - View, ViewModel 구현 및 FastAPI를 통한 연동 <br>
-  > 6.기능 간 충돌 및 화면 이동 오류 수정 <br>
+  > 6.기능 간 충돌 및 화면 이동 오류 수정(lib/app_router.dart; Context.go() 부분 수정) <br>
 
 
   >기타 사항
