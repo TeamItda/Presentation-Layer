@@ -3,7 +3,8 @@
 
 # Yeogiyo! Client
 
-<Yeogiyo!> 프로젝트의 Client Repository 입니다.
+상명대학교 컴퓨터과학과 캡스톤디자인 5분반 잇다(Itda) 팀의 
+<Yeogiyo!> 프로젝트 Client Repository 입니다.
 
 # GitHub Role
 
@@ -84,6 +85,10 @@ git pull origin dev
 | feature     | 기능 개발용      |
 | fix         | 버그 수정용      |
 | refactor    | 코드 리팩토링    |
+
+main 브랜치는 배포에만 사용하며
+기본적으로 개발과정에서는 dev 브랜치를 사용합니다. 
+여러가지 개발을 병행할 때 다른 브랜치들을 사용합니다.
 
 ## Commit Convention (커밋 메세지 양식 ; 작성해야 커밋 가능합니다.)
 

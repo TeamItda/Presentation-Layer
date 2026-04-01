@@ -1,0 +1,1 @@
+class FavoriteService { /* TODO: Firestore */ }

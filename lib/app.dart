@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'router/app_router.dart';
+import 'core/constants.dart';
+import 'home/viewmodel/home_viewmodel.dart';
+import 'facility/viewmodel/facility_list_viewmodel.dart';
+import 'facility/viewmodel/facility_detail_viewmodel.dart';
+import 'core/constants.dart';
+
+class YeogiyoApp extends StatelessWidget {
+  const YeogiyoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(create: (_) => FacilityListViewModel()),
+        ChangeNotifierProvider(create: (_) => FacilityDetailViewModel()),
+      ],
+      child: MaterialApp.router(
+        title: 'Yeogiyo - 여기요',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorSchemeSeed: AppColors.primary,
+          useMaterial3: true,
+          scaffoldBackgroundColor: AppColors.background,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: AppColors.text,
+            elevation: 0,
+            centerTitle: false,
+          ),
+        ),
+        routerConfig: appRouter,
+      ),
+    );
+  }
+}
