@@ -17,54 +17,53 @@
   > 6.기능 간 충돌 및 화면 이동 오류 수정 <br>
 
 
-
-  >추가 내용
-  >
+  >기타 사항
+  >추가 바람
 
   <details>  
     <summary>수정 파일 목록 펼치기/접기</summary>  
     ### 수정된 파일 목록 
-    README.md
-    android/app/build.gradle.kts
-    android/app/src/main/AndroidManifest.xml
-    android/settings.gradle.kts
-    ios/Runner/AppDelegate.swift
-    ios/Runner/Info.plist
-    lib/app.dart
-    lib/auth/view/login_view.dart
-    lib/auth/view/signup_view.dart
-    lib/auth/view/splash_view.dart
-    lib/auth/viewmodel/auth_viewmodel.dart
-    lib/chat/service/chat_service.dart
-    lib/chat/view/chat_view.dart
-    lib/chat/viewmodel/chat_viewmodel.dart
-    lib/core/constants.dart
-    lib/facility/model/hospital_model.dart
-    lib/facility/model/pharmacy_model.dart
-    lib/facility/model/school_model.dart
-    lib/facility/service/hospital_service.dart
-    lib/facility/service/pharmacy_service.dart
-    lib/facility/service/school_service.dart
-    lib/facility/view/facility_detail_view.dart
-    lib/facility/view/facility_list_view.dart
-    lib/facility/viewmodel/facility_detail_viewmodel.dart
-    lib/facility/viewmodel/facility_list_viewmodel.dart
-    lib/home/view/home_view.dart
-    lib/home/viewmodel/home_viewmodel.dart
-    lib/main.dart
-    lib/map/view/map_view.dart
-    lib/map/viewmodel/map_viewmodel.dart
-    lib/non_payment/view/non_payment_view.dart
-    lib/profile/view/app_info_view.dart
-    lib/profile/view/language_setting_view.dart
-    lib/profile/view/profile_view.dart
-    lib/review/view/review_write_view.dart
-    lib/router/app_router.dart
-    lib/search/view/search_view.dart
-    lib/shell/main_shell.dart
-    pubspec.lock
-    pubspec.yaml
-    test/widget_test.dart
-    web/index.html
+    README.md  
+    android/app/build.gradle.kts  
+    android/app/src/main/AndroidManifest.xml  
+    android/settings.gradle.kts  
+    ios/Runner/AppDelegate.swift  
+    ios/Runner/Info.plist  
+    lib/app.dart  
+    lib/auth/view/login_view.dart  
+    lib/auth/view/signup_view.dart    
+    lib/auth/view/splash_view.dart <br>
+    lib/auth/viewmodel/auth_viewmodel.dart <br>
+    lib/chat/service/chat_service.dart <br>
+    lib/chat/view/chat_view.dart <br>
+    lib/chat/viewmodel/chat_viewmodel.dart <br>
+    lib/core/constants.dart <br>
+    lib/facility/model/hospital_model.dart <br>
+    lib/facility/model/pharmacy_model.dart <br>
+    lib/facility/model/school_model.dart <br>
+    lib/facility/service/hospital_service.dart <br>
+    lib/facility/service/pharmacy_service.dart <br>
+    lib/facility/service/school_service.dart <br>
+    lib/facility/view/facility_detail_view.dart <br>
+    lib/facility/view/facility_list_view.dart <br>
+    lib/facility/viewmodel/facility_detail_viewmodel.dart <br>
+    lib/facility/viewmodel/facility_list_viewmodel.dart <br>
+    lib/home/view/home_view.dart <br>
+    lib/home/viewmodel/home_viewmodel.dart <br>
+    lib/main.dart <br>
+    lib/map/view/map_view.dart <br>
+    lib/map/viewmodel/map_viewmodel.dart <br>
+    lib/non_payment/view/non_payment_view.dart <br>
+    lib/profile/view/app_info_view.dart <br>
+    lib/profile/view/language_setting_view.dart <br>
+    lib/profile/view/profile_view.dart <br>
+    lib/review/view/review_write_view.dart <br>
+    lib/router/app_router.dart <br>
+    lib/search/view/search_view.dart <br>
+    lib/shell/main_shell.dart <br>
+    pubspec.lock <br>
+    pubspec.yaml <br>
+    test/widget_test.dart <br>
+    web/index.html <br>
 
   </details>
