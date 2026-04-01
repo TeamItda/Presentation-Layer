@@ -20,7 +20,7 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // context/provider 접근 용 프레임 대기
+      // context/provider 접근은 첫 프레임 이후가 안전하다.
       unawaited(context.read<MapViewModel>().ensureInitialized());
     });
   }
@@ -35,51 +35,68 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<MapViewModel>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('지도'),
-        actions: [
-          IconButton(
-            onPressed: viewModel.isLoading ? null : viewModel.refresh,
-            icon: const Icon(Icons.refresh_rounded),
-            tooltip: '새로고침',
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _FilterBar(viewModel: viewModel),
-          Expanded(
-            child: Stack(
-              children: [
-                GoogleMap(
-                  initialCameraPosition: viewModel.initialCameraPosition,
-                  // 지도 범위 제한
-                  cameraTargetBounds: viewModel.cameraTargetBounds,
-                  minMaxZoomPreference: const MinMaxZoomPreference(13.4, 17.8),
-                  markers: viewModel.markers,
-                  myLocationButtonEnabled: false,
-                  compassEnabled: true,
-                  zoomControlsEnabled: false,
-                  onMapCreated: (controller) => _controller = controller,
-                ),
-                if (viewModel.isLoading)
-                  const Positioned.fill(
-                    child: ColoredBox(
-                      color: Color(0x33000000),
-                      child: Center(child: CircularProgressIndicator()),
+    return ColoredBox(
+      color: Colors.white,
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '지도',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: 20,
-                  child: _MapSummary(viewModel: viewModel),
-                ),
-              ],
+                  IconButton(
+                    onPressed: viewModel.isLoading ? null : viewModel.refresh,
+                    icon: const Icon(Icons.refresh_rounded),
+                    tooltip: '새로고침',
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            _FilterBar(viewModel: viewModel),
+            Expanded(
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    initialCameraPosition: viewModel.initialCameraPosition,
+                    // 지도를 종로구 주변 범위 안에서만 움직이도록 제한한다.
+                    cameraTargetBounds: viewModel.cameraTargetBounds,
+                    minMaxZoomPreference: const MinMaxZoomPreference(
+                      13.4,
+                      17.8,
+                    ),
+                    markers: viewModel.markers,
+                    myLocationButtonEnabled: false,
+                    compassEnabled: true,
+                    zoomControlsEnabled: false,
+                    onMapCreated: (controller) => _controller = controller,
+                  ),
+                  if (viewModel.isLoading)
+                    const Positioned.fill(
+                      child: ColoredBox(
+                        color: Color(0x33000000),
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 20,
+                    child: _MapSummary(viewModel: viewModel),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -142,7 +159,7 @@ class _MapSummary extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               viewModel.errorMessage ??
-                  '${viewModel.filteredFacilities.length}개 시설이 있습니다.',
+                  '${viewModel.filteredFacilities.length}개 시설이 표시되고 있습니다.',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: const Color(0xFF475569),
               ),

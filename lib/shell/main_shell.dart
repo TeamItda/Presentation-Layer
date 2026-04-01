@@ -33,10 +33,19 @@ class MainShell extends StatelessWidget {
           unselectedFontSize: 11,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: '홈'),
-            BottomNavigationBarItem(icon: Icon(Icons.smart_toy_rounded), label: 'AI도우미'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.smart_toy_rounded),
+              label: 'AI도우미',
+            ),
             BottomNavigationBarItem(icon: Icon(Icons.map_rounded), label: '지도'),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite_rounded), label: '즐겨찾기'),
-            BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: '프로필'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_rounded),
+              label: '즐겨찾기',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_rounded),
+              label: '프로필',
+            ),
           ],
         ),
       ),
@@ -54,11 +63,21 @@ class MainShell extends StatelessWidget {
 
   void _onTap(BuildContext context, int i) {
     switch (i) {
-      case 0: context.go('/home');
-      case 1: context.go('/chat');
-      case 2: context.go('/map');
-      case 3: context.go('/favorites');
-      case 4: context.go('/profile');
+      case 0:
+        context.go('/home');
+        return;
+      case 1:
+        context.go('/chat');
+        return;
+      case 2:
+        context.go('/map');
+        return;
+      case 3:
+        context.go('/favorites');
+        return;
+      case 4:
+        context.go('/profile');
+        return;
     }
   }
 }
