@@ -24,7 +24,7 @@ class MapViewModel extends ChangeNotifier {
   final PharmacyService _pharmacyService;
   final SchoolService _schoolService;
 
-// 마커 이미지 
+  // 마커 이미지
   static const List<FacilityTypeOption> typeOptions = [
     FacilityTypeOption(
       id: 'all',
@@ -57,6 +57,14 @@ class MapViewModel extends ChangeNotifier {
   String? _errorMessage;
   String _selectedTypeId = 'all';
   List<MapFacility> _facilities = const [];
+  List<MapFacility>? _filteredFacilitiesCache;
+  String? _filteredFacilitiesCacheTypeId;
+  List<MapFacility>? _filteredFacilitiesCacheSource;
+  Set<Marker>? _markersCache;
+  String? _markersCacheTypeId;
+  List<MapFacility>? _markersCacheSource;
+  int _markerIconVersion = 0;
+  int _markersCacheIconVersion = -1;
   final Map<String, BitmapDescriptor> _markerIcons =
       <String, BitmapDescriptor>{};
   final Map<String, LatLng?> _geocodeCache = <String, LatLng?>{};
@@ -66,6 +74,31 @@ class MapViewModel extends ChangeNotifier {
   String get selectedTypeId => _selectedTypeId;
 
   List<MapFacility> get filteredFacilities {
+    if (_filteredFacilitiesCache != null &&
+        _filteredFacilitiesCacheTypeId == _selectedTypeId &&
+        identical(_filteredFacilitiesCacheSource, _facilities)) {
+      return _filteredFacilitiesCache!;
+    }
+
+    final filtered = _selectedTypeId == 'all'
+        ? _facilities
+        : _facilities
+              .where((facility) => facility.type == _selectedTypeId)
+              .toList(growable: false);
+
+    _filteredFacilitiesCache = filtered;
+    _filteredFacilitiesCacheTypeId = _selectedTypeId;
+    _filteredFacilitiesCacheSource = _facilities;
+    return filtered;
+  }
+
+  int get filteredFacilityCount => filteredFacilities.length;
+
+  String get summaryMessage {
+    return _errorMessage ?? '$filteredFacilityCount개 시설을 표시하고 있습니다.';
+  }
+
+  List<MapFacility> get _markerFacilities {
     if (_selectedTypeId == 'all') {
       return _facilities;
     }
@@ -74,8 +107,16 @@ class MapViewModel extends ChangeNotifier {
         .toList();
   }
 
+  // 마커 세팅
   Set<Marker> get markers {
-    return filteredFacilities.map((facility) {
+    if (_markersCache != null &&
+        _markersCacheTypeId == _selectedTypeId &&
+        identical(_markersCacheSource, _facilities) &&
+        _markersCacheIconVersion == _markerIconVersion) {
+      return _markersCache!;
+    }
+
+    final markers = _markerFacilities.map((facility) {
       final option = optionFor(facility.type);
       return Marker(
         markerId: MarkerId(facility.id),
@@ -91,6 +132,12 @@ class MapViewModel extends ChangeNotifier {
         ),
       );
     }).toSet();
+
+    _markersCache = markers;
+    _markersCacheTypeId = _selectedTypeId;
+    _markersCacheSource = _facilities;
+    _markersCacheIconVersion = _markerIconVersion;
+    return markers;
   }
 
   CameraPosition get initialCameraPosition => const CameraPosition(
@@ -127,11 +174,13 @@ class MapViewModel extends ChangeNotifier {
     try {
       await _ensureMarkerIcons();
       _facilities = await _loadFacilitiesFromServices();
+      _clearFacilityCaches();
       if (_facilities.isEmpty) {
         _errorMessage = '시설 목록 데이터에서 표시할 좌표를 찾지 못했습니다.';
       }
     } catch (error) {
       _facilities = const [];
+      _clearFacilityCaches();
       _errorMessage = '시설 목록 데이터를 불러오지 못했습니다.';
     } finally {
       _isLoading = false;
@@ -144,6 +193,7 @@ class MapViewModel extends ChangeNotifier {
       return;
     }
     _selectedTypeId = typeId;
+    _clearSelectionCaches();
     notifyListeners();
   }
 
@@ -155,9 +205,33 @@ class MapViewModel extends ChangeNotifier {
   }
 
   Future<void> _ensureMarkerIcons() async {
+    var didBuildIcon = false;
     for (final option in typeOptions.where((entry) => entry.id != 'all')) {
+      if (_markerIcons.containsKey(option.id)) {
+        continue;
+      }
       _markerIcons[option.id] = await _buildMarkerIcon(option);
+      didBuildIcon = true;
     }
+    if (didBuildIcon) {
+      _markerIconVersion++;
+    }
+  }
+
+  void _clearFacilityCaches() {
+    _filteredFacilitiesCache = null;
+    _filteredFacilitiesCacheTypeId = null;
+    _filteredFacilitiesCacheSource = null;
+    _markersCache = null;
+    _markersCacheTypeId = null;
+    _markersCacheSource = null;
+  }
+
+  void _clearSelectionCaches() {
+    _filteredFacilitiesCache = null;
+    _filteredFacilitiesCacheTypeId = null;
+    _markersCache = null;
+    _markersCacheTypeId = null;
   }
 
   Future<List<MapFacility>> _loadFacilitiesFromServices() async {
