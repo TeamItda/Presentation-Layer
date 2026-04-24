@@ -10,6 +10,12 @@ import 'home/viewmodel/home_viewmodel.dart';
 import 'map/viewmodel/map_viewmodel.dart';
 import 'router/app_router.dart';
 
+import 'profile/viewmodel/profile_viewmodel.dart';
+import 'favorite/viewmodel/favorite_viewmodel.dart';
+import 'review/viewmodel/review_viewmodel.dart';
+import 'non_payment/viewmodel/non_payment_viewmodel.dart';
+import 'search/viewmodel/search_viewmodel.dart';
+
 class YeogiyoApp extends StatelessWidget {
   const YeogiyoApp({super.key});
 
@@ -17,12 +23,20 @@ class YeogiyoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // ── 기존 팀원 A ViewModel ──
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityListViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityDetailViewModel()),
         ChangeNotifierProvider(create: (_) => MapViewModel()),
+
+        // ── D파트 ViewModel 추가 ──
+        ChangeNotifierProvider(create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => FavoriteViewModel()),
+        ChangeNotifierProvider(create: (_) => ReviewViewModel()),
+        ChangeNotifierProvider(create: (_) => NonPaymentViewModel()),
+        ChangeNotifierProvider(create: (_) => SearchViewModel()),
       ],
       child: MaterialApp.router(
         title: 'Yeogiyo - 여기요',

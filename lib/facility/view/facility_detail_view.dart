@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../core/constants.dart';
 import '../viewmodel/facility_detail_viewmodel.dart';
 import '../viewmodel/facility_list_viewmodel.dart';
+import '../../non_payment/view/non_payment_view.dart';
+import '../../review/view/review_write_view.dart';
 
 class FacilityDetailView extends StatefulWidget {
   final String facilityId;
@@ -214,7 +216,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           const SizedBox(height: 10),
           GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('비급여 진료비 조회 — 팀원 D 구현 예정')));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => NonPaymentView(
+                    hospitalId: widget.facilityId,
+                  ),
+                ),
+              );
             },
             child: Container(
               width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 10),
@@ -276,7 +284,16 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           children: [
             Text('💬 후기 (${vm.reviews.length})', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.text)),
             GestureDetector(
-              onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('후기 작성 — 팀원 D 구현 예정'))),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ReviewWriteView(
+                      facilityId: widget.facilityId,
+                      facilityName: context.read<FacilityDetailViewModel>().facility?['name'],
+                    ),
+                  ),
+                );
+              },
               child: const Text('후기 작성 ›', style: TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.w600)),
             ),
           ],

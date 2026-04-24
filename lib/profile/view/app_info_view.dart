@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AppInfoView extends StatelessWidget {
+class AppInfoView extends StatefulWidget {
   const AppInfoView({super.key});
 
-  // 더미 데이터 — 실제 구현 시 package_info_plus 패키지로 교체
+  @override
+  State<AppInfoView> createState() => _AppInfoViewState();
+}
+
+class _AppInfoViewState extends State<AppInfoView> {
+  // 고정 데이터
   static const String _appName = '종로 라이프 가이드';
   static const String _appSubtitle = '종로구 생활정보 통합 안내';
-  static const String _appVersion = '버전 1.0.0';
   static const String _techStack = 'Flutter + Dart + GPT API';
+
+  // 실제 버전 (package_info_plus로 가져옴)
+  String _appVersion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _appVersion = '버전 ${info.version}';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ── 앱 로고 + 이름 + 버전 ──
             _buildAppHeader(),
             const SizedBox(height: 12),
-            // ── 개발 정보 ──
             _buildInfoSection(),
           ],
         ),
@@ -31,7 +50,7 @@ class AppInfoView extends StatelessWidget {
   // ───────────────────────────────────────────
   // AppBar
   // ───────────────────────────────────────────
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -68,10 +87,11 @@ class AppInfoView extends StatelessWidget {
   Widget _buildAppHeader() {
     return Container(
       width: double.infinity,
-      color: const Color(0xFFF2F4F7),
+      color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 36),
       child: Column(
         children: [
+          // 앱 로고 (실제 구현 시 Image.asset으로 교체)
           const Text('🏘️', style: TextStyle(fontSize: 56)),
           const SizedBox(height: 16),
           // 앱 이름
@@ -90,9 +110,9 @@ class AppInfoView extends StatelessWidget {
             style: TextStyle(fontSize: 13, color: Colors.grey[500]),
           ),
           const SizedBox(height: 6),
-          // 버전
+          // 실제 버전
           Text(
-            _appVersion,
+            _appVersion.isEmpty ? '버전 로딩 중...' : _appVersion,
             style: TextStyle(fontSize: 13, color: Colors.grey[400]),
           ),
         ],

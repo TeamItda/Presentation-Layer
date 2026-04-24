@@ -12,7 +12,12 @@
           "package_name": "com.example.yeogiyo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "292137139277-rm8rifeil4f835nsh9ueh6pvfeollkn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD7BrDTQQp1YWpmhVvedXCSKQsOHnhw0YA"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292137139277-rm8rifeil4f835nsh9ueh6pvfeollkn2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

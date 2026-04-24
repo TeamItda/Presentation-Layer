@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../review/viewmodel/review_viewmodel.dart';
 
 class ReviewWriteView extends StatefulWidget {
-  // 라우터에서 facilityId로 진입, facilityName은 선택적으로 전달
   final String facilityId;
   final String? facilityName;
 
@@ -16,9 +17,11 @@ class ReviewWriteView extends StatefulWidget {
 }
 
 class _ReviewWriteViewState extends State<ReviewWriteView> {
-  int _selectedRating = 0;        // 선택된 별점 (0 = 미선택)
+  int _selectedRating = 0;
   final TextEditingController _reviewController = TextEditingController();
-  bool _isSubmitting = false;
+
+  bool get _canSubmit =>
+      _selectedRating > 0 && _reviewController.text.trim().isNotEmpty;
 
   @override
   void dispose() {
@@ -26,76 +29,83 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     super.dispose();
   }
 
-  // 등록 버튼 활성화 조건: 별점 선택 + 내용 1자 이상
-  bool get _canSubmit =>
-      _selectedRating > 0 && _reviewController.text.trim().isNotEmpty;
-
   Future<void> _onSubmit() async {
     if (!_canSubmit) return;
 
-    setState(() => _isSubmitting = true);
-
-    // 실제 구현 시: reviewViewModel.submitReview(
-    //   facilityId: ...,
-    //   rating: _selectedRating,
-    //   content: _reviewController.text.trim(),
-    // ) → Firestore reviews 컬렉션에 저장
-    await Future.delayed(const Duration(milliseconds: 800)); // 더미 딜레이
+    final vm = context.read<ReviewViewModel>();
+    final success = await vm.submitReview(
+      facilityId: widget.facilityId,
+      facilityName: widget.facilityName ?? '시설 후기',
+      rating: _selectedRating,
+      content: _reviewController.text.trim(),
+    );
 
     if (!mounted) return;
-    setState(() => _isSubmitting = false);
 
-    // 등록 완료 → 이전 화면(시설 상세)으로 복귀
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('후기가 등록되었어요 😊'),
-        backgroundColor: const Color(0xFF3D5AFE),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    Navigator.of(context).pop();
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('후기가 등록되었어요 😊'),
+          backgroundColor: const Color(0xFF3D5AFE),
+          behavior: SnackBarBehavior.floating,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(16),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('후기 등록에 실패했어요. 다시 시도해주세요.'),
+          backgroundColor: const Color(0xFFE53935),
+          behavior: SnackBarBehavior.floating,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.all(16),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<ReviewViewModel>();
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF2F4F7),
       appBar: _buildAppBar(),
       body: GestureDetector(
-        // 키보드 바깥 탭 시 키보드 내리기
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // ── 시설명 ──
-              _buildFacilityName(),
-              const SizedBox(height: 24),
-
-              // ── 별점 선택 ──
-              _buildStarRating(),
-              const SizedBox(height: 32),
-
-              // ── 후기 입력 ──
-              _buildReviewInput(),
-              const SizedBox(height: 32),
-
-              // ── 등록 버튼 ──
-              _buildSubmitButton(),
-            ],
+          padding: EdgeInsets.zero,
+          child: Container(
+            margin: const EdgeInsets.all(16),
+            padding:
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildFacilityName(),
+                const SizedBox(height: 24),
+                _buildStarRating(),
+                const SizedBox(height: 32),
+                _buildReviewInput(),
+                const SizedBox(height: 32),
+                _buildSubmitButton(vm.isSubmitting),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // ───────────────────────────────────────────
-  // AppBar
-  // ───────────────────────────────────────────
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
@@ -109,14 +119,11 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
         children: [
           Text('✍️', style: TextStyle(fontSize: 18)),
           SizedBox(width: 6),
-          Text(
-            '후기 작성',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: Colors.black87,
-            ),
-          ),
+          Text('후기 작성',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87)),
         ],
       ),
       titleSpacing: 0,
@@ -127,33 +134,24 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 시설명
-  // ───────────────────────────────────────────
   Widget _buildFacilityName() {
     return Column(
       children: [
         Text(
           widget.facilityName ?? '시설 후기',
           style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 6),
-        Text(
-          '별점을 선택해주세요',
-          style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-        ),
+        Text('별점을 선택해주세요',
+            style: TextStyle(fontSize: 13, color: Colors.grey[500])),
       ],
     );
   }
 
-  // ───────────────────────────────────────────
-  // 별점 선택 (★ 5개)
-  // ───────────────────────────────────────────
   Widget _buildStarRating() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,17 +159,16 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
         final starIndex = index + 1;
         final isSelected = starIndex <= _selectedRating;
         return GestureDetector(
-          onTap: () {
-            setState(() {
-              // 같은 별점 다시 탭하면 초기화
-              _selectedRating =
-              _selectedRating == starIndex ? 0 : starIndex;
-            });
-          },
+          onTap: () => setState(() {
+            _selectedRating =
+            _selectedRating == starIndex ? 0 : starIndex;
+          }),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Icon(
-              isSelected ? Icons.star_rounded : Icons.star_outline_rounded,
+              isSelected
+                  ? Icons.star_rounded
+                  : Icons.star_outline_rounded,
               size: 40,
               color: isSelected
                   ? const Color(0xFFFFC107)
@@ -183,21 +180,15 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 후기 내용 입력
-  // ───────────────────────────────────────────
   Widget _buildReviewInput() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          '후기 내용',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
+        const Text('후기 내용',
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87)),
         const SizedBox(height: 10),
         TextField(
           controller: _reviewController,
@@ -224,16 +215,13 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
               const BorderSide(color: Color(0xFF3D5AFE), width: 1.5),
             ),
           ),
-          onChanged: (_) => setState(() {}), // 버튼 활성화 상태 업데이트
+          onChanged: (_) => setState(() {}),
         ),
       ],
     );
   }
 
-  // ───────────────────────────────────────────
-  // 후기 등록 버튼
-  // ───────────────────────────────────────────
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(bool isSubmitting) {
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -246,25 +234,18 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
           disabledForegroundColor: Colors.grey[500],
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+              borderRadius: BorderRadius.circular(12)),
         ),
-        child: _isSubmitting
+        child: isSubmitting
             ? const SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 2,
-          ),
+              color: Colors.white, strokeWidth: 2),
         )
-            : const Text(
-          '후기 등록',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+            : const Text('후기 등록',
+            style: TextStyle(
+                fontSize: 15, fontWeight: FontWeight.w700)),
       ),
     );
   }
