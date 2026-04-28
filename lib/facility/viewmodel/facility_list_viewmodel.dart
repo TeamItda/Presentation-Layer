@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../service/childcare_service.dart';
+import '../service/culture_service.dart';
+import '../service/government_service.dart';
 import '../service/hospital_service.dart';
 import '../service/pharmacy_service.dart';
+import '../service/restaurant_service.dart';
 import '../service/school_service.dart';
+import '../service/welfare_service.dart';
 
 class FacilityListViewModel extends ChangeNotifier {
   final HospitalService _hospitalService = HospitalService();
   final PharmacyService _pharmacyService = PharmacyService();
   final SchoolService _schoolService = SchoolService();
+  final ChildcareService _childcareService = ChildcareService();
+  final WelfareService _welfareService = WelfareService();
+  final RestaurantService _restaurantService = RestaurantService();
+  final CultureService _cultureService = CultureService();
+  final GovernmentService _governmentService = GovernmentService();
 
   final Map<String, LatLng?> _coordinateCache = <String, LatLng?>{};
 
@@ -41,6 +51,7 @@ class FacilityListViewModel extends ChangeNotifier {
   Future<void> loadFacilities(String categoryId) async {
     _isLoading = true;
     _hasError = false;
+    _errorMessage = '';
     notifyListeners();
 
     try {
@@ -54,12 +65,27 @@ class FacilityListViewModel extends ChangeNotifier {
         case 'education':
           await _loadSchools();
           break;
+        case 'childcare':
+          await _loadChildcares();
+          break;
+        case 'welfare':
+          await _loadWelfares();
+          break;
+        case 'food':
+          await _loadRestaurants();
+          break;
+        case 'culture':
+          await _loadCultures();
+          break;
+        case 'government':
+          await _loadGovernments();
+          break;
         default:
           _facilities = [];
       }
     } catch (e) {
       _hasError = true;
-      _errorMessage = '데이터를 불러오지 못했습니다: $e';
+      _errorMessage = '데이터를 불러오지 못했습니다. $e';
       _facilities = [];
     }
 
@@ -118,13 +144,14 @@ class FacilityListViewModel extends ChangeNotifier {
     final facilities = <Map<String, dynamic>>[];
 
     for (final school in schools) {
-      final address = '${school.addr} ${school.addrDetail}'.trim();
-      final position = await _resolveCoordinate(address);
+      final position = school.lat != null && school.lng != null
+          ? LatLng(school.lat!, school.lng!)
+          : await _resolveCoordinate(school.geocodingAddress);
 
       facilities.add({
         'id': school.code,
         'name': school.name,
-        'addr': address,
+        'addr': school.displayAddress,
         'tel': school.tel,
         'rating': 0.0,
         'dist': '',
@@ -141,13 +168,107 @@ class FacilityListViewModel extends ChangeNotifier {
     _facilities = facilities;
   }
 
+  Future<void> _loadChildcares() async {
+    final list = await _childcareService.fetchChildcares();
+    _facilities = list
+        .map((c) => {
+              'id': c.id,
+              'name': c.name,
+              'addr': c.addr,
+              'tel': c.tel,
+              'type': c.typeLabel,
+              'homepage': c.homepage ?? '',
+              'rating': 0.0,
+              'dist': '',
+              'lat': c.lat ?? 0.0,
+              'lng': c.lng ?? 0.0,
+              'capacity': c.capacity,
+              'currentCount': c.currentCount,
+              'hasCctv': c.hasCctv,
+              'staffCount': c.staffCount,
+              'occupancyRate': c.occupancyRate,
+            })
+        .toList();
+  }
+
+  Future<void> _loadWelfares() async {
+    final list = await _welfareService.fetchWelfares();
+    _facilities = list
+        .map((w) => {
+              'id': w.id,
+              'name': w.name,
+              'addr': w.addr,
+              'tel': w.tel,
+              'type': w.type,
+              'homepage': w.homepage ?? '',
+              'rating': 0.0,
+              'dist': '',
+              'lat': w.lat ?? 0.0,
+              'lng': w.lng ?? 0.0,
+              'capacity': w.capacity,
+              'staffCount': w.staffCount,
+            })
+        .toList();
+  }
+
+  Future<void> _loadRestaurants() async {
+    final list = await _restaurantService.fetchRestaurants();
+    _facilities = list
+        .map((r) => {
+              'id': r.id,
+              'name': r.name,
+              'addr': r.addr,
+              'tel': r.tel,
+              'type': r.category,
+              'homepage': r.homepage ?? '',
+              'rating': r.rating,
+              'dist': '',
+              'lat': r.lat ?? 0.0,
+              'lng': r.lng ?? 0.0,
+              'category': r.category,
+            })
+        .toList();
+  }
+
+  Future<void> _loadCultures() async {
+    final list = await _cultureService.fetchCultures();
+    _facilities = list
+        .map((c) => {
+              'id': c.id,
+              'name': c.name,
+              'addr': c.addr,
+              'tel': c.tel,
+              'type': c.type,
+              'homepage': c.homepage ?? '',
+              'rating': 0.0,
+              'dist': '',
+              'lat': c.lat ?? 0.0,
+              'lng': c.lng ?? 0.0,
+            })
+        .toList();
+  }
+
+  Future<void> _loadGovernments() async {
+    final list = await _governmentService.fetchGovernments();
+    _facilities = list
+        .map((g) => {
+              'id': g.id,
+              'name': g.name,
+              'addr': g.addr,
+              'tel': g.tel,
+              'type': g.type,
+              'homepage': g.homepage ?? '',
+              'rating': 0.0,
+              'dist': '',
+              'lat': g.lat ?? 0.0,
+              'lng': g.lng ?? 0.0,
+            })
+        .toList();
+  }
+
   Future<LatLng?> _resolveCoordinate(String address) async {
-    if (address.isEmpty) {
-      return null;
-    }
-    if (_coordinateCache.containsKey(address)) {
-      return _coordinateCache[address];
-    }
+    if (address.isEmpty) return null;
+    if (_coordinateCache.containsKey(address)) return _coordinateCache[address];
 
     try {
       final locations = await locationFromAddress(address);

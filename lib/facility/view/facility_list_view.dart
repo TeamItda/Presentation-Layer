@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constants.dart';
+import '../../map/jongno_boundary_overlay.dart';
 import '../viewmodel/facility_list_viewmodel.dart';
 
 class FacilityListView extends StatefulWidget {
@@ -15,11 +16,26 @@ class FacilityListView extends StatefulWidget {
 }
 
 class _FacilityListViewState extends State<FacilityListView> {
+  Set<Polygon> _jongnoMaskPolygons = const <Polygon>{};
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FacilityListViewModel>().loadFacilities(widget.categoryId);
+    });
+    _loadMaskPolygons();
+  }
+
+  Future<void> _loadMaskPolygons() async {
+    final polygons = await JongnoBoundaryOverlay.buildMaskPolygons(
+      strokeColor: AppColors.primary,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _jongnoMaskPolygons = polygons;
     });
   }
 
@@ -282,6 +298,9 @@ class _FacilityListViewState extends State<FacilityListView> {
           (facility['lat'] as num).toDouble(),
           (facility['lng'] as num).toDouble(),
         ),
+        onTap: () => context.push(
+          '/facility/${facility['id']}?category=${widget.categoryId}',
+        ),
         infoWindow: InfoWindow(
           title: facility['name']?.toString() ?? '',
           snippet: facility['addr']?.toString(),
@@ -296,20 +315,9 @@ class _FacilityListViewState extends State<FacilityListView> {
             target: initialTarget,
             zoom: 14,
           ),
-          cameraTargetBounds: CameraTargetBounds(
-            LatLngBounds(
-              southwest: const LatLng(
-                AppConstants.jongnoSouthLat,
-                AppConstants.jongnoWestLng,
-              ),
-              northeast: const LatLng(
-                AppConstants.jongnoNorthLat,
-                AppConstants.jongnoEastLng,
-              ),
-            ),
-          ),
           minMaxZoomPreference: const MinMaxZoomPreference(13.2, 18),
           markers: markers,
+          polygons: _jongnoMaskPolygons,
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
         ),

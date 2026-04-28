@@ -2,16 +2,18 @@ class SchoolModel {
   final String code;
   final String name;
   final String engName;
-  final String kind;       // 초등학교, 중학교, 고등학교
-  final String fondType;   // 공립, 사립
+  final String kind;
+  final String fondType;
   final String addr;
   final String addrDetail;
   final String tel;
   final String fax;
   final String homepage;
-  final String coedu;      // 남여공학, 남, 여
-  final String hsType;     // 일반고, 특성화고, 자율고
-  final String dayNight;   // 주간, 야간
+  final String coedu;
+  final String hsType;
+  final String dayNight;
+  final double? lat;
+  final double? lng;
 
   SchoolModel({
     required this.code,
@@ -27,6 +29,8 @@ class SchoolModel {
     required this.coedu,
     required this.hsType,
     required this.dayNight,
+    this.lat,
+    this.lng,
   });
 
   factory SchoolModel.fromJson(Map<String, dynamic> json) {
@@ -44,8 +48,34 @@ class SchoolModel {
       coedu: json['COEDU_SC_NM'] ?? '',
       hsType: (json['HS_SC_NM'] ?? '').toString().trim(),
       dayNight: json['DGHT_SC_NM'] ?? '',
+      lat: _toDouble(json['LAT']),
+      lng: _toDouble(json['LNG']),
     );
   }
 
-  bool get isJongno => addr.contains('종로구');
+  String get geocodingAddress => addr.trim();
+
+  String get displayAddress {
+    final base = addr.trim();
+    final detail = addrDetail.trim();
+    if (detail.isEmpty) {
+      return base;
+    }
+    if (detail.startsWith('(')) {
+      return '$base $detail';
+    }
+    return base;
+  }
+
+  bool get isJongno => addr.contains('\uC885\uB85C\uAD6C');
+
+  static double? _toDouble(dynamic value) {
+    if (value is num) {
+      return value.toDouble();
+    }
+    if (value is String && value.trim().isNotEmpty) {
+      return double.tryParse(value);
+    }
+    return null;
+  }
 }

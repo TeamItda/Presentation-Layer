@@ -1,0 +1,29 @@
+{
+  "data": [
+    { "id": "cc-001", "name": "구립숭인어린이집", "addr": "서울 종로구 종로65길 30", "lat": 37.5730, "lng": 127.0155, "typeCode": "1", "capacity": 72, "currentCount": 65, "hasCctv": true, "staffCount": 18, "tel": "02-762-3959" },
+    { "id": "cc-002", "name": "서울혜화어린이집", "addr": "서울 종로구 대학로 89", "lat": 37.5822, "lng": 127.0016, "typeCode": "4", "capacity": 45, "currentCount": 30, "hasCctv": true, "staffCount": 10, "tel": "02-747-6991" },
+    { "id": "cc-003", "name": "종로구육아종합지원센터", "addr": "서울 종로구 성균관로 91", "lat": 37.5896, "lng": 126.9988, "typeCode": "1", "capacity": 50, "currentCount": 38, "hasCctv": true, "staffCount": 12, "tel": "02-764-3523", "homepage": "https://jongno.childcare.go.kr" },
+    { "id": "cc-004", "name": "청운어린이집", "addr": "서울 종로구 청운동 53-5", "lat": 37.5836, "lng": 126.9707, "typeCode": "5", "capacity": 20, "currentCount": 18, "hasCctv": true, "staffCount": 5, "tel": "02-730-8856" },
+    { "id": "cc-005", "name": "삼청어린이집", "addr": "서울 종로구 삼청로9길 22", "lat": 37.5818, "lng": 126.9816, "typeCode": "4", "capacity": 39, "currentCount": 32, "hasCctv": true, "staffCount": 9, "tel": "02-723-3019" },
+    { "id": "cc-006", "name": "창신어린이집", "addr": "서울 종로구 창신길 30", "lat": 37.5757, "lng": 127.0162, "typeCode": "1", "capacity": 60, "currentCount": 55, "hasCctv": true, "staffCount": 14, "tel": "02-765-9110" },
+    { "id": "cc-007", "name": "무악어린이집", "addr": "서울 종로구 무악동 22-4", "lat": 37.5760, "lng": 126.9568, "typeCode": "1", "capacity": 54, "currentCount": 49, "hasCctv": true, "staffCount": 13, "tel": "02-392-3371" },
+    { "id": "cc-008", "name": "가나아트어린이집", "addr": "서울 종로구 평창동 159", "lat": 37.6055, "lng": 126.9702, "typeCode": "4", "capacity": 39, "currentCount": 25, "hasCctv": false, "staffCount": 8, "tel": "02-379-1204" },
+    { "id": "cc-009", "name": "통인어린이집", "addr": "서울 종로구 통인동 135-3", "lat": 37.5784, "lng": 126.9682, "typeCode": "5", "capacity": 20, "currentCount": 17, "hasCctv": true, "staffCount": 5, "tel": "02-735-2204" },
+    { "id": "cc-010", "name": "이화동어린이집", "addr": "서울 종로구 이화동 15-8", "lat": 37.5806, "lng": 127.0042, "typeCode": "4", "capacity": 35, "currentCount": 28, "hasCctv": true, "staffCount": 8, "tel": "02-766-7782" },
+    { "id": "cc-011", "name": "종로구립인왕산어린이집", "addr": "서울 종로구 사직로9길 15-6", "lat": 37.5771, "lng": 126.9654, "typeCode": "1", "capacity": 79, "currentCount": 70, "hasCctv": true, "staffCount": 19, "tel": "02-722-4587" },
+    { "id": "cc-012", "name": "교남어린이집", "addr": "서울 종로구 교남동 8", "lat": 37.5742, "lng": 126.9609, "typeCode": "2", "capacity": 65, "currentCount": 58, "hasCctv": true, "staffCount": 15, "tel": "02-735-8808" },
+    { "id": "cc-013", "name": "적선어린이집", "addr": "서울 종로구 적선동 44-1", "lat": 37.5768, "lng": 126.9740, "typeCode": "5", "capacity": 20, "currentCount": 15, "hasCctv": false, "staffCount": 4, "tel": "02-722-5990" },
+    { "id": "cc-014", "name": "와룡어린이집", "addr": "서울 종로구 와룡동 2-56", "lat": 37.5785, "lng": 126.9944, "typeCode": "4", "capacity": 43, "currentCount": 37, "hasCctv": true, "staffCount": 10, "tel": "02-742-9977" },
+    { "id": "cc-015", "name": "혜화어린이집", "addr": "서울 종로구 혜화동 11-52", "lat": 37.5844, "lng": 127.0013, "typeCode": "4", "capacity": 38, "currentCount": 33, "hasCctv": true, "staffCount": 9, "tel": "02-743-3301" },
+    { "id": "cc-016", "name": "종로구립명륜어린이집", "addr": "서울 종로구 명륜3가 66-2", "lat": 37.5861, "lng": 126.9979, "typeCode": "1", "capacity": 80, "currentCount": 75, "hasCctv": true, "staffCount": 20, "tel": "02-765-7004" },
+    { "id": "cc-017", "name": "필운어린이집", "addr": "서울 종로구 필운대로1길 32", "lat": 37.5790, "lng": 126.9672, "typeCode": "5", "capacity": 20, "currentCount": 12, "hasCctv": false, "staffCount": 4, "tel": "02-738-5663" },
+    { "id": "cc-018", "name": "동숭어린이집", "addr": "서울 종로구 동숭동 1-97", "lat": 37.5810, "lng": 127.0025, "typeCode": "4", "capacity": 47, "currentCount": 41, "hasCctv": true, "staffCount": 11, "tel": "02-743-5500" },
+    { "id": "cc-019", "name": "낙원어린이집", "addr": "서울 종로구 낙원동 58-1", "lat": 37.5750, "lng": 126.9892, "typeCode": "4", "capacity": 36, "currentCount": 30, "hasCctv": true, "staffCount": 8, "tel": "02-742-1188" },
+    { "id": "cc-020", "name": "부암어린이집", "addr": "서울 종로구 부암동 47-5", "lat": 37.5923, "lng": 126.9655, "typeCode": "5", "capacity": 20, "currentCount": 14, "hasCctv": false, "staffCount": 4, "tel": "02-379-4785" },
+    { "id": "kg-001", "name": "경복유치원", "addr": "서울 종로구 청와대로 11", "lat": 37.5832, "lng": 126.9733, "typeCode": "1", "capacity": 100, "currentCount": 87, "hasCctv": true, "staffCount": 22, "tel": "02-722-0071" },
+    { "id": "kg-002", "name": "삼청유치원", "addr": "서울 종로구 삼청로 81", "lat": 37.5823, "lng": 126.9800, "typeCode": "4", "capacity": 80, "currentCount": 66, "hasCctv": true, "staffCount": 16, "tel": "02-720-2530" },
+    { "id": "kg-003", "name": "혜화유치원", "addr": "서울 종로구 혜화로 3-3", "lat": 37.5843, "lng": 127.0006, "typeCode": "4", "capacity": 60, "currentCount": 48, "hasCctv": true, "staffCount": 12, "tel": "02-766-0013" },
+    { "id": "kg-004", "name": "효제유치원", "addr": "서울 종로구 효제동 61-8", "lat": 37.5813, "lng": 127.0056, "typeCode": "4", "capacity": 55, "currentCount": 42, "hasCctv": true, "staffCount": 11, "tel": "02-741-3882" },
+    { "id": "kg-005", "name": "이화어린이집부속유치원", "addr": "서울 종로구 대학로 79", "lat": 37.5818, "lng": 127.0012, "typeCode": "3", "capacity": 90, "currentCount": 78, "hasCctv": true, "staffCount": 18, "tel": "02-765-4321" }
+  ]
+}
