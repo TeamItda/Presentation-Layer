@@ -19,7 +19,17 @@ class ChatViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<void> sendMessage(String message, {String lang = 'ko'}) async {
+  // 현재 선택된 응답 언어
+  String _selectedLang = 'ko';
+  String get selectedLang => _selectedLang;
+
+  // 응답 언어 변경
+  void changeLang(String lang) {
+    _selectedLang = lang;
+    notifyListeners();
+  }
+
+  Future<void> sendMessage(String message) async {
     if (message.trim().isEmpty) return;
 
     // 사용자 메시지 추가
@@ -31,7 +41,7 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final reply = await _chatService.sendMessage(message, lang);
+      final reply = await _chatService.sendMessage(message, _selectedLang);
 
       // AI 응답 추가
       _messages.add({'role': 'ai', 'text': reply});
