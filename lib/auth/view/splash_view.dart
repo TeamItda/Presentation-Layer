@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -35,10 +36,16 @@ class _SplashViewState extends State<SplashView>
 
     _controller.forward();
 
-    // TODO: Firebase 연동 시 아래 로직 교체
+    // Firebase 연동 완료
     // authService.currentUser != null ? context.go('/home') : context.go('/login')
     Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) context.go('/login');
+      if (!mounted) return;
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        context.go('/home');
+      } else {
+        context.go('/login');
+      }
     });
   }
 

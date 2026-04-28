@@ -205,16 +205,32 @@ class _SignupViewState extends State<SignupView> {
             ),
             const SizedBox(height: 32),
 
+            // 에러 메시지
+            if (vm.errorMessage != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  vm.errorMessage!,
+                  style: const TextStyle(color: Colors.red, fontSize: 13),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
             // 가입 완료 버튼
             SizedBox(
               height: 52,
               child: ElevatedButton(
                 onPressed: (!_canSubmit || vm.isLoading)
                     ? null
-                    : () {
-                  // TODO: Firebase 연동 시 vm.signUp() 호출
-                  context.go('/home');
-                },
+                    : () async {
+                      final success = await vm.signUp(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                        nickname: _nicknameController.text.trim(),
+                        language: vm.selectedLanguage,
+                      );
+                      if (success && mounted) context.go('/home');
+                    },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,

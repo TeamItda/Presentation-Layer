@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "292137139277",
+    "project_id": "yeogiyo-59f27",
+    "storage_bucket": "yeogiyo-59f27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292137139277:android:15b4a3b34b8533341e3004",
+        "android_client_info": {
+          "package_name": "com.example.yeogiyo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7BrDTQQp1YWpmhVvedXCSKQsOHnhw0YA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

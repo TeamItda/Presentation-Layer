@@ -171,6 +171,18 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                     ),
+
+                    // 로그인이 실패했을 때 에러 메세지
+                    if (vm.errorMessage != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Text(
+                          vm.errorMessage!,
+                          style: const TextStyle(color: Colors.red, fontSize: 13),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+
                     const SizedBox(height: 24),
 
                     // 로그인 버튼
@@ -179,9 +191,12 @@ class _LoginViewState extends State<LoginView> {
                       child: ElevatedButton(
                         onPressed: vm.isLoading
                             ? null
-                            : () {
-                          // TODO: Firebase 연동 시 vm.signInWithEmail() 호출
-                          context.go('/home');
+                            : () async {  // firebase 연동 완료
+                          final success = await vm.signInWithEmail(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
+                          if (success && mounted) context.go('/home');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
@@ -236,8 +251,9 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       height: 52,
                       child: OutlinedButton.icon(
-                        onPressed: () {
-                          // TODO: Firebase 연동 시 vm.signInWithGoogle() 호출
+                        onPressed: () async {   // Firebase 연동 완료
+                          final success = await vm.signInWithGoogle();
+                          if (success && mounted) context.go('/home');
                         },
                         icon: const Icon(Icons.g_mobiledata,
                             size: 28, color: AppColors.text),

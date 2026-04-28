@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -239,7 +242,49 @@ class ProfileView extends StatelessWidget {
   // ───────────────────────────────────────────
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showLogoutDialog(context),
+      onTap: () async {
+        final confirm = await showDialog<bool>(
+          context: context,
+          builder: (ctx) =>
+              AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                title: const Text(
+                  '로그아웃',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+                content: const Text(
+                  '정말 로그아웃 하시겠어요?',
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(false),
+                    child: Text(
+                        '취소', style: TextStyle(color: Colors.grey[600])),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                    child: const Text(
+                      '로그아웃',
+                      style: TextStyle(
+                        color: Color(0xFFE53935),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+        );
+
+        if (confirm == true && context.mounted) {
+          print('로그아웃 시작');
+          final vm = context.read<AuthViewModel>();
+          await vm.signOut();
+          print('로그아웃 완료');
+          context.go('/login');
+        }
+      },
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14),
@@ -257,43 +302,6 @@ class ProfileView extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  // 로그아웃 확인 다이얼로그
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text(
-          '로그아웃',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
-        content: const Text(
-          '정말 로그아웃 하시겠어요?',
-          style: TextStyle(fontSize: 14, color: Colors.black54),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text('취소', style: TextStyle(color: Colors.grey[600])),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              // 실제 구현 시: authService.signOut() → context.go('/login')
-            },
-            child: const Text(
-              '로그아웃',
-              style: TextStyle(
-                color: Color(0xFFE53935),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
