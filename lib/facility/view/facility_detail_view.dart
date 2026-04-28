@@ -99,6 +99,11 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                           if (widget.categoryId == 'medical') _buildMedicalInfo(f),
                           if (widget.categoryId == 'pharmacy') _buildPharmacyInfo(f),
                           if (widget.categoryId == 'education') _buildEducationInfo(f),
+                          if (widget.categoryId == 'childcare') _buildChildcareInfo(f),
+                          if (widget.categoryId == 'welfare') _buildWelfareInfo(f),
+                          if (widget.categoryId == 'food') _buildFoodInfo(f),
+                          if (widget.categoryId == 'culture') _buildCultureInfo(f),
+                          if (widget.categoryId == 'government') _buildGovernmentInfo(f),
                           const SizedBox(height: 8),
                           _buildReviewSection(vm),
                         ],
@@ -264,6 +269,179 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary))),
         ],
       ),
+    );
+  }
+
+  Widget _buildChildcareInfo(Map<String, dynamic> f) {
+    final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
+    final current = (f['currentCount'] as num?)?.toInt() ?? 0;
+    final occupancy = (f['occupancyRate'] as num?)?.toDouble() ?? 0.0;
+    final hasCctv = f['hasCctv'] as bool? ?? false;
+    final staff = (f['staffCount'] as num?)?.toInt() ?? 0;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🍼 보육 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('정원 / 현원', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+              Text('$current / $capacity명', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: occupancy,
+              minHeight: 8,
+              backgroundColor: const Color(0xFFE2E8F0),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                occupancy >= 0.9 ? const Color(0xFFEF4444) : occupancy >= 0.7 ? const Color(0xFFF59E0B) : AppColors.childcare,
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text('${(occupancy * 100).toStringAsFixed(0)}% 충족', style: const TextStyle(fontSize: 10, color: AppColors.subText)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              _infoBadge(hasCctv ? '📷 CCTV 설치' : '📷 CCTV 미설치', hasCctv ? const Color(0xFFEFF6FF) : const Color(0xFFFEF2F2), hasCctv ? AppColors.primary : const Color(0xFFEF4444)),
+              const SizedBox(width: 8),
+              _infoBadge('👩‍🏫 교직원 $staff명', const Color(0xFFF0FDF4), AppColors.welfare),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWelfareInfo(Map<String, dynamic> f) {
+    final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
+    final staff = (f['staffCount'] as num?)?.toInt() ?? 0;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🤝 복지시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          const SizedBox(height: 8),
+          if (f['type'] != null && f['type'].toString().isNotEmpty)
+            _infoRow('시설 유형', f['type'].toString()),
+          if (capacity > 0) ...[
+            const SizedBox(height: 4),
+            _infoRow('정원', '$capacity명'),
+          ],
+          if (staff > 0) ...[
+            const SizedBox(height: 4),
+            _infoRow('직원 수', '$staff명'),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFoodInfo(Map<String, dynamic> f) {
+    final rating = (f['rating'] as num?)?.toDouble() ?? 0.0;
+    final category = f['category']?.toString() ?? f['type']?.toString() ?? '';
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🍽 맛집 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          const SizedBox(height: 8),
+          if (category.isNotEmpty) ...[
+            _infoBadge('🏷 $category', const Color(0xFFFFF7ED), AppColors.food),
+            const SizedBox(height: 8),
+          ],
+          if (rating > 0) ...[
+            Row(
+              children: [
+                ...List.generate(5, (i) {
+                  if (i < rating.floor()) return const Icon(Icons.star, size: 16, color: Color(0xFFF59E0B));
+                  if (i < rating) return const Icon(Icons.star_half, size: 16, color: Color(0xFFF59E0B));
+                  return const Icon(Icons.star_border, size: 16, color: Color(0xFFE2E8F0));
+                }),
+                const SizedBox(width: 6),
+                Text(rating.toStringAsFixed(1), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+              ],
+            ),
+          ] else
+            const Text('평점 정보 없음', style: TextStyle(fontSize: 11, color: AppColors.subText)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCultureInfo(Map<String, dynamic> f) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🎭 문화시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          const SizedBox(height: 8),
+          if (f['type'] != null && f['type'].toString().isNotEmpty)
+            _infoBadge('🏛 ${f['type']}', const Color(0xFFF5F3FF), AppColors.culture),
+          if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary)),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGovernmentInfo(Map<String, dynamic> f) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🏛 공공기관 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          const SizedBox(height: 8),
+          if (f['type'] != null && f['type'].toString().isNotEmpty)
+            _infoBadge('🏢 ${f['type']}', const Color(0xFFECFEFF), AppColors.government),
+          if (f['tel'] != null && f['tel'].toString().isNotEmpty) ...[
+            const SizedBox(height: 6),
+            _infoRow('대표번호', f['tel'].toString()),
+          ],
+          if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary)),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _infoBadge(String label, Color bg, Color fg) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
+      child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg)),
+    );
+  }
+
+  Widget _infoRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+        Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+      ],
     );
   }
 

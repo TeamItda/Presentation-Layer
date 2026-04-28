@@ -1,13 +1,17 @@
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
-// TODO: Firebase 연동 시 아래 주석 해제
-// import 'package:firebase_core/firebase_core.dart';
+import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // TODO: Firebase 연동 시 아래 주석 해제
-  // await Firebase.initializeApp();
+
+  final mapsImplementation = GoogleMapsFlutterPlatform.instance;
+  if (!kIsWeb && mapsImplementation is GoogleMapsFlutterAndroid) {
+    mapsImplementation.useAndroidViewSurface = true;
+  }
+
   runApp(const YeogiyoApp());
 }

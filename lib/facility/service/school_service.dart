@@ -1,79 +1,110 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+import 'package:flutter/services.dart';
+
 import '../model/school_model.dart';
 
 class SchoolService {
-  static const String _baseUrl = 'https://open.neis.go.kr/hub/schoolInfo';
-  static const String _key = '41c941d6400949c8a9b8a2e6178196ea';
-
   List<SchoolModel>? _cache;
+  Map<String, dynamic>? _coordinateCache;
 
-  /// NEIS API로 종로구 학교 실시간 조회
+  /// assets/jongno_schools.json에서 종로구 학교 목록을 불러온다.
   Future<List<SchoolModel>> fetchSchools() async {
-    if (_cache != null) return _cache!;
-
-    final List<SchoolModel> allSchools = [];
-    int page = 1;
-    const int pageSize = 1000;
-
-    // 서울 전체 조회 후 종로구 필터링
-    while (true) {
-      final uri = Uri.parse(
-        '$_baseUrl?KEY=$_key&Type=json&ATPT_OFCDC_SC_CODE=B10&pIndex=$page&pSize=$pageSize',
-      );
-
-      final response = await http.get(uri);
-      if (response.statusCode != 200) break;
-
-      final data = jsonDecode(response.body);
-
-      // 에러 체크
-      if (data['RESULT'] != null) break;
-
-      final schoolInfo = data['schoolInfo'];
-      if (schoolInfo == null || schoolInfo.length < 2) break;
-
-      final rows = schoolInfo[1]['row'] as List<dynamic>;
-      if (rows.isEmpty) break;
-
-      for (final row in rows) {
-        if (row is Map<String, dynamic> && row.isNotEmpty) {
-          final school = SchoolModel.fromJson(row);
-          if (school.isJongno) {
-            allSchools.add(school);
-          }
-        }
-      }
-
-      // 전체 건수 확인
-      final totalCount = schoolInfo[0]['head']?[0]?['list_total_count'] ?? 0;
-      if (page * pageSize >= totalCount) break;
-      page++;
+    if (_cache != null) {
+      return _cache!;
     }
 
-    _cache = allSchools;
+    final jsonString = await rootBundle.loadString('assets/jongno_schools.json');
+    final decoded = jsonDecode(jsonString);
+    final rows = decoded is Map<String, dynamic> ? decoded['DATA'] : null;
+    final coordinates = await _loadCoordinateMap();
+
+    if (rows is! List) {
+      _cache = const [];
+      return _cache!;
+    }
+
+    final uniqueSchools = <String, SchoolModel>{};
+    for (final row in rows) {
+      if (row is! Map<String, dynamic>) {
+        continue;
+      }
+      final school = SchoolModel.fromJson(_normalizeJson(row, coordinates));
+      if (!school.isJongno) {
+        continue;
+      }
+      uniqueSchools.putIfAbsent(school.code, () => school);
+    }
+
+    _cache = uniqueSchools.values.toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
     return _cache!;
   }
 
-  /// 학교급(초/중/고)으로 필터
   Future<List<SchoolModel>> filterByKind(String kind) async {
     final all = await fetchSchools();
-    return all.where((s) => s.kind == kind).toList();
+    return all.where((school) => school.kind == kind).toList();
   }
 
-  /// 이름으로 검색
   Future<List<SchoolModel>> search(String keyword) async {
     final all = await fetchSchools();
-    return all.where((s) => s.name.contains(keyword) || s.addr.contains(keyword)).toList();
+    return all
+        .where(
+          (school) =>
+              school.name.contains(keyword) || school.addr.contains(keyword),
+        )
+        .toList();
   }
 
-  /// 코드로 상세 조회
   Future<SchoolModel?> getByCode(String code) async {
     final all = await fetchSchools();
     try {
-      return all.firstWhere((s) => s.code == code);
+      return all.firstWhere((school) => school.code == code);
     } catch (_) {
       return null;
     }
+  }
+
+  Future<Map<String, dynamic>> _loadCoordinateMap() async {
+    if (_coordinateCache != null) {
+      return _coordinateCache!;
+    }
+
+    final jsonString = await rootBundle.loadString(
+      'assets/jongno_school_coordinates.json',
+    );
+    final decoded = jsonDecode(jsonString);
+    if (decoded is Map<String, dynamic>) {
+      _coordinateCache = decoded;
+      return decoded;
+    }
+
+    _coordinateCache = const <String, dynamic>{};
+    return _coordinateCache!;
+  }
+
+  Map<String, dynamic> _normalizeJson(
+    Map<String, dynamic> row,
+    Map<String, dynamic> coordinates,
+  ) {
+    final code = row['sd_schul_code'] ?? '';
+    final coordinate = coordinates[code];
+    return {
+      'SD_SCHUL_CODE': code,
+      'SCHUL_NM': row['schul_nm'] ?? '',
+      'ENG_SCHUL_NM': row['eng_schul_nm'] ?? '',
+      'SCHUL_KND_SC_NM': row['schul_knd_sc_nm'] ?? '',
+      'FOND_SC_NM': row['fond_sc_nm'] ?? '',
+      'ORG_RDNMA': row['org_rdnma'] ?? '',
+      'ORG_RDNDA': row['org_rdnda'] ?? '',
+      'ORG_TELNO': row['org_telno'] ?? '',
+      'ORG_FAXNO': row['org_faxno'] ?? '',
+      'HMPG_ADRES': row['hmpg_adres'] ?? '',
+      'COEDU_SC_NM': row['coedu_sc_nm'] ?? '',
+      'HS_SC_NM': row['hs_sc_nm'] ?? '',
+      'DGHT_SC_NM': row['dght_sc_nm'] ?? '',
+      'LAT': coordinate is Map<String, dynamic> ? coordinate['lat'] : null,
+      'LNG': coordinate is Map<String, dynamic> ? coordinate['lng'] : null,
+    };
   }
 }

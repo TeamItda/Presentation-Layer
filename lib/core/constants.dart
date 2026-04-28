@@ -6,6 +6,11 @@ class AppConstants {
   static const String chatBackendUrl = 'http://localhost:8000';
   static const String hiraApiKey = '';
   static const String neisApiKey = '';
+  static const String childcareApiKey = '';   // 사회보장정보원 어린이집 API 키
+  static const String kindergartenApiKey = ''; // 교육부 유치원알리미 API 키
+  static const String nhisApiKey = '';         // 건강보험심사평가원 장기요양기관 API 키
+  static const String smallBizApiKey = '';     // 소상공인상가정보 API 키
+  static const String cultureApiKey = '';      // 문화체육관광부 API 키
   static const String googleMapsApiKey =
       'AIzaSyDDxfuNuVSbsOg5myMHfVGGnG1tEPhlgFs';
   // 지도 초기 진입 중심은 종로구청 인근 좌표
