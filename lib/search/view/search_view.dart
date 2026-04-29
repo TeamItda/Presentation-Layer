@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../search/viewmodel/search_viewmodel.dart';
 import '../../facility/viewmodel/facility_list_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -69,6 +70,22 @@ class _SearchViewState extends State<SearchView> {
     _searchController.dispose();
     _focusNode.dispose();
     super.dispose();
+  }
+
+  String _getCategoryId(String type) {
+    switch (type) {
+      case '의료시설':
+      case '의원':
+      case '병원':
+      case '상급종합':
+        return 'medical';
+      case '약국':
+        return 'pharmacy';
+      case '교육시설':
+        return 'education';
+      default:
+        return 'medical';
+    }
   }
 
   Color _categoryColor(String category) {
@@ -303,8 +320,10 @@ class _SearchViewState extends State<SearchView> {
 
     return InkWell(
       onTap: () {
-        // 실제 구현 시: context.push('/facility/${facility['id']}')
         context.read<SearchViewModel>().submitSearch(facility['name'] ?? '');
+
+        final category = _getCategoryId(facility['type'] ?? '');
+        context.push('/facility/${facility['id']}?category=$category');
       },
       borderRadius: BorderRadius.circular(12),
       child: Padding(
