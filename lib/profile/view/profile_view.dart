@@ -43,7 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
                     horizontal: 16, vertical: 12),
                 child: Column(
                   children: [
-                    _buildUserCard(vm),
+                    _buildUserCard(context),
                     const SizedBox(height: 12),
                     _buildMenuGroup(context, vm),
                     const SizedBox(height: 24),
@@ -85,7 +85,8 @@ class _ProfileViewState extends State<ProfileView> {
   // ───────────────────────────────────────────
   // 사용자 정보 카드 (실제 Firebase Auth 데이터)
   // ───────────────────────────────────────────
-  Widget _buildUserCard(ProfileViewModel vm) {
+  Widget _buildUserCard(BuildContext context) {
+    final vm = context.watch<AuthViewModel>();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       decoration: BoxDecoration(
@@ -94,7 +95,6 @@ class _ProfileViewState extends State<ProfileView> {
       ),
       child: Row(
         children: [
-          // 아바타
           Container(
             width: 52,
             height: 52,
@@ -105,12 +105,11 @@ class _ProfileViewState extends State<ProfileView> {
             child: const Icon(Icons.person, size: 28, color: Color(0xFF9E9EBF)),
           ),
           const SizedBox(width: 14),
-          // 실제 이름 + 이메일
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                vm.userName.isEmpty ? '이름 없음' : vm.userName,
+                vm.nickname.isEmpty ? '이름 없음' : vm.nickname,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -119,7 +118,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               const SizedBox(height: 3),
               Text(
-                vm.userEmail,
+                vm.email,
                 style: TextStyle(fontSize: 13, color: Colors.grey[500]),
               ),
             ],
