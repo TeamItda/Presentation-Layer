@@ -1,46 +1,66 @@
 import 'package:http/http.dart' as http;
+import 'package:xml/xml.dart';
 import 'dart:convert';
 
 class NonPaymentService {
-  // HIRA 비급여진료비 API
-  static const String _apiKey = '0a59ef1351eb74c8f4c2ff06d647b1cdb6ea0b9d20511bd21190e60a4e026c97';
+  static const String _apiKey = '6a730286a7b7542d56e228b687194d29faf9f4b3a7f96455384b6e8b89eb5227';
   static const String _baseUrl =
-      'http://apis.data.go.kr/B551182/nonPayInfoService';
+      'https://apis.data.go.kr/B551182/nonPaymentDamtInfoService';
 
-  // ── 비급여 항목 목록 가져오기 ──────────────
-  // itemNm: 항목명 (예: MRI, 초음파)
-  // sidoCd: 지역코드 (종로구: 110000)
   Future<List<Map<String, dynamic>>> getNonPaymentList({
     String? itemNm,
     String sidoCd = '110000',
+    String? hospitalName,
   }) async {
     final queryParams = {
       'serviceKey': _apiKey,
       'pageNo': '1',
       'numOfRows': '100',
       'sidoCd': sidoCd,
-      'type': 'json',
       if (itemNm != null) 'itemNm': itemNm,
     };
 
-    final uri = Uri.parse('$_baseUrl/getNonPayList')
+    final uri = Uri.parse('$_baseUrl/getNonPaymentItemHospList2')
         .replace(queryParameters: queryParams);
 
     try {
-      final response = await http.get(uri);
+      final response = await http.get(
+        uri,
+        headers: {'Accept-Charset': 'UTF-8'},
+      );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final items = data['response']['body']['items']['item'];
+        final body = utf8.decode(response.bodyBytes);
+        final document = XmlDocument.parse(body);
+        final items = document.findAllElements('item');
 
-        if (items == null) return [];
+        if (items.isEmpty) return [];
 
-        // 리스트로 변환
-        if (items is List) {
-          return items.cast<Map<String, dynamic>>();
-        } else {
-          return [items as Map<String, dynamic>];
+        final result = items.map((item) {
+          String getText(String tag) =>
+              item.findElements(tag).firstOrNull?.innerText.trim() ?? '';
+
+          final minPrc = int.tryParse(getText('minPrc')) ?? 0;
+          final maxPrc = int.tryParse(getText('maxPrc')) ?? 0;
+          final avgPrc = ((minPrc + maxPrc) / 2).round();
+
+          return {
+            'itemNm': getText('npayKorNm'),
+            'yadmNm': getText('yadmNm'),
+            'ykiho': getText('ykiho'),
+            'minAmt': minPrc.toString(),
+            'maxAmt': maxPrc.toString(),
+            'avgAmt': avgPrc.toString(),
+          };
+        }).toList();
+
+        if (hospitalName != null && hospitalName.isNotEmpty) {
+          return result.where((r) =>
+              r['yadmNm'].toString().contains(hospitalName)
+          ).toList();
         }
+
+        return result; //
       } else {
         throw Exception('API 오류: ${response.statusCode}');
       }
@@ -49,8 +69,6 @@ class NonPaymentService {
     }
   }
 
-  // ── 항목별 병원 가격 비교 ──────────────────
-  // API 응답 데이터를 화면에 맞게 가공
   Map<String, List<Map<String, dynamic>>> groupByItem(
       List<Map<String, dynamic>> items) {
     final Map<String, List<Map<String, dynamic>>> grouped = {};

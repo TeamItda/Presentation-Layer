@@ -4,8 +4,9 @@ import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
 
 class NonPaymentView extends StatefulWidget {
   final String? hospitalId;
+  final String? hospitalName;
 
-  const NonPaymentView({super.key, this.hospitalId});
+  const NonPaymentView({super.key, this.hospitalId, this.hospitalName});
 
   @override
   State<NonPaymentView> createState() => _NonPaymentViewState();
@@ -18,7 +19,7 @@ class _NonPaymentViewState extends State<NonPaymentView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<NonPaymentViewModel>().loadNonPayments();
+      context.read<NonPaymentViewModel>().loadNonPayments(hospitalName: widget.hospitalName,);
     });
     _searchController.addListener(() {
       context.read<NonPaymentViewModel>().search(_searchController.text);
@@ -300,13 +301,18 @@ class _NonPaymentViewState extends State<NonPaymentView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off, size: 52, color: Colors.grey[300]),
+          Icon(Icons.info_outline, size: 52, color: Colors.grey[300]),
           const SizedBox(height: 16),
-          Text('검색 결과가 없어요',
-              style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+          Text(
+            '비급여 진료비 정보가 없어요',
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+          ),
           const SizedBox(height: 8),
-          Text('다른 항목으로 검색해보세요',
-              style: TextStyle(fontSize: 12, color: Colors.grey[400])),
+          Text(
+            '의원급은 비급여 정보가\n등록되지 않을 수 있어요',
+            style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

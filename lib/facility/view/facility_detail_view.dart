@@ -224,7 +224,8 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => NonPaymentView(
-                    hospitalId: widget.facilityId,
+                    hospitalId: f['id'],
+                    hospitalName: f['name'],
                   ),
                 ),
               );
@@ -485,10 +486,22 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           ],
         ),
         const SizedBox(height: 8),
-        if (_reviewTab == 'all')
-          ...vm.reviews.map((rv) => _buildReviewCard(rv))
+        if (vm.isReviewLoading)
+          const Center(child: CircularProgressIndicator())
+        else if (_reviewTab == 'all')
+          vm.reviews.isEmpty
+              ? const Center(child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Text('후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)),
+          ))
+              : Column(children: vm.reviews.map((rv) => _buildReviewCard(rv)).toList())
         else
-          const Center(child: Padding(padding: EdgeInsets.all(20), child: Text('작성한 후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)))),
+          vm.myReviews.isEmpty
+              ? const Center(child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Text('작성한 후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)),
+          ))
+              : Column(children: vm.myReviews.map((rv) => _buildReviewCard(rv)).toList()),
       ],
     );
   }

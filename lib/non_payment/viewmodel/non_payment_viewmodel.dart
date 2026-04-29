@@ -41,13 +41,16 @@ class NonPaymentViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   // ── 비급여 데이터 불러오기 ─────────────────
-  Future<void> loadNonPayments({String? itemNm}) async {
+  Future<void> loadNonPayments({
+    String? itemNm,
+    String? hospitalName,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final data = await _nonPaymentService.getNonPaymentList(itemNm: itemNm);
+      final data = await _nonPaymentService.getNonPaymentList(itemNm: itemNm, hospitalName: hospitalName,);
       final grouped = _nonPaymentService.groupByItem(data);
 
       _categories = grouped.entries.map((entry) {
