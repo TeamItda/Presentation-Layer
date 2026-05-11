@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../review/viewmodel/review_viewmodel.dart';
@@ -36,24 +37,34 @@ class _MyReviewsViewState extends State<MyReviewsView> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('후기 삭제',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-        content: const Text('후기를 삭제할까요?',
-            style: TextStyle(fontSize: 14, color: Colors.black54)),
+        title: Text(
+          'review.delete_title'.tr(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'review.delete_confirm'.tr(),
+          style: const TextStyle(fontSize: 14, color: Colors.black54),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text('취소', style: TextStyle(color: Colors.grey[600])),
+            child: Text(
+              'common.cancel'.tr(),
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               context.read<ReviewViewModel>().deleteReview(id);
             },
-            child: const Text('삭제',
-                style: TextStyle(
-                    color: Color(0xFFE53935),
-                    fontWeight: FontWeight.w600)),
+            child: Text(
+              'common.delete'.tr(),
+              style: const TextStyle(
+                color: Color(0xFFE53935),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),
@@ -86,15 +97,18 @@ class _MyReviewsViewState extends State<MyReviewsView> {
         icon: const Icon(Icons.arrow_back, color: Colors.black87),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      title: const Row(
+      title: Row(
         children: [
-          Text('📝', style: TextStyle(fontSize: 18)),
-          SizedBox(width: 6),
-          Text('내가 쓴 후기',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87)),
+          const Text('📝', style: TextStyle(fontSize: 18)),
+          const SizedBox(width: 6),
+          Text(
+            'review.my_reviews'.tr(),
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
       titleSpacing: 0,
@@ -135,41 +149,42 @@ class _MyReviewsViewState extends State<MyReviewsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 상단: 카테고리 태그 + 시설명 + 삭제 버튼
           Row(
             children: [
               Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(review.category,
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: color,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  review.category,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: color,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(review.facilityName,
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black87),
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  review.facilityName,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               GestureDetector(
                 onTap: () => _deleteReview(context, review.id),
-                child: Icon(Icons.delete_outline,
-                    size: 20, color: Colors.grey[400]),
+                child: Icon(Icons.delete_outline, size: 20, color: Colors.grey[400]),
               ),
             ],
           ),
           const SizedBox(height: 10),
-
-          // 별점
           Row(
             children: List.generate(5, (index) {
               return Icon(
@@ -184,16 +199,15 @@ class _MyReviewsViewState extends State<MyReviewsView> {
             }),
           ),
           const SizedBox(height: 10),
-
-          // 후기 내용
-          Text(review.content,
-              style: TextStyle(
-                  fontSize: 13, color: Colors.grey[700], height: 1.5)),
+          Text(
+            review.content,
+            style: TextStyle(fontSize: 13, color: Colors.grey[700], height: 1.5),
+          ),
           const SizedBox(height: 10),
-
-          // 작성일
-          Text(review.formattedDate,
-              style: TextStyle(fontSize: 12, color: Colors.grey[400])),
+          Text(
+            review.formattedDate,
+            style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+          ),
         ],
       ),
     );
@@ -206,14 +220,19 @@ class _MyReviewsViewState extends State<MyReviewsView> {
         children: [
           Icon(Icons.edit_off_outlined, size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
-          Text('작성한 후기가 없어요',
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[500])),
+          Text(
+            'review.empty_title'.tr(),
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[500],
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('시설 상세에서 후기를 남겨보세요',
-              style: TextStyle(fontSize: 13, color: Colors.grey[400])),
+          Text(
+            'review.empty_subtitle'.tr(),
+            style: TextStyle(fontSize: 13, color: Colors.grey[400]),
+          ),
         ],
       ),
     );
@@ -226,12 +245,14 @@ class _MyReviewsViewState extends State<MyReviewsView> {
         children: [
           Icon(Icons.error_outline, size: 52, color: Colors.grey[300]),
           const SizedBox(height: 16),
-          Text(vm.errorMessage!,
-              style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+          Text(
+            vm.errorMessage!,
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+          ),
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () => vm.loadMyReviews(),
-            child: const Text('다시 시도'),
+            child: Text('review.retry'.tr()),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -22,9 +23,9 @@ class HomeView extends StatelessWidget {
             children: [
               _buildHeader(context),
               const SizedBox(height: 24),
-              const Text(
-                '자주 찾는 메뉴',
-                style: TextStyle(
+              Text(
+                'home.title'.tr(),
+                style: const TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w800,
                   color: AppColors.text,
@@ -35,9 +36,9 @@ class HomeView extends StatelessWidget {
               const SizedBox(height: 24),
               _buildAiBanner(context),
               const SizedBox(height: 24),
-              const Text(
-                '종로구 추천 시설',
-                style: TextStyle(
+              Text(
+                'home.featured'.tr(),
+                style: const TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w800,
                   color: AppColors.text,
@@ -156,7 +157,7 @@ class HomeView extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          '${cat.count}곳 이용 가능',
+                          '${cat.count}${'home.count_suffix'.tr()}',
                           style: const TextStyle(
                             fontSize: 15,
                             color: AppColors.subText,
@@ -205,22 +206,22 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 14),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'AI 생활 도우미',
-                      style: TextStyle(
+                      'home.ai_title'.tr(),
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      '종로구 정보가 헷갈릴 때 자연스럽게 질문해 보세요.',
-                      style: TextStyle(
+                      'home.ai_subtitle'.tr(),
+                      style: const TextStyle(
                         fontSize: 13,
                         height: 1.4,
                         color: Color(0xFFD1FAE5),

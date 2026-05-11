@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -67,10 +68,10 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Center(
+                    Center(
                       child: Text(
-                        '종로구 생활편의 통합 안내',
-                        style: TextStyle(
+                        'auth.app_subtitle'.tr(),
+                        style: const TextStyle(
                           fontSize: 13,
                           color: AppColors.subText,
                         ),
@@ -79,9 +80,9 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(height: 48),
 
                     // 이메일 필드
-                    const Text(
-                      '이메일',
-                      style: TextStyle(
+                    Text(
+                      'auth.email'.tr(),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: AppColors.text,
@@ -92,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: 'email@example.com',
+                        hintText: 'auth.email_hint'.tr(),
                         hintStyle: const TextStyle(color: AppColors.subText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -118,9 +119,9 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(height: 16),
 
                     // 비밀번호 필드
-                    const Text(
-                      '비밀번호',
-                      style: TextStyle(
+                    Text(
+                      'auth.password'.tr(),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: AppColors.text,
@@ -131,7 +132,7 @@ class _LoginViewState extends State<LoginView> {
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
-                        hintText: '비밀번호를 입력하세요',
+                        hintText: 'auth.password_hint'.tr(),
                         hintStyle: const TextStyle(color: AppColors.subText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -213,9 +214,9 @@ class _LoginViewState extends State<LoginView> {
                                   strokeWidth: 2.5,
                                 ),
                               )
-                            : const Text(
-                                '로그인',
-                                style: TextStyle(
+                            : Text(
+                                'auth.login'.tr(),
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -231,8 +232,8 @@ class _LoginViewState extends State<LoginView> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
-                            'OR',
-                            style: TextStyle(
+                            'common.or'.tr(),
+                            style: const TextStyle(
                               color: AppColors.subText,
                               fontSize: 12,
                             ),
@@ -257,9 +258,9 @@ class _LoginViewState extends State<LoginView> {
                           size: 28,
                           color: AppColors.text,
                         ),
-                        label: const Text(
-                          'Google로 로그인',
-                          style: TextStyle(
+                        label: Text(
+                          'auth.google_login'.tr(),
+                          style: const TextStyle(
                             fontSize: 15,
                             color: AppColors.text,
                             fontWeight: FontWeight.w500,
@@ -279,9 +280,9 @@ class _LoginViewState extends State<LoginView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          '계정이 없으신가요?',
-                          style: TextStyle(
+                        Text(
+                          'auth.no_account'.tr(),
+                          style: const TextStyle(
                             color: AppColors.subText,
                             fontSize: 14,
                           ),
@@ -291,9 +292,9 @@ class _LoginViewState extends State<LoginView> {
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          child: const Text(
-                            '회원가입',
-                            style: TextStyle(
+                          child: Text(
+                            'auth.signup'.tr(),
+                            style: const TextStyle(
                               color: AppColors.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -319,7 +320,10 @@ class _LoginViewState extends State<LoginView> {
                   children: _languages.map((lang) {
                     final isSelected = vm.selectedLanguage == lang['code'];
                     return GestureDetector(
-                      onTap: () => vm.selectLanguage(lang['code']!),
+                      onTap: () {
+                        vm.selectLanguage(lang['code']!);
+                        context.setLocale(Locale(lang['code']!));
+                      },
                       child: AnimatedDefaultTextStyle(
                         duration: const Duration(milliseconds: 200),
                         style: TextStyle(

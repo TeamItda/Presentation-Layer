@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,11 @@ import '../../review/view/review_write_view.dart';
 class FacilityDetailView extends StatefulWidget {
   final String facilityId;
   final String categoryId;
-  const FacilityDetailView({super.key, required this.facilityId, required this.categoryId});
+  const FacilityDetailView({
+    super.key,
+    required this.facilityId,
+    required this.categoryId,
+  });
 
   @override
   State<FacilityDetailView> createState() => _FacilityDetailViewState();
@@ -36,7 +41,10 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     });
   }
 
-  void _findAndSetFacility(FacilityListViewModel listVm, FacilityDetailViewModel detailVm) {
+  void _findAndSetFacility(
+    FacilityListViewModel listVm,
+    FacilityDetailViewModel detailVm,
+  ) {
     Map<String, dynamic>? found;
     for (final f in listVm.facilities) {
       if (f['id'] == widget.facilityId) {
@@ -60,13 +68,25 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 color: Colors.white,
                 child: Row(
                   children: [
-                    GestureDetector(onTap: () => context.pop(), child: const Icon(Icons.arrow_back, size: 22)),
+                    GestureDetector(
+                      onTap: () => context.pop(),
+                      child: const Icon(Icons.arrow_back, size: 22),
+                    ),
                     const SizedBox(width: 10),
-                    const Text('로딩 중...', style: TextStyle(fontSize: 16, color: AppColors.subText)),
+                    Text(
+                      'facility.loading'.tr(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.subText,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -98,14 +118,21 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                         children: [
                           _buildBasicInfo(f, cat),
                           const SizedBox(height: 10),
-                          if (widget.categoryId == 'medical') _buildMedicalInfo(f),
-                          if (widget.categoryId == 'pharmacy') _buildPharmacyInfo(f),
-                          if (widget.categoryId == 'education') _buildEducationInfo(f),
-                          if (widget.categoryId == 'childcare') _buildChildcareInfo(f),
-                          if (widget.categoryId == 'welfare') _buildWelfareInfo(f, vm),
+                          if (widget.categoryId == 'medical')
+                            _buildMedicalInfo(f),
+                          if (widget.categoryId == 'pharmacy')
+                            _buildPharmacyInfo(f),
+                          if (widget.categoryId == 'education')
+                            _buildEducationInfo(f),
+                          if (widget.categoryId == 'childcare')
+                            _buildChildcareInfo(f),
+                          if (widget.categoryId == 'welfare')
+                            _buildWelfareInfo(f, vm),
                           if (widget.categoryId == 'food') _buildFoodInfo(f),
-                          if (widget.categoryId == 'culture') _buildCultureInfo(f),
-                          if (widget.categoryId == 'government') _buildGovernmentInfo(f),
+                          if (widget.categoryId == 'culture')
+                            _buildCultureInfo(f),
+                          if (widget.categoryId == 'government')
+                            _buildGovernmentInfo(f),
                           const SizedBox(height: 8),
                           _buildReviewSection(vm),
                         ],
@@ -121,20 +148,39 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildHeader(BuildContext context, Map<String, dynamic> f, FacilityDetailViewModel vm) {
+  Widget _buildHeader(
+    BuildContext context,
+    Map<String, dynamic> f,
+    FacilityDetailViewModel vm,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       color: Colors.white,
       child: Row(
         children: [
-          GestureDetector(onTap: () => context.pop(), child: const Icon(Icons.arrow_back, size: 22)),
+          GestureDetector(
+            onTap: () => context.pop(),
+            child: const Icon(Icons.arrow_back, size: 22),
+          ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(f['name'] ?? '', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.text), overflow: TextOverflow.ellipsis),
+            child: Text(
+              f['name'] ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           GestureDetector(
             onTap: () => vm.toggleFavorite(),
-            child: Icon(vm.isFavorite ? Icons.favorite : Icons.favorite_border, color: vm.isFavorite ? Colors.red : AppColors.subText, size: 24),
+            child: Icon(
+              vm.isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: vm.isFavorite ? Colors.red : AppColors.subText,
+              size: 24,
+            ),
           ),
         ],
       ),
@@ -144,12 +190,19 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   Widget _buildMiniMap(Category cat) {
     return Container(
       height: 120,
-      decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFFDBEAFE), Color(0xFFF0FDF4)])),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFFDBEAFE), Color(0xFFF0FDF4)],
+        ),
+      ),
       child: Center(
         child: Container(
-          width: 28, height: 28,
+          width: 28,
+          height: 28,
           decoration: BoxDecoration(color: cat.color, shape: BoxShape.circle),
-          child: Center(child: Text(cat.icon, style: const TextStyle(fontSize: 14))),
+          child: Center(
+            child: Text(cat.icon, style: const TextStyle(fontSize: 14)),
+          ),
         ),
       ),
     );
@@ -163,28 +216,57 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(color: cat.bgColor, borderRadius: BorderRadius.circular(6)),
-              child: Text('${cat.icon} ${cat.name}', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: cat.color)),
+              decoration: BoxDecoration(
+                color: cat.bgColor,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                '${cat.icon} ${cat.name}',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: cat.color,
+                ),
+              ),
             ),
             if (f['type'] != null && f['type'].toString().isNotEmpty) ...[
               const SizedBox(width: 6),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(4)),
-                child: Text(f['type'].toString(), style: const TextStyle(fontSize: 10, color: AppColors.subText)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  f['type'].toString(),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.subText,
+                  ),
+                ),
               ),
             ],
           ],
         ),
         const SizedBox(height: 8),
-        if (f['addr'] != null) Text('📍 ${f['addr']}', style: const TextStyle(fontSize: 12, color: AppColors.subText)),
+        if (f['addr'] != null)
+          Text(
+            '📍 ${f['addr']}',
+            style: const TextStyle(fontSize: 12, color: AppColors.subText),
+          ),
         if (f['tel'] != null && f['tel'].toString().isNotEmpty) ...[
           const SizedBox(height: 4),
-          Text('📞 ${f['tel']}', style: const TextStyle(fontSize: 12, color: AppColors.primary)),
+          Text(
+            '📞 ${f['tel']}',
+            style: const TextStyle(fontSize: 12, color: AppColors.primary),
+          ),
         ],
         if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
           const SizedBox(height: 4),
-          Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary)),
+          Text(
+            '🌐 ${f['homepage']}',
+            style: const TextStyle(fontSize: 11, color: AppColors.primary),
+          ),
         ],
       ],
     );
@@ -193,30 +275,76 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   Widget _buildMedicalInfo(Map<String, dynamic> f) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🩺 진료 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.medical_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 8),
           if (f['dept'] != null && f['dept'].toString().isNotEmpty) ...[
-            const Text('진료과목', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.subText)),
+            Text(
+              'facility.medical_dept'.tr(),
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: AppColors.subText,
+              ),
+            ),
             const SizedBox(height: 4),
             Wrap(
-              spacing: 4, runSpacing: 4,
-              children: (f['dept'] as String).split(', ').map((d) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: const Color(0xFFEFF6FF), borderRadius: BorderRadius.circular(4)),
-                child: Text(d, style: const TextStyle(fontSize: 9, color: AppColors.primary)),
-              )).toList(),
+              spacing: 4,
+              runSpacing: 4,
+              children: (f['dept'] as String)
+                  .split(', ')
+                  .map(
+                    (d) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEFF6FF),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        d,
+                        style: const TextStyle(
+                          fontSize: 9,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
           const SizedBox(height: 8),
           if (f['totalDocs'] != null)
-            Text('👨‍⚕️ 총 의사 수: ${f['totalDocs']}명 (전문의 ${f['specialists'] ?? 0}명)', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text(
+              'facility.medical_doctors'.tr(
+                namedArgs: {
+                  'total': '${f['totalDocs']}',
+                  'specialists': '${f['specialists'] ?? 0}',
+                },
+              ),
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
           if (f['equip'] != null && f['equip'].toString().isNotEmpty) ...[
             const SizedBox(height: 4),
-            Text('🔬 ${f['equip']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text(
+              '🔬 ${f['equip']}',
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
           ],
           const SizedBox(height: 10),
           GestureDetector(
@@ -231,9 +359,22 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
               );
             },
             child: Container(
-              width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(color: AppColors.medical, borderRadius: BorderRadius.circular(8)),
-              child: const Center(child: Text('💰 비급여 진료비 조회', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white))),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.medical,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Text(
+                  'facility.non_payment'.tr(),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -244,18 +385,34 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   Widget _buildPharmacyInfo(Map<String, dynamic> f) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('💊 약국 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.pharmacy_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 6),
           if (f['tel'] != null && f['tel'].toString().isNotEmpty)
-            Text('📞 전화: ${f['tel']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text(
+              '${'facility.pharmacy_tel'.tr()}${f['tel']}',
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
           if (f['addr'] != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text('📍 주소: ${f['addr']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+              child: Text(
+                '${'facility.pharmacy_addr'.tr()}${f['addr']}',
+                style: const TextStyle(fontSize: 11, color: AppColors.subText),
+              ),
             ),
         ],
       ),
@@ -265,17 +422,59 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   Widget _buildEducationInfo(Map<String, dynamic> f) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🏫 학교 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.education_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 6),
-          if (f['type'] != null) Text('학교급: ${f['type']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-          if (f['fondType'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('설립유형: ${f['fondType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
-          if (f['coedu'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('남녀공학: ${f['coedu']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
-          if (f['hsType'] != null && f['hsType'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('고교유형: ${f['hsType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
-          if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary))),
+          if (f['type'] != null)
+            Text(
+              '${'facility.edu_level'.tr()}${f['type']}',
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
+          if (f['fondType'] != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '${'facility.edu_fond'.tr()}${f['fondType']}',
+                style: const TextStyle(fontSize: 11, color: AppColors.subText),
+              ),
+            ),
+          if (f['coedu'] != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '${'facility.edu_coedu'.tr()}${f['coedu']}',
+                style: const TextStyle(fontSize: 11, color: AppColors.subText),
+              ),
+            ),
+          if (f['hsType'] != null && f['hsType'].toString().isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '${'facility.edu_hstype'.tr()}${f['hsType']}',
+                style: const TextStyle(fontSize: 11, color: AppColors.subText),
+              ),
+            ),
+          if (f['homepage'] != null && f['homepage'].toString().isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '🌐 ${f['homepage']}',
+                style: const TextStyle(fontSize: 11, color: AppColors.primary),
+              ),
+            ),
         ],
       ),
     );
@@ -294,14 +493,24 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🍼 보육 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.childcare_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 10),
           if (typeText.isNotEmpty) ...[
-            _infoRow('시설 유형', typeText),
+            _infoRow('facility.welfare_type'.tr(), typeText),
             const SizedBox(height: 4),
           ],
           if (operatingHours.isNotEmpty) ...[
@@ -309,19 +518,32 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
             const SizedBox(height: 4),
           ],
           if (addr.isNotEmpty) ...[
-            _infoRow('주소', addr),
+            _infoRow('facility.pharmacy_addr'.tr().replaceAll(': ', ''), addr),
             const SizedBox(height: 4),
           ],
           if (tel.isNotEmpty) ...[
-            _infoRow('전화', tel),
+            _infoRow('facility.government_tel'.tr(), tel),
             const SizedBox(height: 8),
           ],
           if (capacity > 0) ...[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('정원 / 현원', style: TextStyle(fontSize: 11, color: AppColors.subText)),
-                Text('$current / $capacity명', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+                Text(
+                  'facility.childcare_capacity'.tr(),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.subText,
+                  ),
+                ),
+                Text(
+                  '$current / $capacity${'facility.capacity_unit'.tr()}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 6),
@@ -332,26 +554,41 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                 minHeight: 8,
                 backgroundColor: const Color(0xFFE2E8F0),
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  occupancy >= 0.9 ? const Color(0xFFEF4444) : occupancy >= 0.7 ? const Color(0xFFF59E0B) : AppColors.childcare,
+                  occupancy >= 0.9
+                      ? const Color(0xFFEF4444)
+                      : occupancy >= 0.7
+                      ? const Color(0xFFF59E0B)
+                      : AppColors.childcare,
                 ),
               ),
             ),
             const SizedBox(height: 4),
-            Text('${(occupancy * 100).toStringAsFixed(0)}% 충족', style: const TextStyle(fontSize: 10, color: AppColors.subText)),
+            Text(
+              'facility.childcare_occupancy'.tr(
+                namedArgs: {'rate': (occupancy * 100).toStringAsFixed(0)},
+              ),
+              style: const TextStyle(fontSize: 10, color: AppColors.subText),
+            ),
             const SizedBox(height: 8),
           ],
           Row(
             children: [
               if (publicPrivate.isNotEmpty) ...[
                 _infoBadge(
-                  '🏫 $publicPrivate',
-                  publicPrivate == '공립' ? const Color(0xFFEFF6FF) : const Color(0xFFFFF7ED),
+                  '$publicPrivate',
+                  publicPrivate == '공립'
+                      ? const Color(0xFFEFF6FF)
+                      : const Color(0xFFFFF7ED),
                   publicPrivate == '공립' ? AppColors.primary : AppColors.food,
                 ),
                 const SizedBox(width: 8),
               ],
               if (staff > 0)
-                _infoBadge('👩‍🏫 교직원 $staff명', const Color(0xFFF0FDF4), AppColors.welfare),
+                _infoBadge(
+                  'facility.childcare_staff'.tr(namedArgs: {'count': '$staff'}),
+                  const Color(0xFFF0FDF4),
+                  AppColors.welfare,
+                ),
             ],
           ),
         ],
@@ -376,17 +613,28 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Text('🤝 복지시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+              Text(
+                'facility.welfare_info'.tr(),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
               if (vm.isLtcLoading) ...[
                 const SizedBox(width: 8),
                 const SizedBox(
-                  width: 12, height: 12,
+                  width: 12,
+                  height: 12,
                   child: CircularProgressIndicator(strokeWidth: 1.5),
                 ),
               ],
@@ -394,67 +642,133 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           ),
           const SizedBox(height: 8),
           if (f['type'] != null && f['type'].toString().isNotEmpty) ...[
-            _infoRow('시설 유형', f['type'].toString()),
+            _infoRow('facility.welfare_type'.tr(), f['type'].toString()),
             const SizedBox(height: 4),
           ],
           if (addr.isNotEmpty) ...[
-            _infoRow('주소', addr),
+            _infoRow('facility.pharmacy_addr'.tr().replaceAll(': ', ''), addr),
             const SizedBox(height: 4),
           ],
           if (tel.isNotEmpty) ...[
-            _infoRow('전화', tel),
+            _infoRow('facility.government_tel'.tr(), tel),
             const SizedBox(height: 4),
           ],
           if (showCapacity > 0) ...[
             if (apiCapacity > 0)
-              _infoRow('입소 인원 / 정원', '$apiCurrent / $apiCapacity명')
+              _infoRow(
+                'facility.childcare_capacity'.tr(),
+                '$apiCurrent / $apiCapacity${'facility.capacity_unit'.tr()}',
+              )
             else
-              _infoRow('정원', '$showCapacity명'),
+              _infoRow(
+                'facility.welfare_capacity'.tr(),
+                '$showCapacity${'facility.capacity_unit'.tr()}',
+              ),
             const SizedBox(height: 4),
           ],
           if (staffTotal > 0) ...[
-            _infoRow('직원 수', '$staffTotal명'),
+            _infoRow(
+              'facility.welfare_staff'.tr(),
+              '$staffTotal${'facility.staff_unit'.tr()}',
+            ),
           ],
           if (ltcStaff != null && ltcStaff.nonZeroRoles.isNotEmpty) ...[
             const SizedBox(height: 10),
-            const Text('👥 직군별 인력', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.text)),
+            const Text(
+              '👥 직군별 인력',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
             const SizedBox(height: 6),
             Wrap(
               spacing: 6,
               runSpacing: 6,
               children: ltcStaff.nonZeroRoles
-                  .map((e) => _infoBadge('${e.key} ${e.value}', const Color(0xFFF0FDF4), AppColors.welfare))
+                  .map(
+                    (e) => _infoBadge(
+                      '${e.key} ${e.value}',
+                      const Color(0xFFF0FDF4),
+                      AppColors.welfare,
+                    ),
+                  )
                   .toList(),
             ),
           ],
           if (ltcPrograms.isNotEmpty) ...[
             const SizedBox(height: 12),
-            Text('🎯 프로그램 현황 (${ltcPrograms.length}개)', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.text)),
-            const SizedBox(height: 6),
-            ...ltcPrograms.take(20).map((p) => Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    width: 4, height: 4,
-                    decoration: const BoxDecoration(color: AppColors.welfare, shape: BoxShape.circle),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text.rich(TextSpan(
-                      children: [
-                        TextSpan(text: p.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.text)),
-                        TextSpan(text: '  ·  ${p.typeLabel}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-                        if (p.location != null) TextSpan(text: '  ·  ${p.location}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-                        if (p.targetCount > 0) TextSpan(text: '  ·  ${p.targetCount}명', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-                      ],
-                    )),
-                  ),
-                ],
+            Text(
+              '🎯 프로그램 현황 (${ltcPrograms.length}개)',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
               ),
-            )),
+            ),
+            const SizedBox(height: 6),
+            ...ltcPrograms
+                .take(20)
+                .map(
+                  (p) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          width: 4,
+                          height: 4,
+                          decoration: const BoxDecoration(
+                            color: AppColors.welfare,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: p.name,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.text,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '  ·  ${p.typeLabel}',
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: AppColors.subText,
+                                  ),
+                                ),
+                                if (p.location != null)
+                                  TextSpan(
+                                    text: '  ·  ${p.location}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: AppColors.subText,
+                                    ),
+                                  ),
+                                if (p.targetCount > 0)
+                                  TextSpan(
+                                    text: '  ·  ${p.targetCount}명',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: AppColors.subText,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
           ],
         ],
       ),
@@ -467,11 +781,21 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🍽 맛집 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.food_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 8),
           if (category.isNotEmpty) ...[
             _infoBadge('🏷 $category', const Color(0xFFFFF7ED), AppColors.food),
@@ -481,16 +805,40 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
             Row(
               children: [
                 ...List.generate(5, (i) {
-                  if (i < rating.floor()) return const Icon(Icons.star, size: 16, color: Color(0xFFF59E0B));
-                  if (i < rating) return const Icon(Icons.star_half, size: 16, color: Color(0xFFF59E0B));
-                  return const Icon(Icons.star_border, size: 16, color: Color(0xFFE2E8F0));
+                  if (i < rating.floor())
+                    return const Icon(
+                      Icons.star,
+                      size: 16,
+                      color: Color(0xFFF59E0B),
+                    );
+                  if (i < rating)
+                    return const Icon(
+                      Icons.star_half,
+                      size: 16,
+                      color: Color(0xFFF59E0B),
+                    );
+                  return const Icon(
+                    Icons.star_border,
+                    size: 16,
+                    color: Color(0xFFE2E8F0),
+                  );
                 }),
                 const SizedBox(width: 6),
-                Text(rating.toStringAsFixed(1), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+                Text(
+                  rating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
               ],
             ),
           ] else
-            const Text('평점 정보 없음', style: TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text(
+              'facility.food_no_rating'.tr(),
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
         ],
       ),
     );
@@ -519,21 +867,35 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🎭 문화시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.culture_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 10),
           if (type.isNotEmpty)
-            _infoBadge('$emoji $type', const Color(0xFFF5F3FF), AppColors.culture),
+            _infoBadge(
+              '$emoji $type',
+              const Color(0xFFF5F3FF),
+              AppColors.culture,
+            ),
           if (addr.isNotEmpty) ...[
             const SizedBox(height: 8),
-            _infoRow('주소', addr),
+            _infoRow('facility.pharmacy_addr'.tr().replaceAll(': ', ''), addr),
           ],
           if (tel.isNotEmpty) ...[
             const SizedBox(height: 4),
-            _infoRow('전화', tel),
+            _infoRow('facility.government_tel'.tr(), tel),
           ],
           if (homepage.isNotEmpty) ...[
             const SizedBox(height: 4),
@@ -563,25 +925,42 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🏛 공공기관 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text(
+            'facility.government_info'.tr(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
           const SizedBox(height: 10),
           if (type.isNotEmpty)
-            _infoBadge('$emoji $type', const Color(0xFFECFEFF), AppColors.government),
+            _infoBadge(
+              '$emoji $type',
+              const Color(0xFFECFEFF),
+              AppColors.government,
+            ),
           if (operatingHours.isNotEmpty) ...[
             const SizedBox(height: 8),
             _infoRow('운영시간', operatingHours),
           ],
           if (f['tel'] != null && f['tel'].toString().isNotEmpty) ...[
             const SizedBox(height: 6),
-            _infoRow('대표번호', f['tel'].toString()),
+            _infoRow('facility.government_tel'.tr(), f['tel'].toString()),
           ],
           if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
             const SizedBox(height: 4),
-            Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary)),
+            Text(
+              '🌐 ${f['homepage']}',
+              style: const TextStyle(fontSize: 11, color: AppColors.primary),
+            ),
           ],
         ],
       ),
@@ -591,8 +970,14 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   Widget _infoBadge(String label, Color bg, Color fg) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
-      child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg),
+      ),
     );
   }
 
@@ -600,8 +985,18 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-        Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 11, color: AppColors.subText),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: AppColors.text,
+          ),
+        ),
       ],
     );
   }
@@ -613,28 +1008,54 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('💬 후기 (${vm.reviews.length})', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.text)),
+            Text(
+              'facility.review_title'.tr(
+                namedArgs: {'count': '${vm.reviews.length}'},
+              ),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => ReviewWriteView(
                       facilityId: widget.facilityId,
-                      facilityName: context.read<FacilityDetailViewModel>().facility?['name'],
+                      facilityName: context
+                          .read<FacilityDetailViewModel>()
+                          .facility?['name'],
                     ),
                   ),
                 );
               },
-              child: const Text('후기 작성 ›', style: TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.w600)),
+              child: Text(
+                'facility.review_write'.tr(),
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           children: [
-            _reviewTabButton('후기 목록', _reviewTab == 'all', () => setState(() => _reviewTab = 'all')),
+            _reviewTabButton(
+              'facility.review_all'.tr(),
+              _reviewTab == 'all',
+              () => setState(() => _reviewTab = 'all'),
+            ),
             const SizedBox(width: 6),
-            _reviewTabButton('내 후기', _reviewTab == 'my', () => setState(() => _reviewTab = 'my')),
+            _reviewTabButton(
+              'facility.review_my'.tr(),
+              _reviewTab == 'my',
+              () => setState(() => _reviewTab = 'my'),
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -642,18 +1063,42 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           const Center(child: CircularProgressIndicator())
         else if (_reviewTab == 'all')
           vm.reviews.isEmpty
-              ? const Center(child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Text('후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)),
-          ))
-              : Column(children: vm.reviews.map((rv) => _buildReviewCard(rv)).toList())
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      'facility.review_empty'.tr(),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.subText,
+                      ),
+                    ),
+                  ),
+                )
+              : Column(
+                  children: vm.reviews
+                      .map((rv) => _buildReviewCard(rv))
+                      .toList(),
+                )
         else
           vm.myReviews.isEmpty
-              ? const Center(child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Text('작성한 후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)),
-          ))
-              : Column(children: vm.myReviews.map((rv) => _buildReviewCard(rv)).toList()),
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      'facility.review_empty'.tr(),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.subText,
+                      ),
+                    ),
+                  ),
+                )
+              : Column(
+                  children: vm.myReviews
+                      .map((rv) => _buildReviewCard(rv))
+                      .toList(),
+                ),
       ],
     );
   }
@@ -663,8 +1108,18 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-        decoration: BoxDecoration(color: active ? AppColors.primary : const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(14)),
-        child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: active ? Colors.white : AppColors.subText)),
+        decoration: BoxDecoration(
+          color: active ? AppColors.primary : const Color(0xFFF1F5F9),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: active ? Colors.white : AppColors.subText,
+          ),
+        ),
       ),
     );
   }
@@ -673,23 +1128,49 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(children: [
-                Text(rv['user'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-                const SizedBox(width: 4),
-                ...List.generate(5, (i) => Icon(Icons.star, size: 10, color: i < rv['rating'] ? const Color(0xFFF59E0B) : const Color(0xFFE2E8F0))),
-              ]),
-              Text(rv['date'], style: const TextStyle(fontSize: 9, color: AppColors.subText)),
+              Row(
+                children: [
+                  Text(
+                    rv['user'],
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  ...List.generate(
+                    5,
+                    (i) => Icon(
+                      Icons.star,
+                      size: 10,
+                      color: i < rv['rating']
+                          ? const Color(0xFFF59E0B)
+                          : const Color(0xFFE2E8F0),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                rv['date'],
+                style: const TextStyle(fontSize: 9, color: AppColors.subText),
+              ),
             ],
           ),
           const SizedBox(height: 4),
-          Text(rv['text'], style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+          Text(
+            rv['text'],
+            style: const TextStyle(fontSize: 11, color: AppColors.subText),
+          ),
         ],
       ),
     );

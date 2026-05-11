@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
@@ -18,7 +19,6 @@ class _FavoriteViewState extends State<FavoriteView> {
   @override
   void initState() {
     super.initState();
-    // 즐겨찾기 목록 불러오기
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FavoriteViewModel>().loadFavorites();
     });
@@ -55,23 +55,34 @@ class _FavoriteViewState extends State<FavoriteView> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('즐겨찾기 해제',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-        content: const Text('즐겨찾기에서 삭제할까요?',
-            style: TextStyle(fontSize: 14, color: Colors.black54)),
+        title: Text(
+          'favorite.remove_title'.tr(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'favorite.remove_confirm'.tr(),
+          style: const TextStyle(fontSize: 14, color: Colors.black54),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text('취소', style: TextStyle(color: Colors.grey[600])),
+            child: Text(
+              'common.cancel'.tr(),
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               context.read<FavoriteViewModel>().removeFavorite(id);
             },
-            child: const Text('삭제',
-                style: TextStyle(
-                    color: Color(0xFFE53935), fontWeight: FontWeight.w600)),
+            child: Text(
+              'common.delete'.tr(),
+              style: const TextStyle(
+                color: Color(0xFFE53935),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),
@@ -103,9 +114,6 @@ class _FavoriteViewState extends State<FavoriteView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 상단 타이틀
-  // ───────────────────────────────────────────
   Widget _buildHeader(FavoriteViewModel vm) {
     return Container(
       color: Colors.white,
@@ -121,25 +129,28 @@ class _FavoriteViewState extends State<FavoriteView> {
           ],
           const Icon(Icons.favorite, size: 22, color: Color(0xFFE53935)),
           const SizedBox(width: 8),
-          const Text('즐겨찾기',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87)),
+          Text(
+            'favorite.title'.tr(),
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
           const Spacer(),
           Container(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: const Color(0xFFFFEBEE),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '${vm.favorites.length}개',
+              '${vm.favorites.length}${'favorite.count_suffix'.tr()}',
               style: const TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFFE53935),
-                  fontWeight: FontWeight.w600),
+                fontSize: 12,
+                color: Color(0xFFE53935),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -147,9 +158,6 @@ class _FavoriteViewState extends State<FavoriteView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 즐겨찾기 목록
-  // ───────────────────────────────────────────
   Widget _buildFavoriteList(FavoriteViewModel vm) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -178,9 +186,7 @@ class _FavoriteViewState extends State<FavoriteView> {
         ],
       ),
       child: InkWell(
-        onTap: () {
-          // 실제 구현 시: context.push('/facility/${item.id}')
-        },
+        onTap: () {},
         borderRadius: BorderRadius.circular(14),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -200,16 +206,20 @@ class _FavoriteViewState extends State<FavoriteView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.name,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87)),
+                    Text(
+                      item.name,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(item.address,
-                        style: TextStyle(
-                            fontSize: 12, color: Colors.grey[500]),
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      item.address,
+                      style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -220,23 +230,28 @@ class _FavoriteViewState extends State<FavoriteView> {
                             color: color.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Text(item.category,
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: color,
-                                  fontWeight: FontWeight.w500)),
+                          child: Text(
+                            item.category,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: color,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Icon(Icons.star_rounded,
                             size: 13, color: Colors.amber[600]),
                         const SizedBox(width: 2),
-                        Text(item.rating.toString(),
-                            style: TextStyle(
-                                fontSize: 12, color: Colors.grey[500])),
+                        Text(
+                          item.rating.toString(),
+                          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                        ),
                         const SizedBox(width: 8),
-                        Text(item.distance,
-                            style: TextStyle(
-                                fontSize: 12, color: Colors.grey[500])),
+                        Text(
+                          item.distance,
+                          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                        ),
                       ],
                     ),
                   ],
@@ -254,9 +269,6 @@ class _FavoriteViewState extends State<FavoriteView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 빈 상태
-  // ───────────────────────────────────────────
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -264,22 +276,24 @@ class _FavoriteViewState extends State<FavoriteView> {
         children: [
           Icon(Icons.favorite_border, size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
-          Text('즐겨찾기한 시설이 없어요',
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[500])),
+          Text(
+            'favorite.empty_title'.tr(),
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[500],
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('시설 상세에서 ❤️를 눌러 추가해보세요',
-              style: TextStyle(fontSize: 13, color: Colors.grey[400])),
+          Text(
+            'favorite.empty_subtitle'.tr(),
+            style: TextStyle(fontSize: 13, color: Colors.grey[400]),
+          ),
         ],
       ),
     );
   }
 
-  // ───────────────────────────────────────────
-  // 에러 상태
-  // ───────────────────────────────────────────
   Widget _buildErrorState(String message) {
     return Center(
       child: Column(
@@ -287,13 +301,14 @@ class _FavoriteViewState extends State<FavoriteView> {
         children: [
           Icon(Icons.error_outline, size: 52, color: Colors.grey[300]),
           const SizedBox(height: 16),
-          Text(message,
-              style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+          Text(
+            message,
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+          ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () =>
-                context.read<FavoriteViewModel>().loadFavorites(),
-            child: const Text('다시 시도'),
+            onPressed: () => context.read<FavoriteViewModel>().loadFavorites(),
+            child: Text('favorite.retry'.tr()),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../search/viewmodel/search_viewmodel.dart';
@@ -22,7 +23,6 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     super.initState();
-    // 최근 검색어 불러오기
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<SearchViewModel>().init();
       _focusNode.requestFocus();
@@ -34,9 +34,7 @@ class _SearchViewState extends State<SearchView> {
     final query = _searchController.text.trim();
     context.read<SearchViewModel>().onSearchChanged(query);
 
-    // FacilityListViewModel에서 실제 시설 데이터 가져와서 필터링
-    final allFacilities =
-        context.read<FacilityListViewModel>().facilities;
+    final allFacilities = context.read<FacilityListViewModel>().facilities;
 
     setState(() {
       if (query.isEmpty) {
@@ -127,9 +125,6 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // AppBar
-  // ───────────────────────────────────────────
   PreferredSizeWidget _buildAppBar(SearchViewModel vm) {
     return AppBar(
       backgroundColor: Colors.white,
@@ -145,7 +140,7 @@ class _SearchViewState extends State<SearchView> {
         textInputAction: TextInputAction.search,
         style: const TextStyle(fontSize: 15, color: Colors.black87),
         decoration: InputDecoration(
-          hintText: '종로구 시설 검색',
+          hintText: 'search.hint'.tr(),
           hintStyle: TextStyle(fontSize: 15, color: Colors.grey[400]),
           prefixIcon: Icon(Icons.search, color: Colors.grey[400], size: 20),
           suffixIcon: vm.searchText.isNotEmpty
@@ -171,8 +166,7 @@ class _SearchViewState extends State<SearchView> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:
-            const BorderSide(color: Color(0xFF3D5AFE), width: 1.5),
+            borderSide: const BorderSide(color: Color(0xFF3D5AFE), width: 1.5),
           ),
         ),
         onSubmitted: (value) => vm.submitSearch(value),
@@ -181,9 +175,6 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 검색어 없을 때: 최근 검색어 + 인기 검색어
-  // ───────────────────────────────────────────
   Widget _buildEmptyState(SearchViewModel vm) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -193,17 +184,20 @@ class _SearchViewState extends State<SearchView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                '최근 검색어',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87),
+              Text(
+                'search.recent'.tr(),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
               GestureDetector(
                 onTap: () => vm.clearRecentSearches(),
-                child: Text('전체 삭제',
-                    style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                child: Text(
+                  'search.clear_all'.tr(),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                ),
               ),
             ],
           ),
@@ -211,12 +205,13 @@ class _SearchViewState extends State<SearchView> {
           ...vm.recentSearches.map((keyword) => _buildRecentItem(keyword, vm)),
         ],
         const SizedBox(height: 20),
-        const Text(
-          '인기 검색어',
-          style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87),
+        Text(
+          'search.popular'.tr(),
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
         ),
         const SizedBox(height: 10),
         Wrap(
@@ -240,8 +235,10 @@ class _SearchViewState extends State<SearchView> {
             Icon(Icons.access_time, size: 16, color: Colors.grey[400]),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(keyword,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87)),
+              child: Text(
+                keyword,
+                style: const TextStyle(fontSize: 14, color: Colors.black87),
+              ),
             ),
             GestureDetector(
               onTap: () => vm.removeRecentSearch(keyword),
@@ -266,17 +263,15 @@ class _SearchViewState extends State<SearchView> {
         child: Text(
           keyword,
           style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF3D5AFE),
-              fontWeight: FontWeight.w500),
+            fontSize: 13,
+            color: Color(0xFF3D5AFE),
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
   }
 
-  // ───────────────────────────────────────────
-  // 검색 결과
-  // ───────────────────────────────────────────
   Widget _buildSearchResults(SearchViewModel vm) {
     if (_searchResults.isEmpty) {
       return Center(
@@ -285,11 +280,15 @@ class _SearchViewState extends State<SearchView> {
           children: [
             Icon(Icons.search_off, size: 52, color: Colors.grey[300]),
             const SizedBox(height: 16),
-            Text("'${vm.searchText}' 검색 결과가 없어요",
-                style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+            Text(
+              "'${vm.searchText}' ${'search.no_result'.tr()}",
+              style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+            ),
             const SizedBox(height: 8),
-            Text('다른 키워드로 검색해보세요',
-                style: TextStyle(fontSize: 12, color: Colors.grey[400])),
+            Text(
+              'search.no_result_hint'.tr(),
+              style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+            ),
           ],
         ),
       );
@@ -301,11 +300,12 @@ class _SearchViewState extends State<SearchView> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            '검색 결과 ${_searchResults.length}개',
+            'search.result_count'.tr(namedArgs: {'count': '${_searchResults.length}'}),
             style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500),
+              fontSize: 13,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         ..._searchResults.map((facility) => _buildResultItem(facility)),
@@ -344,14 +344,19 @@ class _SearchViewState extends State<SearchView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(facility['name'] ?? '',
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87)),
+                  Text(
+                    facility['name'] ?? '',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
                   const SizedBox(height: 3),
-                  Text(facility['addr'] ?? '',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                  Text(
+                    facility['addr'] ?? '',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                  ),
                 ],
               ),
             ),
@@ -359,17 +364,19 @@ class _SearchViewState extends State<SearchView> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Text(category,
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: color,
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    category,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: color,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(

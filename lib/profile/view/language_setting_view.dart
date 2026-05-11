@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
-// 언어 데이터 모델
 class LanguageItem {
-  final String code;   // 국가 코드 (KR, US, CN, JP)
-  final String name;   // 언어 이름 (한국어, English ...)
-  final String locale; // 실제 locale 코드 (ko, en, zh, ja)
+  final String code;
+  final String name;
+  final String locale;
 
   const LanguageItem({
     required this.code,
@@ -21,7 +23,6 @@ class LanguageSettingView extends StatefulWidget {
 }
 
 class _LanguageSettingViewState extends State<LanguageSettingView> {
-  // 지원 언어 목록
   final List<LanguageItem> _languages = const [
     LanguageItem(code: 'KR', name: '한국어', locale: 'ko'),
     LanguageItem(code: 'US', name: 'English', locale: 'en'),
@@ -29,17 +30,20 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     LanguageItem(code: 'JP', name: '日本語', locale: 'ja'),
   ];
 
-  // 현재 선택된 언어 (기본값: 한국어)
-  // 실제 구현 시 → profileViewModel.currentLanguage 로 교체
-  String _selectedLocale = 'ko';
+  late String _selectedLocale;
+
+  @override
+  void initState() {
+    super.initState();
+    // 현재 앱 언어로 초기값 설정
+    _selectedLocale = context.read<AuthViewModel>().selectedLanguage;
+  }
 
   void _onLanguageSelected(String locale) {
-    setState(() {
-      _selectedLocale = locale;
-    });
-    // 실제 구현 시:
-    // profileViewModel.changeLang(locale) → notifyListeners()
-    // 앱 전체 UI 언어 즉시 변경
+    setState(() => _selectedLocale = locale);
+    // 앱 전체 언어 즉시 변경
+    context.setLocale(Locale(locale));
+    context.read<AuthViewModel>().selectLanguage(locale);
   }
 
   @override
@@ -51,9 +55,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // AppBar: 뒤로가기 + 언어 설정 타이틀
-  // ───────────────────────────────────────────
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
@@ -67,9 +68,9 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
         children: [
           const Icon(Icons.language, color: Color(0xFF3D5AFE), size: 20),
           const SizedBox(width: 6),
-          const Text(
-            '언어 설정',
-            style: TextStyle(
+          Text(
+            'profile.language_setting'.tr(),
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
@@ -81,9 +82,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 언어 선택 리스트
-  // ───────────────────────────────────────────
   Widget _buildLanguageList() {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -97,9 +95,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 언어 아이템 카드
-  // ───────────────────────────────────────────
   Widget _buildLanguageItem(LanguageItem lang, bool isSelected) {
     return GestureDetector(
       onTap: () => _onLanguageSelected(lang.locale),
@@ -118,7 +113,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
         ),
         child: Row(
           children: [
-            // 국가 코드 (KR, US, CN, JP)
             SizedBox(
               width: 32,
               child: Text(
@@ -133,7 +127,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
               ),
             ),
             const SizedBox(width: 8),
-            // 언어 이름
             Expanded(
               child: Text(
                 lang.name,
@@ -147,7 +140,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
                 ),
               ),
             ),
-            // 선택된 언어에만 체크 표시
             if (isSelected)
               const Icon(
                 Icons.check,

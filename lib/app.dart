@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,15 +24,12 @@ class YeogiyoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ── 기존 팀원 A ViewModel ──
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityListViewModel()),
         ChangeNotifierProvider(create: (_) => FacilityDetailViewModel()),
         ChangeNotifierProvider(create: (_) => MapViewModel()),
-
-        // ── D파트 ViewModel 추가 ──
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
         ChangeNotifierProvider(create: (_) => FavoriteViewModel()),
         ChangeNotifierProvider(create: (_) => ReviewViewModel()),
@@ -41,6 +39,9 @@ class YeogiyoApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Yeogiyo - 여기요',
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         theme: ThemeData(
           colorSchemeSeed: AppColors.primary,
           useMaterial3: true,

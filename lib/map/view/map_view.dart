@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,8 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   Set<Polygon> _jongnoMaskPolygons = const <Polygon>{};
-  final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _mapController =
+      Completer<GoogleMapController>();
   bool _isLocating = false;
 
   late final cm.ClusterManager<MapFacility> _clusterManager;
@@ -86,7 +88,10 @@ class _MapViewState extends State<MapView> {
     final controller = await _mapController.future;
     final zoom = await controller.getZoomLevel();
     await controller.animateCamera(
-      CameraUpdate.newLatLngZoom(cluster.location, (zoom + 2).clamp(13.4, 17.8)),
+      CameraUpdate.newLatLngZoom(
+        cluster.location,
+        (zoom + 2).clamp(13.4, 17.8),
+      ),
     );
   }
 
@@ -116,12 +121,13 @@ class _MapViewState extends State<MapView> {
       ..strokeWidth = 4.5;
     canvas.drawCircle(center, radius, borderPaint);
 
-    final text =
-        count >= 1000 ? '${(count / 1000).toStringAsFixed(1)}k' : '$count';
+    final text = count >= 1000
+        ? '${(count / 1000).toStringAsFixed(1)}k'
+        : '$count';
     final fontSize = text.length <= 2
         ? 26.0 * scale
         : (text.length <= 3 ? 22.0 * scale : 18.0 * scale);
-    final painter = TextPainter(textDirection: TextDirection.ltr)
+    final painter = TextPainter(textDirection: ui.TextDirection.ltr)
       ..text = TextSpan(
         text: text,
         style: TextStyle(
@@ -177,15 +183,20 @@ class _MapViewState extends State<MapView> {
                             color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Icon(Icons.location_on_rounded, size: 18, color: AppColors.primary),
+                          child: const Icon(
+                            Icons.location_on_rounded,
+                            size: 18,
+                            color: AppColors.primary,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '종로구 지도',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.text,
-                          ),
+                          'map.title'.tr(),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.text,
+                              ),
                         ),
                       ],
                     ),
@@ -193,7 +204,7 @@ class _MapViewState extends State<MapView> {
                   IconButton(
                     onPressed: viewModel.isLoading ? null : viewModel.refresh,
                     icon: const Icon(Icons.refresh_rounded),
-                    tooltip: '새로고침',
+                    tooltip: 'map.refresh'.tr(),
                   ),
                 ],
               ),
@@ -282,7 +293,7 @@ class _MapViewState extends State<MapView> {
       if (!serviceEnabled) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('위치 서비스를 켜주세요.')),
+            SnackBar(content: Text('map.location_service_off'.tr())),
           );
         }
         return;
@@ -294,7 +305,7 @@ class _MapViewState extends State<MapView> {
         if (permission == LocationPermission.denied) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('위치 권한이 필요합니다.')),
+              SnackBar(content: Text('map.location_permission_denied'.tr())),
             );
           }
           return;
@@ -303,14 +314,16 @@ class _MapViewState extends State<MapView> {
       if (permission == LocationPermission.deniedForever) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('설정에서 위치 권한을 허용해주세요.')),
+            SnackBar(content: Text('map.location_permission_forever'.tr())),
           );
         }
         return;
       }
 
       final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
       final controller = await _mapController.future;
       await controller.animateCamera(
@@ -321,9 +334,9 @@ class _MapViewState extends State<MapView> {
       );
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('현재 위치를 가져오지 못했습니다.')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('map.location_error'.tr())));
       }
     } finally {
       if (mounted) setState(() => _isLocating = false);
@@ -376,7 +389,9 @@ class _MapViewState extends State<MapView> {
                       children: [
                         Expanded(
                           child: Text(
-                            '시설 목록 ${facilities.length}개',
+                            'map.facility_list_count'.tr(
+                              namedArgs: {'count': '${facilities.length}'},
+                            ),
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
@@ -391,10 +406,10 @@ class _MapViewState extends State<MapView> {
                   ),
                   Expanded(
                     child: facilities.isEmpty
-                        ? const Center(
+                        ? Center(
                             child: Text(
-                              '표시할 시설이 없습니다.',
-                              style: TextStyle(color: Color(0xFF64748B)),
+                              'map.no_facility'.tr(),
+                              style: const TextStyle(color: Color(0xFF64748B)),
                             ),
                           )
                         : ListView.separated(
@@ -536,11 +551,19 @@ class _MapSummary extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.format_list_bulleted_rounded, size: 18),
+                        const Icon(
+                          Icons.format_list_bulleted_rounded,
+                          size: 18,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           viewModel.errorMessage ??
-                              '${viewModel.filteredFacilities.length}개 시설',
+                              'map.facility_count'.tr(
+                                namedArgs: {
+                                  'count':
+                                      '${viewModel.filteredFacilities.length}',
+                                },
+                              ),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -553,7 +576,7 @@ class _MapSummary extends StatelessWidget {
                 ),
               ),
             )
-            : Card(
+          : Card(
               key: const ValueKey('selected-card'),
               elevation: 6,
               child: Padding(
@@ -636,7 +659,7 @@ class _MapSummary extends StatelessWidget {
                       width: double.infinity,
                       child: FilledButton(
                         onPressed: () => onOpenDetail(selectedFacility),
-                        child: const Text('시설 상세 보기'),
+                        child: Text('map.detail_button'.tr()),
                       ),
                     ),
                   ],
@@ -648,10 +671,7 @@ class _MapSummary extends StatelessWidget {
 }
 
 class _FacilityLogo extends StatelessWidget {
-  const _FacilityLogo({
-    required this.facility,
-    required this.viewModel,
-  });
+  const _FacilityLogo({required this.facility, required this.viewModel});
 
   final MapFacility facility;
   final MapViewModel viewModel;
@@ -672,22 +692,13 @@ class _FacilityLogo extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              category.bgColor,
-              option.color.withValues(alpha: 0.18),
-            ],
+            colors: [category.bgColor, option.color.withValues(alpha: 0.18)],
           ),
           borderRadius: BorderRadius.circular(18),
         ),
         child: Stack(
           children: [
-            Center(
-              child: Icon(
-                option.icon,
-                size: 30,
-                color: option.color,
-              ),
-            ),
+            Center(child: Icon(option.icon, size: 30, color: option.color)),
             Positioned(
               right: 8,
               bottom: 8,
@@ -705,11 +716,7 @@ class _FacilityLogo extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(
-                  option.icon,
-                  size: 11,
-                  color: option.color,
-                ),
+                child: Icon(option.icon, size: 11, color: option.color),
               ),
             ),
           ],
@@ -837,4 +844,3 @@ class _GpsButton extends StatelessWidget {
     );
   }
 }
-
