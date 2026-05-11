@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.5.5
   flutter_dotenv: ^6.0.0
   package_info_plus: ^10.0.0
+  google_maps_cluster_manager_2: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -45,5 +46,11 @@ flutter:
     - assets/jongno_childcare.json
     - assets/jongno_welfare.json
     - assets/jongno_restaurants.json
+    - assets/jongno_rated_restaurants.json
     - assets/jongno_culture.json
     - assets/jongno_government.json
+    - assets/YEOGIYO_LOGO.png
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/PretendardVariable.ttf

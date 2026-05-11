@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Places API call cache used by tool/build_rated_restaurants.dart
+tool/.places_cache/
+

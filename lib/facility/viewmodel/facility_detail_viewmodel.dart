@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../favorite/service/favorite_service.dart';
 import '../../review/service/review_service.dart';
+import '../model/ltc_program_model.dart';
+import '../model/ltc_staff_model.dart';
+import '../service/ltc_detail_service.dart';
 
 class FacilityDetailViewModel extends ChangeNotifier {
   final FavoriteService _favoriteService = FavoriteService();
   final ReviewService _reviewService = ReviewService();
+  final LtcDetailService _ltcService = LtcDetailService();
 
   Map<String, dynamic>? _facility;
   bool _isFavorite = false;
@@ -12,20 +16,57 @@ class FacilityDetailViewModel extends ChangeNotifier {
   List<Map<String, dynamic>> _myReviews = [];
   bool _isReviewLoading = false;
 
+  LtcStaffStatus? _ltcStaff;
+  List<LtcProgram> _ltcPrograms = const [];
+  LtcAcceptance? _ltcAcceptance;
+  bool _isLtcLoading = false;
+
   Map<String, dynamic>? get facility => _facility;
   bool get isFavorite => _isFavorite;
   List<Map<String, dynamic>> get reviews => _reviews;
   List<Map<String, dynamic>> get myReviews => _myReviews;
   bool get isReviewLoading => _isReviewLoading;
 
+  LtcStaffStatus? get ltcStaff => _ltcStaff;
+  List<LtcProgram> get ltcPrograms => _ltcPrograms;
+  LtcAcceptance? get ltcAcceptance => _ltcAcceptance;
+  bool get isLtcLoading => _isLtcLoading;
+
   void setFacility(Map<String, dynamic> f) {
     _facility = f;
     _isFavorite = false;
     _reviews = [];
     _myReviews = [];
+    _ltcStaff = null;
+    _ltcPrograms = const [];
+    _ltcAcceptance = null;
     notifyListeners();
     _checkFavorite(f['id']);
     loadReviews(f['id']);
+    _maybeLoadLtcDetail(f);
+  }
+
+  Future<void> _maybeLoadLtcDetail(Map<String, dynamic> f) async {
+    final sym = (f['longTermAdminSym'] ?? '').toString();
+    final code = (f['adminPttnCd'] ?? '').toString();
+    if (sym.isEmpty || code.isEmpty) return;
+
+    _isLtcLoading = true;
+    notifyListeners();
+    try {
+      final detail = await _ltcService.fetchDetail(
+        longTermAdminSym: sym,
+        adminPttnCd: code,
+      );
+      _ltcStaff = detail.staff;
+      _ltcPrograms = detail.programs;
+      _ltcAcceptance = detail.acceptance;
+    } catch (e) {
+      debugPrint('LTC 상세 로딩 실패: $e');
+    } finally {
+      _isLtcLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> loadReviews(String facilityId) async {

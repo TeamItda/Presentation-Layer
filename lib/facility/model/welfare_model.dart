@@ -9,6 +9,8 @@ class WelfareModel {
   final int staffCount;  // 직원 수
   final String tel;
   final String? homepage;
+  final String? longTermAdminSym; // NHIS 장기요양기관 기호 (API 조회용)
+  final String? adminPttnCd;      // 행정 패턴 코드 (B01/B03 등)
 
   const WelfareModel({
     required this.id,
@@ -21,6 +23,8 @@ class WelfareModel {
     required this.staffCount,
     required this.tel,
     this.homepage,
+    this.longTermAdminSym,
+    this.adminPttnCd,
   });
 
   // NHIS 장기요양기관 API 응답 파싱
@@ -51,6 +55,8 @@ class WelfareModel {
       staffCount: _toInt(data['staffCount']),
       tel: data['tel']?.toString() ?? '',
       homepage: data['homepage']?.toString(),
+      longTermAdminSym: (data['longTermAdminSym'] as String?)?.trim(),
+      adminPttnCd: (data['adminPttnCd'] as String?)?.trim(),
     );
   }
 

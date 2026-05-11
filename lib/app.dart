@@ -44,7 +44,13 @@ class YeogiyoApp extends StatelessWidget {
         theme: ThemeData(
           colorSchemeSeed: AppColors.primary,
           useMaterial3: true,
+          fontFamily: 'Pretendard',
           scaffoldBackgroundColor: AppColors.background,
+          textTheme: ThemeData(useMaterial3: true).textTheme.apply(
+            fontFamily: 'Pretendard',
+            bodyColor: AppColors.text,
+            displayColor: AppColors.text,
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.text,

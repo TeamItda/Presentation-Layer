@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
+    as cm;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -23,18 +26,137 @@ class _MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
   bool _isLocating = false;
 
+  late final cm.ClusterManager<MapFacility> _clusterManager;
+  Set<Marker> _markers = const <Marker>{};
+  List<MapFacility>? _lastFacilities;
+
   @override
   void initState() {
     super.initState();
+    _clusterManager = cm.ClusterManager<MapFacility>(
+      <MapFacility>[],
+      _onMarkersUpdated,
+      markerBuilder: _buildClusterMarker,
+      stopClusteringZoom: 17.0,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(context.read<MapViewModel>().ensureInitialized());
     });
     unawaited(_loadMaskPolygons());
   }
 
+  void _onMarkersUpdated(Set<Marker> markers) {
+    if (!mounted) return;
+    setState(() => _markers = markers);
+  }
+
+  Future<Marker> _buildClusterMarker(cm.Cluster<MapFacility> cluster) async {
+    if (cluster.isMultiple) {
+      final icon = await _buildClusterBitmap(cluster.count);
+      return Marker(
+        markerId: MarkerId(cluster.getId()),
+        position: cluster.location,
+        icon: icon,
+        onTap: () => _zoomIntoCluster(cluster),
+      );
+    }
+
+    final viewModel = context.read<MapViewModel>();
+    final facility = cluster.items.first;
+    final option = viewModel.optionFor(facility.type);
+    return Marker(
+      markerId: MarkerId(facility.id),
+      position: facility.position,
+      icon: viewModel.iconFor(facility.type) ?? BitmapDescriptor.defaultMarker,
+      onTap: () => viewModel.selectFacility(facility.id),
+      infoWindow: InfoWindow(
+        title: facility.name,
+        snippet: [
+          option.label,
+          if (facility.subtype != null && facility.subtype!.isNotEmpty)
+            facility.subtype!,
+          if (facility.address != null && facility.address!.isNotEmpty)
+            facility.address!,
+        ].join(' · '),
+      ),
+    );
+  }
+
+  Future<void> _zoomIntoCluster(cm.Cluster<MapFacility> cluster) async {
+    final controller = await _mapController.future;
+    final zoom = await controller.getZoomLevel();
+    await controller.animateCamera(
+      CameraUpdate.newLatLngZoom(cluster.location, (zoom + 2).clamp(13.4, 17.8)),
+    );
+  }
+
+  Future<BitmapDescriptor> _buildClusterBitmap(int count) async {
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    final scale = count >= 100 ? 1.15 : (count >= 20 ? 1.05 : 1.0);
+    final size = Size(96 * scale, 96 * scale);
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = 30.0 * scale;
+
+    final shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.22)
+      ..maskFilter = const ui.MaskFilter.blur(BlurStyle.normal, 4);
+    canvas.drawCircle(center.translate(0, 3), radius, shadowPaint);
+
+    final outerPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.22);
+    canvas.drawCircle(center, radius * 1.22, outerPaint);
+
+    final innerPaint = Paint()..color = AppColors.primary;
+    canvas.drawCircle(center, radius, innerPaint);
+
+    final borderPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.5;
+    canvas.drawCircle(center, radius, borderPaint);
+
+    final text =
+        count >= 1000 ? '${(count / 1000).toStringAsFixed(1)}k' : '$count';
+    final fontSize = text.length <= 2
+        ? 26.0 * scale
+        : (text.length <= 3 ? 22.0 * scale : 18.0 * scale);
+    final painter = TextPainter(textDirection: TextDirection.ltr)
+      ..text = TextSpan(
+        text: text,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.w800,
+          color: Colors.white,
+        ),
+      )
+      ..layout();
+    painter.paint(
+      canvas,
+      Offset(center.dx - painter.width / 2, center.dy - painter.height / 2),
+    );
+
+    final image = await recorder.endRecording().toImage(
+      size.width.toInt(),
+      size.height.toInt(),
+    );
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+    return BitmapDescriptor.bytes(
+      bytes!.buffer.asUint8List(),
+      imagePixelRatio: 2,
+      width: (42 * scale),
+      height: (42 * scale),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MapViewModel>();
+    final currentFacilities = viewModel.filteredFacilities;
+    if (!identical(_lastFacilities, currentFacilities)) {
+      _lastFacilities = currentFacilities;
+      _clusterManager.setItems(currentFacilities);
+    }
 
     return ColoredBox(
       color: Colors.white,
@@ -83,10 +205,22 @@ class _MapViewState extends State<MapView> {
                   GoogleMap(
                     initialCameraPosition: viewModel.initialCameraPosition,
                     minMaxZoomPreference: const MinMaxZoomPreference(
-                      13.4,
+                      12.5,
                       17.8,
                     ),
-                    markers: viewModel.markers,
+                    cameraTargetBounds: CameraTargetBounds(
+                      LatLngBounds(
+                        southwest: const LatLng(
+                          AppConstants.jongnoSouthLat,
+                          AppConstants.jongnoWestLng,
+                        ),
+                        northeast: const LatLng(
+                          AppConstants.jongnoNorthLat,
+                          AppConstants.jongnoEastLng,
+                        ),
+                      ),
+                    ),
+                    markers: _markers,
                     polygons: _jongnoMaskPolygons,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
@@ -96,7 +230,10 @@ class _MapViewState extends State<MapView> {
                       if (!_mapController.isCompleted) {
                         _mapController.complete(controller);
                       }
+                      _clusterManager.setMapId(controller.mapId);
                     },
+                    onCameraMove: _clusterManager.onCameraMove,
+                    onCameraIdle: _clusterManager.updateMap,
                     onTap: (_) => viewModel.clearSelectedFacility(),
                   ),
                   if (viewModel.isLoading)
@@ -197,12 +334,8 @@ class _MapViewState extends State<MapView> {
     final polygons = await JongnoBoundaryOverlay.buildMaskPolygons(
       strokeColor: const Color(0xFF2563EB),
     );
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _jongnoMaskPolygons = polygons;
-    });
+    if (!mounted) return;
+    setState(() => _jongnoMaskPolygons = polygons);
   }
 
   void _showFacilityListSheet(
@@ -272,6 +405,14 @@ class _MapViewState extends State<MapView> {
                                 const SizedBox(height: 8),
                             itemBuilder: (context, index) {
                               final facility = facilities[index];
+                              final subtitleParts = <String>[
+                                if (facility.subtype != null &&
+                                    facility.subtype!.isNotEmpty)
+                                  facility.subtype!,
+                                if (facility.address != null &&
+                                    facility.address!.isNotEmpty)
+                                  facility.address!,
+                              ];
                               return ListTile(
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 14,
@@ -290,7 +431,7 @@ class _MapViewState extends State<MapView> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  facility.address ?? '',
+                                  subtitleParts.join(' · '),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -452,9 +593,14 @@ class _MapSummary extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(999),
                                 ),
                                 child: Text(
-                                  viewModel
-                                      .optionFor(selectedFacility.type)
-                                      .label,
+                                  [
+                                    viewModel
+                                        .optionFor(selectedFacility.type)
+                                        .label,
+                                    if (selectedFacility.subtype != null &&
+                                        selectedFacility.subtype!.isNotEmpty)
+                                      selectedFacility.subtype!,
+                                  ].join(' · '),
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
@@ -691,3 +837,4 @@ class _GpsButton extends StatelessWidget {
     );
   }
 }
+
