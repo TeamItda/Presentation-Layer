@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -37,11 +38,9 @@ class _SignupViewState extends State<SignupView> {
     super.dispose();
   }
 
-  // 비밀번호 확인 일치 여부
   bool get _passwordMatch =>
       _passwordController.text == _confirmPasswordController.text;
 
-  // 가입 버튼 활성화 조건
   bool get _canSubmit =>
       _agreeRequired &&
           _emailController.text.isNotEmpty &&
@@ -64,9 +63,9 @@ class _SignupViewState extends State<SignupView> {
           icon: const Icon(Icons.arrow_back_ios_rounded),
           onPressed: () => context.go('/login'),
         ),
-        title: const Text(
-          '회원가입',
-          style: TextStyle(
+        title: Text(
+          'auth.signup'.tr(),
+          style: const TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w600,
             color: AppColors.text,
@@ -80,56 +79,50 @@ class _SignupViewState extends State<SignupView> {
           children: [
             const SizedBox(height: 24),
 
-            // 이메일
-            _buildLabel('이메일'),
+            _buildLabel('auth.email'.tr()),
             _buildTextField(
               controller: _emailController,
-              hint: 'email@example.com',
+              hint: 'auth.email_hint'.tr(),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
 
-            // 비밀번호
-            _buildLabel('비밀번호'),
+            _buildLabel('auth.password'.tr()),
             _buildPasswordField(
               controller: _passwordController,
-              hint: '비밀번호 (6자 이상)',
+              hint: 'auth.password_hint_short'.tr(),
               obscure: _obscurePassword,
               onToggle: () =>
                   setState(() => _obscurePassword = !_obscurePassword),
             ),
             const SizedBox(height: 16),
 
-            // 비밀번호 확인
-            _buildLabel('비밀번호 확인'),
+            _buildLabel('auth.confirm_password'.tr()),
             _buildPasswordField(
               controller: _confirmPasswordController,
-              hint: '비밀번호를 다시 입력하세요',
+              hint: 'auth.confirm_password_hint'.tr(),
               obscure: _obscureConfirm,
               onToggle: () =>
                   setState(() => _obscureConfirm = !_obscureConfirm),
             ),
-            // 비밀번호 불일치 경고
             if (_confirmPasswordController.text.isNotEmpty && !_passwordMatch)
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
                 child: Text(
-                  '비밀번호가 일치하지 않습니다.',
-                  style: TextStyle(color: Colors.red, fontSize: 12),
+                  'auth.password_mismatch'.tr(),
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
                 ),
               ),
             const SizedBox(height: 16),
 
-            // 닉네임
-            _buildLabel('닉네임'),
+            _buildLabel('auth.nickname'.tr()),
             _buildTextField(
               controller: _nicknameController,
-              hint: '사용할 닉네임을 입력하세요',
+              hint: 'auth.nickname_hint'.tr(),
             ),
             const SizedBox(height: 24),
 
-            // 선호 언어 선택
-            _buildLabel('선호 언어'),
+            _buildLabel('auth.preferred_language'.tr()),
             const SizedBox(height: 8),
             Consumer<AuthViewModel>(
               builder: (context, vm, _) => Row(
@@ -137,15 +130,16 @@ class _SignupViewState extends State<SignupView> {
                   final isSelected = vm.selectedLanguage == lang['code'];
                   return Expanded(
                     child: GestureDetector(
-                      onTap: () => vm.selectLanguage(lang['code']!),
+                      onTap: () {
+                        vm.selectLanguage(lang['code']!);
+                        context.setLocale(Locale(lang['code']!));
+                      },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         margin: const EdgeInsets.only(right: 8),
                         padding: const EdgeInsets.symmetric(vertical: 11),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary
-                              : Colors.white,
+                          color: isSelected ? AppColors.primary : Colors.white,
                           border: Border.all(
                             color: isSelected
                                 ? AppColors.primary
@@ -158,9 +152,7 @@ class _SignupViewState extends State<SignupView> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 13,
-                            color: isSelected
-                                ? Colors.white
-                                : AppColors.subText,
+                            color: isSelected ? Colors.white : AppColors.subText,
                             fontWeight: isSelected
                                 ? FontWeight.bold
                                 : FontWeight.normal,
@@ -174,11 +166,8 @@ class _SignupViewState extends State<SignupView> {
             ),
             const SizedBox(height: 24),
 
-            // 약관 동의
-            _buildLabel('약관 동의'),
+            _buildLabel('auth.terms'.tr()),
             const SizedBox(height: 8),
-
-            // 필수 약관
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.border),
@@ -187,7 +176,7 @@ class _SignupViewState extends State<SignupView> {
               child: Column(
                 children: [
                   _buildCheckboxRow(
-                    label: '(필수) 이용약관에 동의합니다.',
+                    label: 'auth.terms_required'.tr(),
                     value: _agreeRequired,
                     onChanged: (v) =>
                         setState(() => _agreeRequired = v ?? false),
@@ -195,7 +184,7 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   const Divider(height: 1, color: AppColors.border),
                   _buildCheckboxRow(
-                    label: '(선택) 마케팅 정보 수신에 동의합니다.',
+                    label: 'auth.terms_optional'.tr(),
                     value: _agreeOptional,
                     onChanged: (v) =>
                         setState(() => _agreeOptional = v ?? false),
@@ -205,7 +194,6 @@ class _SignupViewState extends State<SignupView> {
             ),
             const SizedBox(height: 32),
 
-            // 에러 메시지
             if (vm.errorMessage != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -216,21 +204,20 @@ class _SignupViewState extends State<SignupView> {
                 ),
               ),
 
-            // 가입 완료 버튼
             SizedBox(
               height: 52,
               child: ElevatedButton(
                 onPressed: (!_canSubmit || vm.isLoading)
                     ? null
                     : () async {
-                      final success = await vm.signUp(
-                        email: _emailController.text.trim(),
-                        password: _passwordController.text.trim(),
-                        nickname: _nicknameController.text.trim(),
-                        language: vm.selectedLanguage,
-                      );
-                      if (success && mounted) context.go('/home');
-                    },
+                  final success = await vm.signUp(
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text.trim(),
+                    nickname: _nicknameController.text.trim(),
+                    language: vm.selectedLanguage,
+                  );
+                  if (success && mounted) context.go('/home');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
@@ -249,9 +236,9 @@ class _SignupViewState extends State<SignupView> {
                     strokeWidth: 2.5,
                   ),
                 )
-                    : const Text(
-                  '가입 완료',
-                  style: TextStyle(
+                    : Text(
+                  'auth.signup_complete'.tr(),
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -264,8 +251,6 @@ class _SignupViewState extends State<SignupView> {
       ),
     );
   }
-
-  // --- 헬퍼 위젯들 ---
 
   Widget _buildLabel(String text) {
     return Padding(
@@ -340,9 +325,7 @@ class _SignupViewState extends State<SignupView> {
         const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         suffixIcon: IconButton(
           icon: Icon(
-            obscure
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
+            obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
             color: AppColors.subText,
           ),
           onPressed: onToggle,
@@ -370,10 +353,7 @@ class _SignupViewState extends State<SignupView> {
         Expanded(
           child: Text(
             label,
-            style: const TextStyle(
-              fontSize: 13,
-              color: AppColors.text,
-            ),
+            style: const TextStyle(fontSize: 13, color: AppColors.text),
           ),
         ),
         if (showDetail)
@@ -384,12 +364,9 @@ class _SignupViewState extends State<SignupView> {
             style: TextButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 8),
             ),
-            child: const Text(
-              '보기',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.primary,
-              ),
+            child: Text(
+              'auth.terms_view'.tr(),
+              style: const TextStyle(fontSize: 12, color: AppColors.primary),
             ),
           ),
       ],

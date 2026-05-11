@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,12 +32,8 @@ class _FacilityListViewState extends State<FacilityListView> {
     final polygons = await JongnoBoundaryOverlay.buildMaskPolygons(
       strokeColor: AppColors.primary,
     );
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _jongnoMaskPolygons = polygons;
-    });
+    if (!mounted) return;
+    setState(() => _jongnoMaskPolygons = polygons);
   }
 
   @override
@@ -93,7 +90,7 @@ class _FacilityListViewState extends State<FacilityListView> {
                 ),
               ),
               Text(
-                '📍 종로구 · $count개',
+                'facility_list.location'.tr(namedArgs: {'count': '$count'}),
                 style: const TextStyle(fontSize: 11, color: AppColors.subText),
               ),
             ],
@@ -108,11 +105,11 @@ class _FacilityListViewState extends State<FacilityListView> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
         children: [
-          _toggleButton('📋 리스트', vm.viewMode == 'list', cat.color, () {
+          _toggleButton('facility_list.list_view'.tr(), vm.viewMode == 'list', cat.color, () {
             if (vm.viewMode != 'list') vm.toggleViewMode();
           }),
           const SizedBox(width: 6),
-          _toggleButton('🗺 지도', vm.viewMode == 'map', cat.color, () {
+          _toggleButton('facility_list.map_view'.tr(), vm.viewMode == 'map', cat.color, () {
             if (vm.viewMode != 'map') vm.toggleViewMode();
           }),
         ],
@@ -120,12 +117,7 @@ class _FacilityListViewState extends State<FacilityListView> {
     );
   }
 
-  Widget _toggleButton(
-    String label,
-    bool active,
-    Color color,
-    VoidCallback onTap,
-  ) {
+  Widget _toggleButton(String label, bool active, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -160,10 +152,8 @@ class _FacilityListViewState extends State<FacilityListView> {
           ),
           const SizedBox(height: 12),
           ElevatedButton(
-            onPressed: () => context
-                .read<FacilityListViewModel>()
-                .loadFacilities(widget.categoryId),
-            child: const Text('다시 시도'),
+            onPressed: () => context.read<FacilityListViewModel>().loadFacilities(widget.categoryId),
+            child: Text('facility_list.retry'.tr()),
           ),
         ],
       ),
@@ -177,29 +167,23 @@ class _FacilityListViewState extends State<FacilityListView> {
         children: [
           Text(cat.icon, style: const TextStyle(fontSize: 36)),
           const SizedBox(height: 8),
-          const Text(
-            '등록된 시설이 없습니다',
-            style: TextStyle(fontSize: 13, color: AppColors.subText),
+          Text(
+            'facility_list.empty'.tr(),
+            style: const TextStyle(fontSize: 13, color: AppColors.subText),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildListView(
-    BuildContext context,
-    FacilityListViewModel vm,
-    Category cat,
-  ) {
+  Widget _buildListView(BuildContext context, FacilityListViewModel vm, Category cat) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       itemCount: vm.facilities.length,
       itemBuilder: (context, index) {
         final f = vm.facilities[index];
         return GestureDetector(
-          onTap: () => context.push(
-            '/facility/${f['id']}?category=${widget.categoryId}',
-          ),
+          onTap: () => context.push('/facility/${f['id']}?category=${widget.categoryId}'),
           child: Container(
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -216,61 +200,34 @@ class _FacilityListViewState extends State<FacilityListView> {
                     children: [
                       Text(
                         f['name'] ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text,
-                        ),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.text),
                       ),
                       const SizedBox(height: 3),
                       Text(
                         f['addr'] ?? '',
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.subText,
-                        ),
+                        style: const TextStyle(fontSize: 11, color: AppColors.subText),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 3),
                       if (f['tel'] != null && f['tel'].toString().isNotEmpty)
-                        Text(
-                          '📞 ${f['tel']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                            color: AppColors.primary,
-                          ),
-                        ),
+                        Text('📞 ${f['tel']}', style: const TextStyle(fontSize: 10, color: AppColors.primary)),
                       if (f['type'] != null && f['type'].toString().isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 1,
-                            ),
-                            decoration: BoxDecoration(
-                              color: cat.bgColor,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                            decoration: BoxDecoration(color: cat.bgColor, borderRadius: BorderRadius.circular(4)),
                             child: Text(
                               f['type'].toString(),
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: cat.color,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontSize: 9, color: cat.color, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
                     ],
                   ),
                 ),
-                const Icon(
-                  Icons.chevron_right,
-                  size: 18,
-                  color: AppColors.subText,
-                ),
+                const Icon(Icons.chevron_right, size: 18, color: AppColors.subText),
               ],
             ),
           ),
@@ -283,13 +240,10 @@ class _FacilityListViewState extends State<FacilityListView> {
     final facilities = vm.mappableFacilities;
     final initialTarget = facilities.isNotEmpty
         ? LatLng(
-            (facilities.first['lat'] as num).toDouble(),
-            (facilities.first['lng'] as num).toDouble(),
-          )
-        : const LatLng(
-            AppConstants.jongnoCenterLat,
-            AppConstants.jongnoCenterLng,
-          );
+      (facilities.first['lat'] as num).toDouble(),
+      (facilities.first['lng'] as num).toDouble(),
+    )
+        : const LatLng(AppConstants.jongnoCenterLat, AppConstants.jongnoCenterLng);
 
     final markers = facilities.map((facility) {
       return Marker(
@@ -298,9 +252,7 @@ class _FacilityListViewState extends State<FacilityListView> {
           (facility['lat'] as num).toDouble(),
           (facility['lng'] as num).toDouble(),
         ),
-        onTap: () => context.push(
-          '/facility/${facility['id']}?category=${widget.categoryId}',
-        ),
+        onTap: () => context.push('/facility/${facility['id']}?category=${widget.categoryId}'),
         infoWindow: InfoWindow(
           title: facility['name']?.toString() ?? '',
           snippet: facility['addr']?.toString(),
@@ -311,10 +263,7 @@ class _FacilityListViewState extends State<FacilityListView> {
     return Stack(
       children: [
         GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: initialTarget,
-            zoom: 14,
-          ),
+          initialCameraPosition: CameraPosition(target: initialTarget, zoom: 14),
           minMaxZoomPreference: const MinMaxZoomPreference(13.2, 18),
           markers: markers,
           polygons: _jongnoMaskPolygons,
@@ -330,12 +279,11 @@ class _FacilityListViewState extends State<FacilityListView> {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
-                '종로구 ${cat.name} 지도 · ${facilities.length}개 표시',
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
-                ),
+                'facility_list.map_label'.tr(namedArgs: {
+                  'name': cat.name,
+                  'count': '${facilities.length}',
+                }),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text),
               ),
             ),
           ),

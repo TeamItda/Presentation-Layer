@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,41 +20,30 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ===== 상단: 위치 + 검색 =====
               _buildHeader(context),
               const SizedBox(height: 4),
-
-              // ===== 종로구 생활 안내 =====
-              const Text(
-                '종로구 생활 안내',
-                style: TextStyle(
+              Text(
+                'home.title'.tr(),
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
                   color: AppColors.text,
                 ),
               ),
               const SizedBox(height: 14),
-
-              // ===== 8개 카테고리 그리드 =====
               _buildCategoryGrid(context),
               const SizedBox(height: 16),
-
-              // ===== AI 도우미 배너 =====
               _buildAiBanner(context),
               const SizedBox(height: 18),
-
-              // ===== 종로구 대표 시설 =====
-              const Text(
-                '📌 종로구 대표 시설',
-                style: TextStyle(
+              Text(
+                'home.featured'.tr(),
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: AppColors.text,
                 ),
               ),
               const SizedBox(height: 8),
-
-              // ===== 추천 시설 리스트 =====
               ...vm.featuredFacilities.map((f) => _buildFacilityCard(context, f)),
             ],
           ),
@@ -70,9 +60,9 @@ class HomeView extends StatelessWidget {
           children: [
             const Text('📍', style: TextStyle(fontSize: 14)),
             const SizedBox(width: 4),
-            const Text(
-              '종로구',
-              style: TextStyle(
+            Text(
+              'home.region'.tr(),
+              style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
@@ -85,9 +75,9 @@ class HomeView extends StatelessWidget {
                 color: const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
-                '서울특별시',
-                style: TextStyle(fontSize: 10, color: AppColors.subText),
+              child: Text(
+                'home.city'.tr(),
+                style: const TextStyle(fontSize: 10, color: AppColors.subText),
               ),
             ),
           ],
@@ -143,7 +133,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${cat.count}개',
+                  '${cat.count}${'home.count_suffix'.tr()}',
                   style: const TextStyle(fontSize: 9, color: AppColors.subText),
                 ),
               ],
@@ -179,21 +169,21 @@ class HomeView extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 14),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AI 생활 도우미',
-                  style: TextStyle(
+                  'home.ai_title'.tr(),
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
-                  '종로구 궁금한 건 뭐든 물어보세요!',
-                  style: TextStyle(
+                  'home.ai_subtitle'.tr(),
+                  style: const TextStyle(
                     fontSize: 11,
                     color: Color(0xFFD1FAE5),
                   ),
@@ -227,12 +217,14 @@ class HomeView extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                           color: cat.bgColor,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Text(cat.icon, style: const TextStyle(fontSize: 10)),
+                        child: Text(
+                            cat.icon, style: const TextStyle(fontSize: 10)),
                       ),
                       const SizedBox(width: 6),
                       Expanded(
@@ -251,16 +243,19 @@ class HomeView extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     f['addr'],
-                    style: const TextStyle(fontSize: 11, color: AppColors.subText),
+                    style: const TextStyle(
+                        fontSize: 11, color: AppColors.subText),
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      const Icon(Icons.star, size: 12, color: Color(0xFFF59E0B)),
+                      const Icon(Icons.star,
+                          size: 12, color: Color(0xFFF59E0B)),
                       const SizedBox(width: 2),
                       Text(
                         '${f['rating']}',
-                        style: const TextStyle(fontSize: 11, color: Color(0xFFF59E0B)),
+                        style: const TextStyle(
+                            fontSize: 11, color: Color(0xFFF59E0B)),
                       ),
                     ],
                   ),

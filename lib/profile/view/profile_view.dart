@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    // 실제 유저 데이터 불러오기
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProfileViewModel>().loadUserData();
     });
@@ -58,9 +58,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 상단 타이틀 "프로필"
-  // ───────────────────────────────────────────
   Widget _buildHeader() {
     return Container(
       color: Colors.white,
@@ -69,9 +66,9 @@ class _ProfileViewState extends State<ProfileView> {
         children: [
           const Icon(Icons.person, size: 22, color: Colors.black87),
           const SizedBox(width: 8),
-          const Text(
-            '프로필',
-            style: TextStyle(
+          Text(
+            'profile.title'.tr(),
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
@@ -82,9 +79,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 사용자 정보 카드 (실제 Firebase Auth 데이터)
-  // ───────────────────────────────────────────
   Widget _buildUserCard(BuildContext context) {
     final vm = context.watch<AuthViewModel>();
     return Container(
@@ -109,7 +103,7 @@ class _ProfileViewState extends State<ProfileView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                vm.nickname.isEmpty ? '이름 없음' : vm.nickname,
+                vm.nickname.isEmpty ? 'profile.no_name'.tr() : vm.nickname,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -128,9 +122,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 메뉴 그룹 (실제 개수 데이터 연결)
-  // ───────────────────────────────────────────
   Widget _buildMenuGroup(BuildContext context, ProfileViewModel vm) {
     return Container(
       decoration: BoxDecoration(
@@ -143,7 +134,7 @@ class _ProfileViewState extends State<ProfileView> {
             context,
             icon: Icons.language,
             iconColor: const Color(0xFF3D5AFE),
-            title: '언어 설정',
+            title: 'profile.language_setting'.tr(),
             trailingText: vm.currentLanguage,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const LanguageSettingView()),
@@ -154,8 +145,8 @@ class _ProfileViewState extends State<ProfileView> {
             context,
             icon: Icons.edit_note,
             iconColor: const Color(0xFFFF7043),
-            title: '내가 쓴 후기',
-            trailingText: '${vm.reviewCount}개',
+            title: 'profile.my_reviews'.tr(),
+            trailingText: '${vm.reviewCount}${'profile.count_suffix'.tr()}',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const MyReviewsView()),
             ),
@@ -165,8 +156,8 @@ class _ProfileViewState extends State<ProfileView> {
             context,
             icon: Icons.favorite,
             iconColor: const Color(0xFFE53935),
-            title: '즐겨찾기',
-            trailingText: '${vm.favoriteCount}개',
+            title: 'profile.favorites'.tr(),
+            trailingText: '${vm.favoriteCount}${'profile.count_suffix'.tr()}',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => const FavoriteView(showBackButton: true),
@@ -178,7 +169,7 @@ class _ProfileViewState extends State<ProfileView> {
             context,
             icon: Icons.info_outline,
             iconColor: const Color(0xFF1E88E5),
-            title: '앱 정보',
+            title: 'profile.app_info'.tr(),
             trailingText: '',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const AppInfoView()),
@@ -190,7 +181,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  // 메뉴 아이템 (재사용)
   Widget _buildMenuItem(
       BuildContext context, {
         required IconData icon,
@@ -243,9 +233,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 로그아웃 버튼
-  // ───────────────────────────────────────────
   Widget _buildLogoutButton(BuildContext context) {
     return GestureDetector(
       onTap: () async {
@@ -254,25 +241,28 @@ class _ProfileViewState extends State<ProfileView> {
           builder: (ctx) => AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16)),
-            title: const Text(
-              '로그아웃',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            title: Text(
+              'profile.logout'.tr(),
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w700),
             ),
-            content: const Text(
-              '정말 로그아웃 하시겠어요?',
-              style: TextStyle(fontSize: 14, color: Colors.black54),
+            content: Text(
+              'profile.logout_confirm'.tr(),
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(false),
-                child:
-                Text('취소', style: TextStyle(color: Colors.grey[600])),
+                child: Text(
+                  'common.cancel'.tr(),
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.of(ctx).pop(true),
-                child: const Text(
-                  '로그아웃',
-                  style: TextStyle(
+                child: Text(
+                  'profile.logout'.tr(),
+                  style: const TextStyle(
                     color: Color(0xFFE53935),
                     fontWeight: FontWeight.w600,
                   ),
@@ -295,10 +285,10 @@ class _ProfileViewState extends State<ProfileView> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            '로그아웃',
-            style: TextStyle(
+            'profile.logout'.tr(),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Color(0xFFE53935),

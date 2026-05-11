@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -143,62 +145,16 @@ class _ChatViewState extends State<ChatView> {
     ],
   };
 
-  String _faqTitle(String lang) {
-    switch (lang) {
-      case 'en':
-        return 'Frequently Asked Questions';
-      case 'zh':
-        return '常见问题';
-      case 'ja':
-        return 'よくある質問';
-      default:
-        return '자주 묻는 질문';
-    }
-  }
 
   String _todayText() {
     final now = DateTime.now();
-    return '${now.year}년 ${now.month}월 ${now.day}일';
+    return 'chat.date_format'.tr(namedArgs: {
+      'year': '${now.year}',
+      'month': '${now.month}',
+      'day': '${now.day}',
+    });
   }
 
-  String _loadingText(String lang) {
-    switch (lang) {
-      case 'en':
-        return 'AI is writing a response...';
-      case 'zh':
-        return 'AI 正在生成回答...';
-      case 'ja':
-        return 'AIが回答を作成しています...';
-      default:
-        return 'AI가 답변을 작성 중입니다...';
-    }
-  }
-
-  String _copyTooltip(String lang) {
-    switch (lang) {
-      case 'en':
-        return 'Copy';
-      case 'zh':
-        return '复制';
-      case 'ja':
-        return 'コピー';
-      default:
-        return '복사';
-    }
-  }
-
-  String _copiedMessage(String lang) {
-    switch (lang) {
-      case 'en':
-        return 'Answer copied.';
-      case 'zh':
-        return '回答已复制。';
-      case 'ja':
-        return '回答をコピーしました。';
-      default:
-        return '답변이 복사되었습니다.';
-    }
-  }
 
   void _showFaqBottomSheet(String category, List<String> questions) {
     showModalBottomSheet(
@@ -257,16 +213,16 @@ class _ChatViewState extends State<ChatView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           children: [
             CircleAvatar(radius: 16, child: Icon(Icons.smart_toy, size: 18)),
             SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('AI 도우미', style: TextStyle(fontSize: 16)),
+                Text('chat.title'.tr(), style: const TextStyle(fontSize: 16)),
                 Text(
-                  '온라인',
+                  'chat.online'.tr(),
                   style: TextStyle(fontSize: 11, color: Colors.green),
                 ),
               ],
@@ -292,6 +248,8 @@ class _ChatViewState extends State<ChatView> {
                         : (value) {
                             if (value == null) return;
                             context.read<ChatViewModel>().changeLang(value);
+                            context.setLocale(Locale(value));           // ← 이 줄 추가
+                            context.read<AuthViewModel>().selectLanguage(value); // ← 이 줄 추가
                           },
                   ),
                 ),
@@ -379,7 +337,7 @@ class _ChatViewState extends State<ChatView> {
                         Padding(
                           padding: const EdgeInsets.only(left: 4, bottom: 4),
                           child: IconButton(
-                            tooltip: _copyTooltip(vm.selectedLang),
+                            tooltip: 'chat.copy'.tr(),
                             onPressed: () {
                               Clipboard.setData(
                                 ClipboardData(text: msg['text'] ?? ''),
@@ -388,7 +346,7 @@ class _ChatViewState extends State<ChatView> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    _copiedMessage(vm.selectedLang),
+                                      'chat.copied'.tr(),
                                   ),
                                   duration: const Duration(seconds: 1),
                                 ),
@@ -415,14 +373,14 @@ class _ChatViewState extends State<ChatView> {
           if (vm.isLoading)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Text(_loadingText(vm.selectedLang)),
+              child: Text('chat.loading'.tr()),
             ),
 
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
             child: Center(
               child: Text(
-                _faqTitle(vm.selectedLang),
+                'chat.faq_title'.tr(),
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -468,7 +426,7 @@ class _ChatViewState extends State<ChatView> {
                       controller: _controller,
                       onSubmitted: (_) => _send(),
                       decoration: InputDecoration(
-                        hintText: '메시지를 입력하세요',
+                        hintText: 'chat.input_hint'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),

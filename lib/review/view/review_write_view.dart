@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../review/viewmodel/review_viewmodel.dart';
@@ -35,7 +36,7 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     final vm = context.read<ReviewViewModel>();
     final success = await vm.submitReview(
       facilityId: widget.facilityId,
-      facilityName: widget.facilityName ?? '시설 후기',
+      facilityName: widget.facilityName ?? 'review.default_facility'.tr(),
       rating: _selectedRating,
       content: _reviewController.text.trim(),
     );
@@ -45,11 +46,10 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('후기가 등록되었어요 😊'),
+          content: Text('review.submit_success'.tr()),
           backgroundColor: const Color(0xFF3D5AFE),
           behavior: SnackBarBehavior.floating,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           margin: const EdgeInsets.all(16),
           duration: const Duration(seconds: 2),
         ),
@@ -58,11 +58,10 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('후기 등록에 실패했어요. 다시 시도해주세요.'),
+          content: Text('review.submit_fail'.tr()),
           backgroundColor: const Color(0xFFE53935),
           behavior: SnackBarBehavior.floating,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           margin: const EdgeInsets.all(16),
         ),
       );
@@ -82,8 +81,7 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
           padding: EdgeInsets.zero,
           child: Container(
             margin: const EdgeInsets.all(16),
-            padding:
-            const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -115,15 +113,18 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
         icon: const Icon(Icons.arrow_back, color: Colors.black87),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      title: const Row(
+      title: Row(
         children: [
-          Text('✍️', style: TextStyle(fontSize: 18)),
-          SizedBox(width: 6),
-          Text('후기 작성',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87)),
+          const Text('✍️', style: TextStyle(fontSize: 18)),
+          const SizedBox(width: 6),
+          Text(
+            'review.write_title'.tr(),
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
       titleSpacing: 0,
@@ -138,16 +139,19 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     return Column(
       children: [
         Text(
-          widget.facilityName ?? '시설 후기',
+          widget.facilityName ?? 'review.default_facility'.tr(),
           style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: Colors.black87),
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            color: Colors.black87,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 6),
-        Text('별점을 선택해주세요',
-            style: TextStyle(fontSize: 13, color: Colors.grey[500])),
+        Text(
+          'review.select_rating'.tr(),
+          style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+        ),
       ],
     );
   }
@@ -160,19 +164,14 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
         final isSelected = starIndex <= _selectedRating;
         return GestureDetector(
           onTap: () => setState(() {
-            _selectedRating =
-            _selectedRating == starIndex ? 0 : starIndex;
+            _selectedRating = _selectedRating == starIndex ? 0 : starIndex;
           }),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Icon(
-              isSelected
-                  ? Icons.star_rounded
-                  : Icons.star_outline_rounded,
+              isSelected ? Icons.star_rounded : Icons.star_outline_rounded,
               size: 40,
-              color: isSelected
-                  ? const Color(0xFFFFC107)
-                  : Colors.grey[350],
+              color: isSelected ? const Color(0xFFFFC107) : Colors.grey[350],
             ),
           ),
         );
@@ -184,11 +183,14 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('후기 내용',
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87)),
+        Text(
+          'review.review_content'.tr(),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
         const SizedBox(height: 10),
         TextField(
           controller: _reviewController,
@@ -196,7 +198,7 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
           maxLength: 300,
           style: const TextStyle(fontSize: 14, color: Colors.black87),
           decoration: InputDecoration(
-            hintText: '방문 경험을 자유롭게 작성해주세요',
+            hintText: 'review.review_hint'.tr(),
             hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
             filled: true,
             fillColor: const Color(0xFFF8F9FA),
@@ -211,8 +213,7 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide:
-              const BorderSide(color: Color(0xFF3D5AFE), width: 1.5),
+              borderSide: const BorderSide(color: Color(0xFF3D5AFE), width: 1.5),
             ),
           ),
           onChanged: (_) => setState(() {}),
@@ -233,19 +234,18 @@ class _ReviewWriteViewState extends State<ReviewWriteView> {
           foregroundColor: Colors.white,
           disabledForegroundColor: Colors.grey[500],
           elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
         child: isSubmitting
             ? const SizedBox(
           width: 20,
           height: 20,
-          child: CircularProgressIndicator(
-              color: Colors.white, strokeWidth: 2),
+          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
         )
-            : const Text('후기 등록',
-            style: TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w700)),
+            : Text(
+          'review.submit'.tr(),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        ),
       ),
     );
   }

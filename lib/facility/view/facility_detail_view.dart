@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,6 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final listVm = context.read<FacilityListViewModel>();
       final detailVm = context.read<FacilityDetailViewModel>();
-
       if (listVm.facilities.isEmpty) {
         listVm.loadFacilities(widget.categoryId).then((_) {
           _findAndSetFacility(listVm, detailVm);
@@ -37,15 +37,11 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   }
 
   void _findAndSetFacility(FacilityListViewModel listVm, FacilityDetailViewModel detailVm) {
-    Map<String, dynamic>? found;
     for (final f in listVm.facilities) {
       if (f['id'] == widget.facilityId) {
-        found = f;
+        detailVm.setFacility(f);
         break;
       }
-    }
-    if (found != null) {
-      detailVm.setFacility(found);
     }
   }
 
@@ -66,7 +62,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                   children: [
                     GestureDetector(onTap: () => context.pop(), child: const Icon(Icons.arrow_back, size: 22)),
                     const SizedBox(width: 10),
-                    const Text('로딩 중...', style: TextStyle(fontSize: 16, color: AppColors.subText)),
+                    Text('facility.loading'.tr(), style: const TextStyle(fontSize: 16, color: AppColors.subText)),
                   ],
                 ),
               ),
@@ -197,10 +193,10 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🩺 진료 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.medical_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 8),
           if (f['dept'] != null && f['dept'].toString().isNotEmpty) ...[
-            const Text('진료과목', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.subText)),
+            Text('facility.medical_dept'.tr(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.subText)),
             const SizedBox(height: 4),
             Wrap(
               spacing: 4, runSpacing: 4,
@@ -213,7 +209,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           ],
           const SizedBox(height: 8),
           if (f['totalDocs'] != null)
-            Text('👨‍⚕️ 총 의사 수: ${f['totalDocs']}명 (전문의 ${f['specialists'] ?? 0}명)', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text(
+              'facility.medical_doctors'.tr(namedArgs: {
+                'total': '${f['totalDocs']}',
+                'specialists': '${f['specialists'] ?? 0}',
+              }),
+              style: const TextStyle(fontSize: 11, color: AppColors.subText),
+            ),
           if (f['equip'] != null && f['equip'].toString().isNotEmpty) ...[
             const SizedBox(height: 4),
             Text('🔬 ${f['equip']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
@@ -222,17 +224,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => NonPaymentView(
-                    hospitalId: widget.facilityId,
-                  ),
-                ),
+                MaterialPageRoute(builder: (_) => NonPaymentView(hospitalId: widget.facilityId)),
               );
             },
             child: Container(
               width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(color: AppColors.medical, borderRadius: BorderRadius.circular(8)),
-              child: const Center(child: Text('💰 비급여 진료비 조회', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white))),
+              child: Center(child: Text('facility.non_payment'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white))),
             ),
           ),
         ],
@@ -247,14 +245,14 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('💊 약국 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.pharmacy_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 6),
           if (f['tel'] != null && f['tel'].toString().isNotEmpty)
-            Text('📞 전화: ${f['tel']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+            Text('${'facility.pharmacy_tel'.tr()}${f['tel']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
           if (f['addr'] != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text('📍 주소: ${f['addr']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+              child: Text('${'facility.pharmacy_addr'.tr()}${f['addr']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
             ),
         ],
       ),
@@ -268,12 +266,12 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🏫 학교 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.education_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 6),
-          if (f['type'] != null) Text('학교급: ${f['type']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-          if (f['fondType'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('설립유형: ${f['fondType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
-          if (f['coedu'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('남녀공학: ${f['coedu']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
-          if (f['hsType'] != null && f['hsType'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('고교유형: ${f['hsType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
+          if (f['type'] != null) Text('${'facility.edu_level'.tr()}${f['type']}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+          if (f['fondType'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('${'facility.edu_fond'.tr()}${f['fondType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
+          if (f['coedu'] != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text('${'facility.edu_coedu'.tr()}${f['coedu']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
+          if (f['hsType'] != null && f['hsType'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('${'facility.edu_hstype'.tr()}${f['hsType']}', style: const TextStyle(fontSize: 11, color: AppColors.subText))),
           if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary))),
         ],
       ),
@@ -293,13 +291,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🍼 보육 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.childcare_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('정원 / 현원', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-              Text('$current / $capacity명', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+              Text('facility.childcare_capacity'.tr(), style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+              Text('$current / $capacity${'facility.capacity_unit'.tr()}', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
             ],
           ),
           const SizedBox(height: 6),
@@ -315,13 +313,24 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
             ),
           ),
           const SizedBox(height: 4),
-          Text('${(occupancy * 100).toStringAsFixed(0)}% 충족', style: const TextStyle(fontSize: 10, color: AppColors.subText)),
+          Text(
+            'facility.childcare_occupancy'.tr(namedArgs: {'rate': (occupancy * 100).toStringAsFixed(0)}),
+            style: const TextStyle(fontSize: 10, color: AppColors.subText),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
-              _infoBadge(hasCctv ? '📷 CCTV 설치' : '📷 CCTV 미설치', hasCctv ? const Color(0xFFEFF6FF) : const Color(0xFFFEF2F2), hasCctv ? AppColors.primary : const Color(0xFFEF4444)),
+              _infoBadge(
+                hasCctv ? 'facility.childcare_cctv_on'.tr() : 'facility.childcare_cctv_off'.tr(),
+                hasCctv ? const Color(0xFFEFF6FF) : const Color(0xFFFEF2F2),
+                hasCctv ? AppColors.primary : const Color(0xFFEF4444),
+              ),
               const SizedBox(width: 8),
-              _infoBadge('👩‍🏫 교직원 $staff명', const Color(0xFFF0FDF4), AppColors.welfare),
+              _infoBadge(
+                'facility.childcare_staff'.tr(namedArgs: {'count': '$staff'}),
+                const Color(0xFFF0FDF4),
+                AppColors.welfare,
+              ),
             ],
           ),
         ],
@@ -339,17 +348,17 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🤝 복지시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.welfare_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 8),
           if (f['type'] != null && f['type'].toString().isNotEmpty)
-            _infoRow('시설 유형', f['type'].toString()),
+            _infoRow('facility.welfare_type'.tr(), f['type'].toString()),
           if (capacity > 0) ...[
             const SizedBox(height: 4),
-            _infoRow('정원', '$capacity명'),
+            _infoRow('facility.welfare_capacity'.tr(), '$capacity${'facility.capacity_unit'.tr()}'),
           ],
           if (staff > 0) ...[
             const SizedBox(height: 4),
-            _infoRow('직원 수', '$staff명'),
+            _infoRow('facility.welfare_staff'.tr(), '$staff${'facility.staff_unit'.tr()}'),
           ],
         ],
       ),
@@ -366,13 +375,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🍽 맛집 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.food_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 8),
           if (category.isNotEmpty) ...[
             _infoBadge('🏷 $category', const Color(0xFFFFF7ED), AppColors.food),
             const SizedBox(height: 8),
           ],
-          if (rating > 0) ...[
+          if (rating > 0)
             Row(
               children: [
                 ...List.generate(5, (i) {
@@ -383,9 +392,9 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                 const SizedBox(width: 6),
                 Text(rating.toStringAsFixed(1), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
               ],
-            ),
-          ] else
-            const Text('평점 정보 없음', style: TextStyle(fontSize: 11, color: AppColors.subText)),
+            )
+          else
+            Text('facility.food_no_rating'.tr(), style: const TextStyle(fontSize: 11, color: AppColors.subText)),
         ],
       ),
     );
@@ -398,7 +407,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🎭 문화시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.culture_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 8),
           if (f['type'] != null && f['type'].toString().isNotEmpty)
             _infoBadge('🏛 ${f['type']}', const Color(0xFFF5F3FF), AppColors.culture),
@@ -418,13 +427,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🏛 공공기관 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Text('facility.government_info'.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 8),
           if (f['type'] != null && f['type'].toString().isNotEmpty)
             _infoBadge('🏢 ${f['type']}', const Color(0xFFECFEFF), AppColors.government),
           if (f['tel'] != null && f['tel'].toString().isNotEmpty) ...[
             const SizedBox(height: 6),
-            _infoRow('대표번호', f['tel'].toString()),
+            _infoRow('facility.government_tel'.tr(), f['tel'].toString()),
           ],
           if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
             const SizedBox(height: 4),
@@ -460,7 +469,10 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('💬 후기 (${vm.reviews.length})', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.text)),
+            Text(
+              'facility.review_title'.tr(namedArgs: {'count': '${vm.reviews.length}'}),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.text),
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -472,23 +484,28 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                   ),
                 );
               },
-              child: const Text('후기 작성 ›', style: TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.w600)),
+              child: Text('facility.review_write'.tr(), style: const TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.w600)),
             ),
           ],
         ),
         const SizedBox(height: 8),
         Row(
           children: [
-            _reviewTabButton('후기 목록', _reviewTab == 'all', () => setState(() => _reviewTab = 'all')),
+            _reviewTabButton('facility.review_all'.tr(), _reviewTab == 'all', () => setState(() => _reviewTab = 'all')),
             const SizedBox(width: 6),
-            _reviewTabButton('내 후기', _reviewTab == 'my', () => setState(() => _reviewTab = 'my')),
+            _reviewTabButton('facility.review_my'.tr(), _reviewTab == 'my', () => setState(() => _reviewTab = 'my')),
           ],
         ),
         const SizedBox(height: 8),
         if (_reviewTab == 'all')
           ...vm.reviews.map((rv) => _buildReviewCard(rv))
         else
-          const Center(child: Padding(padding: EdgeInsets.all(20), child: Text('작성한 후기가 없습니다', style: TextStyle(fontSize: 12, color: AppColors.subText)))),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text('facility.review_empty'.tr(), style: const TextStyle(fontSize: 12, color: AppColors.subText)),
+            ),
+          ),
       ],
     );
   }

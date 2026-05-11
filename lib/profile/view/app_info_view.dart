@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -9,12 +10,7 @@ class AppInfoView extends StatefulWidget {
 }
 
 class _AppInfoViewState extends State<AppInfoView> {
-  // 고정 데이터
-  static const String _appName = '종로 라이프 가이드';
-  static const String _appSubtitle = '종로구 생활정보 통합 안내';
   static const String _techStack = 'Flutter + Dart + GPT API';
-
-  // 실제 버전 (package_info_plus로 가져옴)
   String _appVersion = '';
 
   @override
@@ -26,7 +22,7 @@ class _AppInfoViewState extends State<AppInfoView> {
   Future<void> _loadVersion() async {
     final info = await PackageInfo.fromPlatform();
     setState(() {
-      _appVersion = '버전 ${info.version}';
+      _appVersion = '${'app_info.version_prefix'.tr()}${info.version}';
     });
   }
 
@@ -47,9 +43,6 @@ class _AppInfoViewState extends State<AppInfoView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // AppBar
-  // ───────────────────────────────────────────
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
@@ -59,13 +52,13 @@ class _AppInfoViewState extends State<AppInfoView> {
         icon: const Icon(Icons.arrow_back, color: Colors.black87),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.info_outline, color: Color(0xFF1E88E5), size: 20),
-          SizedBox(width: 6),
+          const Icon(Icons.info_outline, color: Color(0xFF1E88E5), size: 20),
+          const SizedBox(width: 6),
           Text(
-            '앱 정보',
-            style: TextStyle(
+            'app_info.title'.tr(),
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
@@ -81,9 +74,6 @@ class _AppInfoViewState extends State<AppInfoView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 앱 로고 + 이름 + 버전
-  // ───────────────────────────────────────────
   Widget _buildAppHeader() {
     return Container(
       width: double.infinity,
@@ -91,28 +81,24 @@ class _AppInfoViewState extends State<AppInfoView> {
       padding: const EdgeInsets.symmetric(vertical: 36),
       child: Column(
         children: [
-          // 앱 로고 (실제 구현 시 Image.asset으로 교체)
           const Text('🏘️', style: TextStyle(fontSize: 56)),
           const SizedBox(height: 16),
-          // 앱 이름
-          const Text(
-            _appName,
-            style: TextStyle(
+          Text(
+            'app_info.app_name'.tr(),
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
             ),
           ),
           const SizedBox(height: 6),
-          // 부제목
           Text(
-            _appSubtitle,
+            'app_info.app_subtitle'.tr(),
             style: TextStyle(fontSize: 13, color: Colors.grey[500]),
           ),
           const SizedBox(height: 6),
-          // 실제 버전
           Text(
-            _appVersion.isEmpty ? '버전 로딩 중...' : _appVersion,
+            _appVersion.isEmpty ? 'app_info.version_loading'.tr() : _appVersion,
             style: TextStyle(fontSize: 13, color: Colors.grey[400]),
           ),
         ],
@@ -120,9 +106,6 @@ class _AppInfoViewState extends State<AppInfoView> {
     );
   }
 
-  // ───────────────────────────────────────────
-  // 개발 정보 섹션
-  // ───────────────────────────────────────────
   Widget _buildInfoSection() {
     return Container(
       width: double.infinity,
@@ -135,9 +118,9 @@ class _AppInfoViewState extends State<AppInfoView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '개발 정보',
-            style: TextStyle(
+          Text(
+            'app_info.dev_info'.tr(),
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: Colors.black87,
