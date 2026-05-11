@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../service/auth_service.dart';
 
 class AuthViewModel extends ChangeNotifier {
@@ -9,10 +11,37 @@ class AuthViewModel extends ChangeNotifier {
   String? _errorMessage;
   String _selectedLanguage = 'ko';
 
+  // 유저 정보
+  String _nickname = '';
+  String _email = '';
+
   bool get isLoggedIn => _isLoggedIn;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String get selectedLanguage => _selectedLanguage;
+  String get nickname => _nickname;
+  String get email => _email;
+
+  // Firestore에서 유저 정보 로드
+  Future<void> loadUserInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (doc.exists) {
+        _nickname = doc.data()?['nickname'] ?? '';
+        _email = doc.data()?['email'] ?? user.email ?? '';
+        _selectedLanguage = doc.data()?['language'] ?? 'ko';
+        notifyListeners();
+      }
+    } catch (e) {
+      print('유저 정보 로드 에러: $e');
+    }
+  }
 
   void selectLanguage(String lang) {
     _selectedLanguage = lang;
@@ -33,11 +62,12 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _authService.signInWithEmail(email, password);
       _isLoggedIn = true;
+      await loadUserInfo(); // 로그인 후 유저 정보 로드
       return true;
     } catch (e) {
       _errorMessage = _authService.getErrorMessage(
         e.toString().contains(']')
-            ? e.toString().split('] ')[1].split(' ')[0] // 에러 코드 추출
+            ? e.toString().split('] ')[1].split(' ')[0]
             : 'unknown',
       );
       return false;
@@ -56,6 +86,7 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _authService.signInWithGoogle();
       _isLoggedIn = true;
+      await loadUserInfo(); // 로그인 후 유저 정보 로드
       return true;
     } catch (e) {
       _errorMessage = '구글 로그인에 실패했어요. 다시 시도해주세요.';
@@ -85,6 +116,7 @@ class AuthViewModel extends ChangeNotifier {
         language: language,
       );
       _isLoggedIn = true;
+      await loadUserInfo(); // 가입 후 유저 정보 로드
       return true;
     } catch (e) {
       print('회원가입 에러: $e');
@@ -104,6 +136,8 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> signOut() async {
     await _authService.signOut();
     _isLoggedIn = false;
+    _nickname = '';
+    _email = '';
     notifyListeners();
   }
 }
