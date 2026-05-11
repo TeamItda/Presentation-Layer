@@ -102,7 +102,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                           if (widget.categoryId == 'pharmacy') _buildPharmacyInfo(f),
                           if (widget.categoryId == 'education') _buildEducationInfo(f),
                           if (widget.categoryId == 'childcare') _buildChildcareInfo(f),
-                          if (widget.categoryId == 'welfare') _buildWelfareInfo(f),
+                          if (widget.categoryId == 'welfare') _buildWelfareInfo(f, vm),
                           if (widget.categoryId == 'food') _buildFoodInfo(f),
                           if (widget.categoryId == 'culture') _buildCultureInfo(f),
                           if (widget.categoryId == 'government') _buildGovernmentInfo(f),
@@ -285,8 +285,12 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
     final current = (f['currentCount'] as num?)?.toInt() ?? 0;
     final occupancy = (f['occupancyRate'] as num?)?.toDouble() ?? 0.0;
-    final hasCctv = f['hasCctv'] as bool? ?? false;
     final staff = (f['staffCount'] as num?)?.toInt() ?? 0;
+    final operatingHours = (f['operatingHours'] ?? '').toString();
+    final publicPrivate = (f['publicPrivate'] ?? '').toString();
+    final typeText = (f['type'] ?? '').toString();
+    final tel = (f['tel'] ?? '').toString();
+    final addr = (f['addr'] ?? '').toString();
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -296,33 +300,58 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
         children: [
           const Text('🍼 보육 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('정원 / 현원', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
-              Text('$current / $capacity명', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
-            ],
-          ),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: occupancy,
-              minHeight: 8,
-              backgroundColor: const Color(0xFFE2E8F0),
-              valueColor: AlwaysStoppedAnimation<Color>(
-                occupancy >= 0.9 ? const Color(0xFFEF4444) : occupancy >= 0.7 ? const Color(0xFFF59E0B) : AppColors.childcare,
+          if (typeText.isNotEmpty) ...[
+            _infoRow('시설 유형', typeText),
+            const SizedBox(height: 4),
+          ],
+          if (operatingHours.isNotEmpty) ...[
+            _infoRow('운영시간', operatingHours),
+            const SizedBox(height: 4),
+          ],
+          if (addr.isNotEmpty) ...[
+            _infoRow('주소', addr),
+            const SizedBox(height: 4),
+          ],
+          if (tel.isNotEmpty) ...[
+            _infoRow('전화', tel),
+            const SizedBox(height: 8),
+          ],
+          if (capacity > 0) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('정원 / 현원', style: TextStyle(fontSize: 11, color: AppColors.subText)),
+                Text('$current / $capacity명', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.text)),
+              ],
+            ),
+            const SizedBox(height: 6),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: occupancy,
+                minHeight: 8,
+                backgroundColor: const Color(0xFFE2E8F0),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  occupancy >= 0.9 ? const Color(0xFFEF4444) : occupancy >= 0.7 ? const Color(0xFFF59E0B) : AppColors.childcare,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text('${(occupancy * 100).toStringAsFixed(0)}% 충족', style: const TextStyle(fontSize: 10, color: AppColors.subText)),
-          const SizedBox(height: 8),
+            const SizedBox(height: 4),
+            Text('${(occupancy * 100).toStringAsFixed(0)}% 충족', style: const TextStyle(fontSize: 10, color: AppColors.subText)),
+            const SizedBox(height: 8),
+          ],
           Row(
             children: [
-              _infoBadge(hasCctv ? '📷 CCTV 설치' : '📷 CCTV 미설치', hasCctv ? const Color(0xFFEFF6FF) : const Color(0xFFFEF2F2), hasCctv ? AppColors.primary : const Color(0xFFEF4444)),
-              const SizedBox(width: 8),
-              _infoBadge('👩‍🏫 교직원 $staff명', const Color(0xFFF0FDF4), AppColors.welfare),
+              if (publicPrivate.isNotEmpty) ...[
+                _infoBadge(
+                  '🏫 $publicPrivate',
+                  publicPrivate == '공립' ? const Color(0xFFEFF6FF) : const Color(0xFFFFF7ED),
+                  publicPrivate == '공립' ? AppColors.primary : AppColors.food,
+                ),
+                const SizedBox(width: 8),
+              ],
+              if (staff > 0)
+                _infoBadge('👩‍🏫 교직원 $staff명', const Color(0xFFF0FDF4), AppColors.welfare),
             ],
           ),
         ],
@@ -330,9 +359,20 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildWelfareInfo(Map<String, dynamic> f) {
+  Widget _buildWelfareInfo(Map<String, dynamic> f, FacilityDetailViewModel vm) {
     final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
-    final staff = (f['staffCount'] as num?)?.toInt() ?? 0;
+    final localStaff = (f['staffCount'] as num?)?.toInt() ?? 0;
+    final tel = (f['tel'] ?? '').toString();
+    final addr = (f['addr'] ?? '').toString();
+
+    final ltcStaff = vm.ltcStaff;
+    final ltcPrograms = vm.ltcPrograms;
+    final ltcAcceptance = vm.ltcAcceptance;
+    final apiStaffTotal = ltcStaff?.total ?? 0;
+    final staffTotal = apiStaffTotal > 0 ? apiStaffTotal : localStaff;
+    final apiCurrent = ltcAcceptance?.current ?? 0;
+    final apiCapacity = ltcAcceptance?.capacity ?? 0;
+    final showCapacity = apiCapacity > 0 ? apiCapacity : capacity;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -340,17 +380,81 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('🤝 복지시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+          Row(
+            children: [
+              const Text('🤝 복지시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
+              if (vm.isLtcLoading) ...[
+                const SizedBox(width: 8),
+                const SizedBox(
+                  width: 12, height: 12,
+                  child: CircularProgressIndicator(strokeWidth: 1.5),
+                ),
+              ],
+            ],
+          ),
           const SizedBox(height: 8),
-          if (f['type'] != null && f['type'].toString().isNotEmpty)
+          if (f['type'] != null && f['type'].toString().isNotEmpty) ...[
             _infoRow('시설 유형', f['type'].toString()),
-          if (capacity > 0) ...[
             const SizedBox(height: 4),
-            _infoRow('정원', '$capacity명'),
           ],
-          if (staff > 0) ...[
+          if (addr.isNotEmpty) ...[
+            _infoRow('주소', addr),
             const SizedBox(height: 4),
-            _infoRow('직원 수', '$staff명'),
+          ],
+          if (tel.isNotEmpty) ...[
+            _infoRow('전화', tel),
+            const SizedBox(height: 4),
+          ],
+          if (showCapacity > 0) ...[
+            if (apiCapacity > 0)
+              _infoRow('입소 인원 / 정원', '$apiCurrent / $apiCapacity명')
+            else
+              _infoRow('정원', '$showCapacity명'),
+            const SizedBox(height: 4),
+          ],
+          if (staffTotal > 0) ...[
+            _infoRow('직원 수', '$staffTotal명'),
+          ],
+          if (ltcStaff != null && ltcStaff.nonZeroRoles.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            const Text('👥 직군별 인력', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.text)),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: ltcStaff.nonZeroRoles
+                  .map((e) => _infoBadge('${e.key} ${e.value}', const Color(0xFFF0FDF4), AppColors.welfare))
+                  .toList(),
+            ),
+          ],
+          if (ltcPrograms.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Text('🎯 프로그램 현황 (${ltcPrograms.length}개)', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.text)),
+            const SizedBox(height: 6),
+            ...ltcPrograms.take(20).map((p) => Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    width: 4, height: 4,
+                    decoration: const BoxDecoration(color: AppColors.welfare, shape: BoxShape.circle),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text.rich(TextSpan(
+                      children: [
+                        TextSpan(text: p.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.text)),
+                        TextSpan(text: '  ·  ${p.typeLabel}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+                        if (p.location != null) TextSpan(text: '  ·  ${p.location}', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+                        if (p.targetCount > 0) TextSpan(text: '  ·  ${p.targetCount}명', style: const TextStyle(fontSize: 11, color: AppColors.subText)),
+                      ],
+                    )),
+                  ),
+                ],
+              ),
+            )),
           ],
         ],
       ),
@@ -393,6 +497,26 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   }
 
   Widget _buildCultureInfo(Map<String, dynamic> f) {
+    final type = (f['type'] ?? '').toString();
+    final addr = (f['addr'] ?? '').toString();
+    final tel = (f['tel'] ?? '').toString();
+    final homepage = (f['homepage'] ?? '').toString();
+
+    // 유형별 색상/이모지 매핑
+    const typeEmoji = {
+      '미술관': '🖼',
+      '박물관': '🏛',
+      '공연장': '🎭',
+      '도서관': '📚',
+      '문학관': '📖',
+      '문화의집': '🏠',
+      '지방문화원': '🎨',
+      '생활문화센터': '🎪',
+      '지역문화재단': '🏢',
+      '고궁': '🏯',
+    };
+    final emoji = typeEmoji[type] ?? '🏛';
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
@@ -400,12 +524,20 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('🎭 문화시설 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
-          const SizedBox(height: 8),
-          if (f['type'] != null && f['type'].toString().isNotEmpty)
-            _infoBadge('🏛 ${f['type']}', const Color(0xFFF5F3FF), AppColors.culture),
-          if (f['homepage'] != null && f['homepage'].toString().isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text('🌐 ${f['homepage']}', style: const TextStyle(fontSize: 11, color: AppColors.primary)),
+          const SizedBox(height: 10),
+          if (type.isNotEmpty)
+            _infoBadge('$emoji $type', const Color(0xFFF5F3FF), AppColors.culture),
+          if (addr.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            _infoRow('주소', addr),
+          ],
+          if (tel.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            _infoRow('전화', tel),
+          ],
+          if (homepage.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            _infoRow('홈페이지', homepage),
           ],
         ],
       ),
@@ -413,6 +545,22 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   }
 
   Widget _buildGovernmentInfo(Map<String, dynamic> f) {
+    final type = (f['type'] ?? '').toString();
+    final operatingHours = (f['operatingHours'] ?? '').toString();
+    const typeEmoji = {
+      '구청': '🏛',
+      '주민센터': '🏢',
+      '경찰서': '👮',
+      '소방서': '🚒',
+      '보건소': '🏥',
+      '세무서': '💰',
+      '우체국': '📮',
+      '행정기관': '🏛',
+      '교육기관': '🎓',
+      '복지기관': '🤝',
+    };
+    final emoji = typeEmoji[type] ?? '🏢';
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
@@ -420,9 +568,13 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('🏛 공공기관 정보', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.text)),
-          const SizedBox(height: 8),
-          if (f['type'] != null && f['type'].toString().isNotEmpty)
-            _infoBadge('🏢 ${f['type']}', const Color(0xFFECFEFF), AppColors.government),
+          const SizedBox(height: 10),
+          if (type.isNotEmpty)
+            _infoBadge('$emoji $type', const Color(0xFFECFEFF), AppColors.government),
+          if (operatingHours.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            _infoRow('운영시간', operatingHours),
+          ],
           if (f['tel'] != null && f['tel'].toString().isNotEmpty) ...[
             const SizedBox(height: 6),
             _infoRow('대표번호', f['tel'].toString()),

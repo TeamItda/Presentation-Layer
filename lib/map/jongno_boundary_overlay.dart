@@ -41,7 +41,7 @@ class JongnoBoundaryOverlay {
         polygonId: const PolygonId('jongno-mask'),
         points: _outerMask,
         holes: [boundary],
-        fillColor: const Color(0xAA0F172A),
+        fillColor: const Color(0x660F172A),
         strokeColor: const Color(0x00000000),
         strokeWidth: 0,
       ),

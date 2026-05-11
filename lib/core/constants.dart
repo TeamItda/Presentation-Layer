@@ -7,20 +7,24 @@ class AppConstants {
   static const String hiraApiKey = '';
   static const String neisApiKey = '';
   static const String childcareApiKey = '';   // 사회보장정보원 어린이집 API 키
-  static const String kindergartenApiKey = ''; // 교육부 유치원알리미 API 키
+  static const String kindergartenApiKey =
+      '05e2c43f4df6475aa6b3ac3ac53d5bcd'; // 교육부 유치원알리미 API 키
+  static const String kindergartenApiBaseUrl =
+      'https://e-childschoolinfo.moe.go.kr/api/notice';
   static const String nhisApiKey = '';         // 건강보험심사평가원 장기요양기관 API 키
-  static const String smallBizApiKey = '';     // 소상공인상가정보 API 키
+  static const String smallBizApiKey =
+      '5ec247e8eb6fb09a9d6ab018d5c71685c2faf1a6854cd58219cb91115266e268';
   static const String cultureApiKey = '';      // 문화체육관광부 API 키
   static const String googleMapsApiKey =
       'AIzaSyDDxfuNuVSbsOg5myMHfVGGnG1tEPhlgFs';
   // 지도 초기 진입 중심은 종로구청 인근 좌표
   static const double jongnoCenterLat = 37.57295;
   static const double jongnoCenterLng = 126.97936;
-  // 종로구보다 살짝 넓은 범위로 지도 제한
-  static const double jongnoSouthLat = 37.5450;
-  static const double jongnoWestLng = 126.9320;
-  static const double jongnoNorthLat = 37.6100;
-  static const double jongnoEastLng = 127.0560;
+  // 종로구 주변까지 여유 있게 둘러볼 수 있는 카메라 바운드
+  static const double jongnoSouthLat = 37.5100;
+  static const double jongnoWestLng = 126.8900;
+  static const double jongnoNorthLat = 37.6500;
+  static const double jongnoEastLng = 127.1000;
 }
 
 class AppColors {
@@ -47,6 +51,7 @@ class Category {
   final String id;
   final String name;
   final String icon;
+  final IconData materialIcon;
   final Color color;
   final Color bgColor;
   final int count;
@@ -55,6 +60,7 @@ class Category {
     required this.id,
     required this.name,
     required this.icon,
+    required this.materialIcon,
     required this.color,
     required this.bgColor,
     required this.count,
@@ -66,6 +72,7 @@ final List<Category> categories = [
     id: 'medical',
     name: '의료시설',
     icon: '🏥',
+    materialIcon: Icons.local_hospital_rounded,
     color: AppColors.medical,
     bgColor: const Color(0xFFFEF2F2),
     count: 89,
@@ -74,6 +81,7 @@ final List<Category> categories = [
     id: 'pharmacy',
     name: '약국',
     icon: '💊',
+    materialIcon: Icons.local_pharmacy_rounded,
     color: AppColors.pharmacy,
     bgColor: const Color(0xFFFDF2F8),
     count: 134,
@@ -82,6 +90,7 @@ final List<Category> categories = [
     id: 'education',
     name: '교육시설',
     icon: '🎓',
+    materialIcon: Icons.school_rounded,
     color: AppColors.education,
     bgColor: const Color(0xFFEFF6FF),
     count: 67,
@@ -90,6 +99,7 @@ final List<Category> categories = [
     id: 'childcare',
     name: '육아돌봄',
     icon: '🍼',
+    materialIcon: Icons.child_care_rounded,
     color: AppColors.childcare,
     bgColor: const Color(0xFFFFFBEB),
     count: 42,
@@ -98,6 +108,7 @@ final List<Category> categories = [
     id: 'welfare',
     name: '노인복지',
     icon: '🤝',
+    materialIcon: Icons.volunteer_activism_rounded,
     color: AppColors.welfare,
     bgColor: const Color(0xFFECFDF5),
     count: 28,
@@ -106,6 +117,7 @@ final List<Category> categories = [
     id: 'food',
     name: '맛집',
     icon: '🍽',
+    materialIcon: Icons.restaurant_rounded,
     color: AppColors.food,
     bgColor: const Color(0xFFFFF7ED),
     count: 156,
@@ -114,6 +126,7 @@ final List<Category> categories = [
     id: 'culture',
     name: '문화시설',
     icon: '🎭',
+    materialIcon: Icons.museum_rounded,
     color: AppColors.culture,
     bgColor: const Color(0xFFF5F3FF),
     count: 45,
@@ -122,6 +135,7 @@ final List<Category> categories = [
     id: 'government',
     name: '공공기관',
     icon: '🏛',
+    materialIcon: Icons.account_balance_rounded,
     color: AppColors.government,
     bgColor: const Color(0xFFECFEFF),
     count: 31,

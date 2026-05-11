@@ -77,25 +77,25 @@ class _SplashViewState extends State<SplashView>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // 앱 로고 아이콘
+                  // 앱 로고
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 196,
+                    height: 196,
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: BorderRadius.circular(32),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.location_on_rounded,
-                      size: 56,
-                      color: AppColors.primary,
+                    child: Image.asset(
+                      'assets/YEOGIYO_LOGO.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 28),

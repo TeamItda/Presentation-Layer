@@ -177,6 +177,8 @@ class FacilityListViewModel extends ChangeNotifier {
               'addr': c.addr,
               'tel': c.tel,
               'type': c.typeLabel,
+              'publicPrivate': c.publicPrivateLabel,
+              'operatingHours': c.operatingHours ?? '',
               'homepage': c.homepage ?? '',
               'rating': 0.0,
               'dist': '',
@@ -207,6 +209,10 @@ class FacilityListViewModel extends ChangeNotifier {
               'lng': w.lng ?? 0.0,
               'capacity': w.capacity,
               'staffCount': w.staffCount,
+              if (w.longTermAdminSym != null && w.longTermAdminSym!.isNotEmpty)
+                'longTermAdminSym': w.longTermAdminSym,
+              if (w.adminPttnCd != null && w.adminPttnCd!.isNotEmpty)
+                'adminPttnCd': w.adminPttnCd,
             })
         .toList();
   }
@@ -258,6 +264,7 @@ class FacilityListViewModel extends ChangeNotifier {
               'tel': g.tel,
               'type': g.type,
               'homepage': g.homepage ?? '',
+              'operatingHours': g.displayOperatingHours,
               'rating': 0.0,
               'dist': '',
               'lat': g.lat ?? 0.0,

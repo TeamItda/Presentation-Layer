@@ -49,25 +49,10 @@ class _LoginViewState extends State<LoginView> {
 
                     // 로고
                     Center(
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withOpacity(0.3),
-                              blurRadius: 16,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.location_on_rounded,
-                          color: Colors.white,
-                          size: 44,
-                        ),
+                      child: Image.asset(
+                        'assets/YEOGIYO_LOGO.png',
+                        height: 76,
+                        fit: BoxFit.contain,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -120,10 +105,14 @@ class _LoginViewState extends State<LoginView> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                              color: AppColors.primary, width: 2),
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -155,10 +144,14 @@ class _LoginViewState extends State<LoginView> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                              color: AppColors.primary, width: 2),
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -167,7 +160,8 @@ class _LoginViewState extends State<LoginView> {
                             color: AppColors.subText,
                           ),
                           onPressed: () => setState(
-                                  () => _obscurePassword = !_obscurePassword),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                         ),
                       ),
                     ),
@@ -178,7 +172,10 @@ class _LoginViewState extends State<LoginView> {
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
                           vm.errorMessage!,
-                          style: const TextStyle(color: Colors.red, fontSize: 13),
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 13,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -191,13 +188,14 @@ class _LoginViewState extends State<LoginView> {
                       child: ElevatedButton(
                         onPressed: vm.isLoading
                             ? null
-                            : () async {  // firebase 연동 완료
-                          final success = await vm.signInWithEmail(
-                            _emailController.text.trim(),
-                            _passwordController.text.trim(),
-                          );
-                          if (success && mounted) context.go('/home');
-                        },
+                            : () async {
+                                // firebase 연동 완료
+                                final success = await vm.signInWithEmail(
+                                  _emailController.text.trim(),
+                                  _passwordController.text.trim(),
+                                );
+                                if (success && mounted) context.go('/home');
+                              },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
@@ -208,20 +206,20 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         child: vm.isLoading
                             ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2.5,
+                                ),
+                              )
                             : const Text(
-                          '로그인',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                                '로그인',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -229,8 +227,7 @@ class _LoginViewState extends State<LoginView> {
                     // OR 구분선
                     Row(
                       children: [
-                        const Expanded(
-                            child: Divider(color: AppColors.border)),
+                        const Expanded(child: Divider(color: AppColors.border)),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
@@ -241,8 +238,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                        const Expanded(
-                            child: Divider(color: AppColors.border)),
+                        const Expanded(child: Divider(color: AppColors.border)),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -251,12 +247,16 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       height: 52,
                       child: OutlinedButton.icon(
-                        onPressed: () async {   // Firebase 연동 완료
+                        onPressed: () async {
+                          // Firebase 연동 완료
                           final success = await vm.signInWithGoogle();
                           if (success && mounted) context.go('/home');
                         },
-                        icon: const Icon(Icons.g_mobiledata,
-                            size: 28, color: AppColors.text),
+                        icon: const Icon(
+                          Icons.g_mobiledata,
+                          size: 28,
+                          color: AppColors.text,
+                        ),
                         label: const Text(
                           'Google로 로그인',
                           style: TextStyle(
@@ -289,8 +289,7 @@ class _LoginViewState extends State<LoginView> {
                         TextButton(
                           onPressed: () => context.go('/signup'),
                           style: TextButton.styleFrom(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                           ),
                           child: const Text(
                             '회원가입',
@@ -310,12 +309,9 @@ class _LoginViewState extends State<LoginView> {
 
             // 하단 언어 선택 바
             Container(
-              padding:
-              const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
               decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: AppColors.border),
-                ),
+                border: Border(top: BorderSide(color: AppColors.border)),
               ),
               child: Consumer<AuthViewModel>(
                 builder: (context, vm, _) => Row(
