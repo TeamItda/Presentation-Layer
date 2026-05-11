@@ -5,17 +5,8 @@ class ReviewService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // 현재 사용자 확보. 비로그인 상태면 익명 로그인으로 자동 전환.
-  Future<User> _ensureUser() async {
-    final cur = _auth.currentUser;
-    if (cur != null) return cur;
-    final cred = await _auth.signInAnonymously();
-    final user = cred.user;
-    if (user == null) {
-      throw StateError('Firebase Auth 사용자 정보를 가져오지 못했습니다.');
-    }
-    return user;
-  }
+  // 현재 로그인한 유저 ID
+  String get _uid => _auth.currentUser!.uid;
 
   // Firestore 경로: reviews/{reviewId}
   CollectionReference get _reviewsRef =>
@@ -28,12 +19,11 @@ class ReviewService {
     required int rating,
     required String content,
   }) async {
-    final user = await _ensureUser();
     await _reviewsRef.add({
       'facilityId': facilityId,
       'facilityName': facilityName,
-      'uid': user.uid,
-      'userName': user.displayName ?? '익명',
+      'uid': _uid,
+      'userName': _auth.currentUser?.displayName ?? '익명',
       'rating': rating,
       'content': content,
       'createdAt': FieldValue.serverTimestamp(),
@@ -54,10 +44,8 @@ class ReviewService {
 
   // ── 내가 쓴 후기 가져오기 ──────────────────
   Future<List<Map<String, dynamic>>> getMyReviews() async {
-    final user = _auth.currentUser;
-    if (user == null) return const [];
     final snapshot = await _reviewsRef
-        .where('uid', isEqualTo: user.uid)
+        .where('uid', isEqualTo: _uid)
         .orderBy('createdAt', descending: true)
         .get();
 
