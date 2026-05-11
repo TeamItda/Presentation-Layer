@@ -103,6 +103,7 @@ class ReviewViewModel extends ChangeNotifier {
     required String content,
   }) async {
     _isSubmitting = true;
+    _errorMessage = null;
     notifyListeners();
 
     try {
@@ -112,10 +113,11 @@ class ReviewViewModel extends ChangeNotifier {
         rating: rating,
         content: content,
       );
-      return true; // 성공
+      return true;
     } catch (e) {
       debugPrint('후기 작성 실패: $e');
-      return false; // 실패
+      _errorMessage = e.toString();
+      return false;
     } finally {
       _isSubmitting = false;
       notifyListeners();
