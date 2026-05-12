@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../core/constants.dart';
 import '../viewmodel/home_viewmodel.dart';
 
+import '../../auth/viewmodel/auth_viewmodel.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -14,6 +16,16 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      context.read<HomeViewModel>().changeLang(lang);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     context.locale; // locale 변경 시 rebuild 트리거

@@ -7,6 +7,7 @@ import '../viewmodel/facility_detail_viewmodel.dart';
 import '../viewmodel/facility_list_viewmodel.dart';
 import '../../non_payment/view/non_payment_view.dart';
 import '../../review/view/review_write_view.dart';
+import '../../core/facility_type_translations.dart';
 
 class FacilityDetailView extends StatefulWidget {
   final String facilityId;
@@ -60,6 +61,8 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<FacilityDetailViewModel>();
+    final lang = context.watch<FacilityListViewModel>().currentLang;
+
     final f = vm.facility;
 
     if (f == null || f.isEmpty) {
@@ -116,23 +119,23 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildBasicInfo(f, cat),
+                          _buildBasicInfo(f, cat, lang),
                           const SizedBox(height: 10),
                           if (widget.categoryId == 'medical')
-                            _buildMedicalInfo(f),
+                            _buildMedicalInfo(f, lang),
                           if (widget.categoryId == 'pharmacy')
-                            _buildPharmacyInfo(f),
+                            _buildPharmacyInfo(f, lang),
                           if (widget.categoryId == 'education')
-                            _buildEducationInfo(f),
+                            _buildEducationInfo(f, lang),
                           if (widget.categoryId == 'childcare')
-                            _buildChildcareInfo(f),
+                            _buildChildcareInfo(f, lang),
                           if (widget.categoryId == 'welfare')
-                            _buildWelfareInfo(f, vm),
-                          if (widget.categoryId == 'food') _buildFoodInfo(f),
+                            _buildWelfareInfo(f, vm, lang),
+                          if (widget.categoryId == 'food') _buildFoodInfo(f, lang),
                           if (widget.categoryId == 'culture')
-                            _buildCultureInfo(f),
+                            _buildCultureInfo(f, lang),
                           if (widget.categoryId == 'government')
-                            _buildGovernmentInfo(f),
+                            _buildGovernmentInfo(f, lang),
                           const SizedBox(height: 8),
                           _buildReviewSection(vm),
                         ],
@@ -208,7 +211,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildBasicInfo(Map<String, dynamic> f, Category cat) {
+  Widget _buildBasicInfo(Map<String, dynamic> f, Category cat, String lang) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -221,7 +224,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
-                '${cat.icon} ${cat.name}',
+                '${cat.icon} ${'categories.${cat.id}'.tr()}',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
@@ -238,7 +241,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  f['type'].toString(),
+                FacilityTypeTranslations.translate(f['type'].toString(), lang),
                   style: const TextStyle(
                     fontSize: 10,
                     color: AppColors.subText,
@@ -272,7 +275,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildMedicalInfo(Map<String, dynamic> f) {
+  Widget _buildMedicalInfo(Map<String, dynamic> f, String lang) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -382,7 +385,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildPharmacyInfo(Map<String, dynamic> f) {
+  Widget _buildPharmacyInfo(Map<String, dynamic> f, String lang) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -419,7 +422,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildEducationInfo(Map<String, dynamic> f) {
+  Widget _buildEducationInfo(Map<String, dynamic> f, String lang) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -480,7 +483,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildChildcareInfo(Map<String, dynamic> f) {
+  Widget _buildChildcareInfo(Map<String, dynamic> f, String lang) {
     final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
     final current = (f['currentCount'] as num?)?.toInt() ?? 0;
     final occupancy = (f['occupancyRate'] as num?)?.toDouble() ?? 0.0;
@@ -596,7 +599,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildWelfareInfo(Map<String, dynamic> f, FacilityDetailViewModel vm) {
+  Widget _buildWelfareInfo(Map<String, dynamic> f, FacilityDetailViewModel vm, String lang) {
     final capacity = (f['capacity'] as num?)?.toInt() ?? 0;
     final localStaff = (f['staffCount'] as num?)?.toInt() ?? 0;
     final tel = (f['tel'] ?? '').toString();
@@ -775,7 +778,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildFoodInfo(Map<String, dynamic> f) {
+  Widget _buildFoodInfo(Map<String, dynamic> f, String lang) {
     final rating = (f['rating'] as num?)?.toDouble() ?? 0.0;
     final category = f['category']?.toString() ?? f['type']?.toString() ?? '';
 
@@ -844,7 +847,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildCultureInfo(Map<String, dynamic> f) {
+  Widget _buildCultureInfo(Map<String, dynamic> f, String lang) {
     final type = (f['type'] ?? '').toString();
     final addr = (f['addr'] ?? '').toString();
     final tel = (f['tel'] ?? '').toString();
@@ -885,7 +888,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           const SizedBox(height: 10),
           if (type.isNotEmpty)
             _infoBadge(
-              '$emoji $type',
+              '$emoji ${FacilityTypeTranslations.translate(type, lang)}',
               const Color(0xFFF5F3FF),
               AppColors.culture,
             ),
@@ -906,7 +909,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     );
   }
 
-  Widget _buildGovernmentInfo(Map<String, dynamic> f) {
+  Widget _buildGovernmentInfo(Map<String, dynamic> f, String lang) {
     final type = (f['type'] ?? '').toString();
     final operatingHours = (f['operatingHours'] ?? '').toString();
     const typeEmoji = {
@@ -943,7 +946,7 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           const SizedBox(height: 10),
           if (type.isNotEmpty)
             _infoBadge(
-              '$emoji $type',
+              '$emoji ${FacilityTypeTranslations.translate(type, lang)}',
               const Color(0xFFECFEFF),
               AppColors.government,
             ),

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class FavoriteView extends StatefulWidget {
   final bool showBackButton;
@@ -20,7 +21,10 @@ class _FavoriteViewState extends State<FavoriteView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<FavoriteViewModel>().loadFavorites();
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      context.read<FavoriteViewModel>()
+        ..changeLang(lang)
+        ..loadFavorites();
     });
   }
 

@@ -98,7 +98,8 @@
     "popular": "人気キーワード",
     "no_result": "検索結果がありません",
     "no_result_hint": "別のキーワードで検索してみてください",
-    "result_count": "検索結果 {count}件"
+    "result_count": "検索結果 {count}件",
+    "popular_keywords": "#病院,#薬局,#グルメ,#保育園,#文化施設"
   },
   "favorite": {
     "title": "お気に入り",

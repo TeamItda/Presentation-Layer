@@ -115,7 +115,8 @@
     "popular": "인기 검색어",
     "no_result": "검색 결과가 없어요",
     "no_result_hint": "다른 키워드로 검색해보세요",
-    "result_count": "검색 결과 {count}개"
+    "result_count": "검색 결과 {count}개",
+    "popular_keywords": "#병원,#약국,#맛집,#어린이집,#문화시설"
   },
   "favorite": {
     "title": "즐겨찾기",

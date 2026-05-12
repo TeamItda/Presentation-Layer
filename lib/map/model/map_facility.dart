@@ -16,6 +16,8 @@ class MapFacility with ClusterItem {
     this.homepage,
     this.imageAssetPath,
     this.imageUrl,
+    this.originalName,
+    this.originalAddress,
   });
 
   final String id;
@@ -34,4 +36,29 @@ class MapFacility with ClusterItem {
 
   @override
   LatLng get location => position;
+  final String? originalName;
+  final String? originalAddress;
+
+  MapFacility copyWith({
+    String? name,
+    String? address,
+  }) {
+    return MapFacility(
+      id: id,
+      facilityId: facilityId,
+      categoryId: categoryId,
+      name: name ?? this.name,
+      type: type,
+      collectionName: collectionName,
+      position: position,
+      subtype: subtype,
+      address: address ?? this.address,
+      phone: phone,
+      homepage: homepage,
+      imageAssetPath: imageAssetPath,
+      imageUrl: imageUrl,
+      originalName: originalName ?? this.name,
+      originalAddress: originalAddress ?? this.address,
+    );
+  }
 }

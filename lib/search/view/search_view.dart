@@ -16,7 +16,6 @@ class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  final List<String> _popularKeywords = ['#병원', '#약국', '#맛집', '#어린이집', '#문화시설'];
 
   List<Map<String, dynamic>> _searchResults = [];
 
@@ -217,7 +216,8 @@ class _SearchViewState extends State<SearchView> {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: _popularKeywords
+          children: 'search.popular_keywords'.tr()
+              .split(',')
               .map((keyword) => _buildKeywordChip(keyword))
               .toList(),
         ),

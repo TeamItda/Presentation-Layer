@@ -98,7 +98,8 @@
     "popular": "热门关键词",
     "no_result": "没有搜索结果",
     "no_result_hint": "请尝试其他关键词",
-    "result_count": "搜索结果 {count}个"
+    "result_count": "搜索结果 {count}个",
+    "popular_keywords": "#医院,#药店,#餐厅,#托儿所,#文化设施"
   },
   "favorite": {
     "title": "收藏",

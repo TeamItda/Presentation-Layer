@@ -5,6 +5,11 @@ import '../viewmodel/chat_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
+import '../../facility/viewmodel/facility_list_viewmodel.dart';
+import '../../map/viewmodel/map_viewmodel.dart';
+import '../../home/viewmodel/home_viewmodel.dart';
+import '../../favorite/viewmodel/favorite_viewmodel.dart';
+
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
 
@@ -257,9 +262,13 @@ class _ChatViewState extends State<ChatView> {
                         : (value) {
                             if (value == null) return;
                             context.read<ChatViewModel>().changeLang(value);
-                            context.setLocale(Locale(value));           // ← 이 줄 추가
-                            context.read<AuthViewModel>().selectLanguage(value); // ← 이 줄 추가
-                          },
+                            context.setLocale(Locale(value));
+                            context.read<AuthViewModel>().selectLanguage(value);
+                            context.read<FacilityListViewModel>().changeLang(value);
+                            context.read<MapViewModel>().changeLang(value);
+                            context.read<HomeViewModel>().changeLang(value);
+                            context.read<FavoriteViewModel>().changeLang(value);
+                            },
                   ),
                 ),
               );

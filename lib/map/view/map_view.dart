@@ -14,6 +14,7 @@ import '../../core/constants.dart';
 import '../jongno_boundary_overlay.dart';
 import '../model/map_facility.dart';
 import '../viewmodel/map_viewmodel.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});
@@ -41,8 +42,12 @@ class _MapViewState extends State<MapView> {
       markerBuilder: _buildClusterMarker,
       stopClusteringZoom: 17.0,
     );
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(context.read<MapViewModel>().ensureInitialized());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      await context.read<MapViewModel>().ensureInitialized(); // 먼저 로드
+      if (mounted) {
+        await context.read<MapViewModel>().changeLang(lang);  // 그 다음 번역
+      }
     });
     unawaited(_loadMaskPolygons());
   }

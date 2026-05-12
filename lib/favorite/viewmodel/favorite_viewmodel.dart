@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../service/favorite_service.dart';
+import '../../facility/service/facility_translation_service.dart';
 
 class FavoriteItem {
   final String id;
@@ -32,6 +33,9 @@ class FavoriteItem {
 
 class FavoriteViewModel extends ChangeNotifier {
   final FavoriteService _favoriteService = FavoriteService();
+  final FacilityTranslationService _translationService = FacilityTranslationService();
+  List<FavoriteItem> _originalFavorites = [];
+  String _currentLang = 'ko';
 
   // ── 상태 변수 ──────────────────────────────
   List<FavoriteItem> _favorites = [];
@@ -51,7 +55,13 @@ class FavoriteViewModel extends ChangeNotifier {
 
     try {
       final data = await _favoriteService.getFavorites();
-      _favorites = data.map((e) => FavoriteItem.fromMap(e)).toList();
+      _originalFavorites = data.map((e) => FavoriteItem.fromMap(e)).toList();
+      _favorites = List.from(_originalFavorites);
+
+      // 현재 언어가 한국어가 아니면 번역
+      if (_currentLang != 'ko') {
+        await changeLang(_currentLang);
+      }
     } catch (e) {
       _errorMessage = '즐겨찾기를 불러오지 못했어요';
       debugPrint('즐겨찾기 로딩 실패: $e');
@@ -99,5 +109,35 @@ class FavoriteViewModel extends ChangeNotifier {
   // ── 즐겨찾기 여부 확인 ─────────────────────
   Future<bool> isFavorite(String facilityId) async {
     return await _favoriteService.isFavorite(facilityId);
+  }
+  Future<void> changeLang(String lang) async {
+    _currentLang = lang;
+
+    if (lang == 'ko') {
+      _favorites = List.from(_originalFavorites);
+      notifyListeners();
+      return;
+    }
+
+    if (_originalFavorites.isEmpty) return;
+
+    final names = _originalFavorites.map((f) => f.name).toList();
+    final addrs = _originalFavorites.map((f) => f.address).toList();
+
+    final translatedNames = await _translationService.translateBatch(names, lang);
+    final translatedAddrs = await _translationService.translateAddressBatch(addrs, lang);
+
+    _favorites = List.generate(_originalFavorites.length, (i) {
+      return FavoriteItem(
+        id: _originalFavorites[i].id,
+        name: translatedNames[i],
+        category: _originalFavorites[i].category,
+        address: translatedAddrs[i],
+        distance: _originalFavorites[i].distance,
+        rating: _originalFavorites[i].rating,
+      );
+    });
+
+    notifyListeners();
   }
 }

@@ -115,7 +115,8 @@
     "popular": "Popular Keywords",
     "no_result": "No results found",
     "no_result_hint": "Try a different keyword",
-    "result_count": "{count} results"
+    "result_count": "{count} results",
+    "popular_keywords": "#Hospital,#Pharmacy,#Restaurant,#Daycare,#Culture"
   },
   "favorite": {
     "title": "Favorites",
