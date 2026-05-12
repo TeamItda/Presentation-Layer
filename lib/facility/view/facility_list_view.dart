@@ -82,7 +82,7 @@ class _FacilityListViewState extends State<FacilityListView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cat.name,
+                'categories.${cat.id}'.tr(),
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -280,7 +280,7 @@ class _FacilityListViewState extends State<FacilityListView> {
               padding: const EdgeInsets.all(12),
               child: Text(
                 'facility_list.map_label'.tr(namedArgs: {
-                  'name': cat.name,
+                  'name': 'categories.${cat.id}'.tr(),
                   'count': '${facilities.length}',
                 }),
                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text),

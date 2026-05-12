@@ -492,7 +492,7 @@ class _FilterBar extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: ChoiceChip(
-                  label: Text(option.label),
+                  label: Text('map.${option.id}'.tr()),
                   avatar: Icon(option.icon, size: 18),
                   selected: viewModel.selectedTypeId == option.id,
                   onSelected: (_) => viewModel.selectType(option.id),

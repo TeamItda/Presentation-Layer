@@ -69,7 +69,17 @@
     "ai_title": "AI生活助手",
     "ai_subtitle": "有任何关于钟路区的问题都可以问我！",
     "count_suffix": "个"
-  },  "map": {
+  },
+  "map": {
+    "all": "全部",
+    "medical": "医院",
+    "pharmacy": "药店",
+    "education": "学校",
+    "childcare": "托育",
+    "welfare": "福利",
+    "food": "美食",
+    "culture": "文化",
+    "government": "公共",
     "title": "钟路区地图",
     "refresh": "刷新",
     "facility_count": "{count}个设施",
@@ -145,6 +155,23 @@
     "review_empty": "还没有写评价",
     "capacity_unit": "名",
     "staff_unit": "名"
+  },
+  "categories": {
+    "medical": "医疗设施",
+    "pharmacy": "药店",
+    "education": "教育设施",
+    "childcare": "育儿服务",
+    "welfare": "老年福利",
+    "food": "美食",
+    "culture": "文化设施",
+    "government": "公共机构"
+  },
+  "nav": {
+    "home": "首页",
+    "chat": "AI助手",
+    "map": "地图",
+    "favorite": "收藏",
+    "profile": "个人资料"
   },
   "facility_list": {
     "location": "📍 钟路区 · {count}个",

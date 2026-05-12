@@ -195,7 +195,11 @@ class _LoginViewState extends State<LoginView> {
                                   _emailController.text.trim(),
                                   _passwordController.text.trim(),
                                 );
-                                if (success && mounted) context.go('/home');
+                                if (success && mounted) {
+                                  context.setLocale(
+                                      Locale(vm.selectedLanguage));
+                                  context.go('/home');
+                                }
                               },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
@@ -251,7 +255,11 @@ class _LoginViewState extends State<LoginView> {
                         onPressed: () async {
                           // Firebase 연동 완료
                           final success = await vm.signInWithGoogle();
-                          if (success && mounted) context.go('/home');
+                          if (success && mounted) {
+                            context.setLocale(Locale(vm.selectedLanguage));
+                            context.go('/home');
+
+                          }
                         },
                         icon: const Icon(
                           Icons.g_mobiledata,

@@ -20,7 +20,10 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<AuthViewModel>().loadUserInfo();
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      context.read<ProfileViewModel>().changeLang(lang);
       context.read<ProfileViewModel>().loadUserData();
     });
   }

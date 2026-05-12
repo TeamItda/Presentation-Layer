@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
+import '../../profile/viewmodel/profile_viewmodel.dart';
 
 class LanguageItem {
   final String code;
@@ -44,6 +45,7 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     // 앱 전체 언어 즉시 변경
     context.setLocale(Locale(locale));
     context.read<AuthViewModel>().selectLanguage(locale);
+    context.read<ProfileViewModel>().changeLang(locale);
   }
 
   @override

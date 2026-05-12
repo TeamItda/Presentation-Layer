@@ -42,6 +42,23 @@
     "version_prefix": "버전 ",
     "dev_info": "개발 정보"
   },
+  "categories": {
+    "medical": "의료시설",
+    "pharmacy": "약국",
+    "education": "교육시설",
+    "childcare": "육아돌봄",
+    "welfare": "노인복지",
+    "food": "맛집",
+    "culture": "문화시설",
+    "government": "공공기관"
+  },
+  "nav": {
+    "home": "홈",
+    "chat": "AI도우미",
+    "map": "지도",
+    "favorite": "즐겨찾기",
+    "profile": "프로필"
+  },
   "review": {
     "my_reviews": "내가 쓴 후기",
     "delete_title": "후기 삭제",
@@ -71,6 +88,15 @@
     "count_suffix": "개"
   },
   "map": {
+    "all": "전체",
+    "medical": "병원",
+    "pharmacy": "약국",
+    "education": "학교",
+    "childcare": "보육",
+    "welfare": "복지",
+    "food": "맛집",
+    "culture": "문화",
+    "government": "공공",
     "title": "종로구 지도",
     "refresh": "새로고침",
     "facility_count": "{count}개 시설",

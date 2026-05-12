@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
-
+import '../../auth/viewmodel/auth_viewmodel.dart';
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
 
@@ -15,6 +15,15 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      context.read<ChatViewModel>().changeLang(lang);
+    });
+  }
 
   void _send() {
     final text = _controller.text.trim();

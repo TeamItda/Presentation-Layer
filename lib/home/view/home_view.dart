@@ -6,11 +6,17 @@ import 'package:provider/provider.dart';
 import '../../core/constants.dart';
 import '../viewmodel/home_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
   Widget build(BuildContext context) {
+    context.locale; // locale 변경 시 rebuild 트리거
     final vm = context.watch<HomeViewModel>();
 
     return Scaffold(
@@ -148,7 +154,7 @@ class HomeView extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          cat.name,
+                          'categories.${cat.id}'.tr(),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -309,7 +315,7 @@ class HomeView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Text(
-                          cat.name,
+                          'categories.${cat.id}'.tr(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,

@@ -69,7 +69,34 @@
     "ai_title": "AI Life Assistant",
     "ai_subtitle": "Ask anything about Jongno-gu!",
     "count_suffix": ""
-  },  "map": {
+  },
+  "categories": {
+    "medical": "Medical",
+    "pharmacy": "Pharmacy",
+    "education": "Education",
+    "childcare": "Childcare",
+    "welfare": "Senior Welfare",
+    "food": "Restaurants",
+    "culture": "Culture",
+    "government": "Public Office"
+  },
+  "nav": {
+    "home": "Home",
+    "chat": "AI Assistant",
+    "map": "Map",
+    "favorite": "Favorites",
+    "profile": "Profile"
+  },
+  "map": {
+    "all": "All",
+    "medical": "Hospital",
+    "pharmacy": "Pharmacy",
+    "education": "School",
+    "childcare": "Childcare",
+    "welfare": "Welfare",
+    "food": "Food",
+    "culture": "Culture",
+    "government": "Public",
     "title": "Jongno-gu Map",
     "refresh": "Refresh",
     "facility_count": "{count} facilities",
