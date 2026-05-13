@@ -7,6 +7,7 @@ import '../../facility/viewmodel/facility_list_viewmodel.dart';
 import '../../map/viewmodel/map_viewmodel.dart';
 import '../../home/viewmodel/home_viewmodel.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
+import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
 
 class LanguageItem {
   final String code;
@@ -54,7 +55,7 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
     context.read<MapViewModel>().changeLang(locale);
     context.read<HomeViewModel>().changeLang(locale);
     context.read<FavoriteViewModel>().changeLang(locale);
-
+    context.read<NonPaymentViewModel>().changeLang(locale);
   }
 
   @override

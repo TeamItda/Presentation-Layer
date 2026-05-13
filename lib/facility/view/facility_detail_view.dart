@@ -8,6 +8,7 @@ import '../viewmodel/facility_list_viewmodel.dart';
 import '../../non_payment/view/non_payment_view.dart';
 import '../../review/view/review_write_view.dart';
 import '../../core/facility_type_translations.dart';
+import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
 
 class FacilityDetailView extends StatefulWidget {
   final String facilityId;
@@ -352,11 +353,12 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
           const SizedBox(height: 10),
           GestureDetector(
             onTap: () {
+              context.read<NonPaymentViewModel>().changeLang(lang);  // 언어 전달
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => NonPaymentView(
                     hospitalId: f['id'],
-                    hospitalName: f['name'],
+                    hospitalName: f['_originalName'] ?? f['name'],
                   ),
                 ),
               );

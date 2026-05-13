@@ -101,6 +101,20 @@
     "result_count": "検索結果 {count}件",
     "popular_keywords": "#病院,#薬局,#グルメ,#保育園,#文化施設"
   },
+  "non_payment": {
+    "title": "💰 自由診療費比較",
+    "search_hint": "項目を検索 (例: MRI, 超音波)",
+    "hospital": "病院名",
+    "min": "最低",
+    "max": "最高",
+    "avg": "平均",
+    "lowest": "最安値",
+    "empty_title": "自由診療費情報がありません",
+    "empty_subtitle": "クリニック級は自由診療情報が\n登録されていない場合があります",
+    "error_retry": "再試行",
+    "currency": "ウォン"
+  },
+
   "favorite": {
     "title": "お気に入り",
     "count_suffix": "件",

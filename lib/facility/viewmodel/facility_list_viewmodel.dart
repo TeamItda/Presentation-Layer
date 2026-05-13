@@ -89,37 +89,39 @@ class FacilityListViewModel extends ChangeNotifier {
     for (final f in _facilities) {
       f['_originalName'] ??= f['name'];
       f['_originalAddr'] ??= f['addr'];
+      f['_originalDept'] ??= f['dept'];
+      f['_originalEquip'] ??= f['equip'];
     }
-
-    print('번역할 시설 수: ${_facilities.length}');
-    print('첫 번째 시설명: ${_facilities.first['_originalName']}');
 
     // 캐시에 없는 것만 추려서 배치 번역
     final namesToTranslate = <String>[];
     final addrsToTranslate = <String>[];
+    final deptToTranslate = <String>[];
+    final equipToTranslate = <String>[];
 
     for (final f in _facilities) {
       final originalName = f['_originalName'] as String? ?? '';
       final originalAddr = f['_originalAddr'] as String? ?? '';
+      final originalDept = f['_originalDept'] as String? ?? '';
+      final originalEquip = f['_originalEquip'] as String? ?? '';
 
       if (!_translationCache.containsKey('${lang}_name_$originalName')) {
-        if (!namesToTranslate.contains(originalName)) {
-          namesToTranslate.add(originalName);
-        }
+        if (!namesToTranslate.contains(originalName)) namesToTranslate.add(originalName);
       }
       if (!_translationCache.containsKey('${lang}_addr_$originalAddr')) {
-        if (!addrsToTranslate.contains(originalAddr)) {
-          addrsToTranslate.add(originalAddr);
-        }
+        if (!addrsToTranslate.contains(originalAddr)) addrsToTranslate.add(originalAddr);
+      }
+      if (originalDept.isNotEmpty && !_translationCache.containsKey('${lang}_dept_$originalDept')) {
+        if (!deptToTranslate.contains(originalDept)) deptToTranslate.add(originalDept);
+      }
+      if (originalEquip.isNotEmpty && !_translationCache.containsKey('${lang}_equip_$originalEquip')) {
+        if (!equipToTranslate.contains(originalEquip)) equipToTranslate.add(originalEquip);
       }
     }
-    print('번역 대상 시설명 수: ${namesToTranslate.length}');
-    print('번역 대상 주소 수: ${addrsToTranslate.length}');
+
     // 시설명 배치 번역 (API 1번 호출)
     if (namesToTranslate.isNotEmpty) {
       final translated = await _translationService.translateBatch(namesToTranslate, lang);
-      print('번역 결과 수: ${translated.length}');
-      print('첫 번째 번역 결과: ${translated.first}');
       for (var i = 0; i < namesToTranslate.length; i++) {
         _translationCache['${lang}_name_${namesToTranslate[i]}'] = translated[i];
       }
@@ -133,12 +135,37 @@ class FacilityListViewModel extends ChangeNotifier {
       }
     }
 
+    // 진료과 배치 번역
+    if (deptToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateBatch(deptToTranslate, lang);
+      for (var i = 0; i < deptToTranslate.length; i++) {
+        _translationCache['${lang}_dept_${deptToTranslate[i]}'] = translated[i];
+      }
+    }
+
+    // 장비 배치 번역
+    if (equipToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateBatch(equipToTranslate, lang);
+      for (var i = 0; i < equipToTranslate.length; i++) {
+        _translationCache['${lang}_equip_${equipToTranslate[i]}'] = translated[i];
+      }
+    }
+
     // 캐시에서 번역 결과 적용
     for (final f in _facilities) {
       final originalName = f['_originalName'] as String? ?? '';
       final originalAddr = f['_originalAddr'] as String? ?? '';
+      final originalDept = f['_originalDept'] as String? ?? '';
+      final originalEquip = f['_originalEquip'] as String? ?? '';
+
       f['name'] = _translationCache['${lang}_name_$originalName'] ?? originalName;
       f['addr'] = _translationCache['${lang}_addr_$originalAddr'] ?? originalAddr;
+      if (originalDept.isNotEmpty) {
+        f['dept'] = _translationCache['${lang}_dept_$originalDept'] ?? originalDept;
+      }
+      if (originalEquip.isNotEmpty) {
+        f['equip'] = _translationCache['${lang}_equip_$originalEquip'] ?? originalEquip;
+      }
     }
 
     _isTranslating = false;

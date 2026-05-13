@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NonPaymentView extends StatefulWidget {
   final String? hospitalId;
@@ -37,7 +38,7 @@ class _NonPaymentViewState extends State<NonPaymentView> {
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (m) => '${m[1]},',
     ) +
-        '원';
+        'non_payment.currency'.tr();
   }
 
   int _getMinAvg(NonPaymentCategory category) {
@@ -77,11 +78,11 @@ class _NonPaymentViewState extends State<NonPaymentView> {
         icon: const Icon(Icons.arrow_back, color: Colors.black87),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      title: const Row(
+      title: Row(
         children: [
           Text('💰', style: TextStyle(fontSize: 18)),
           SizedBox(width: 6),
-          Text('비급여 진료비 비교',
+          Text('non_payment.title'.tr(),
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -103,7 +104,7 @@ class _NonPaymentViewState extends State<NonPaymentView> {
         controller: _searchController,
         style: const TextStyle(fontSize: 14, color: Colors.black87),
         decoration: InputDecoration(
-          hintText: '비급여 항목 검색 (예: MRI, 초음파)',
+          hintText: 'non_payment.search_hint'.tr(),
           hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
           prefixIcon: Icon(Icons.search, color: Colors.grey[400], size: 20),
           suffixIcon: _searchController.text.isNotEmpty
@@ -206,17 +207,17 @@ class _NonPaymentViewState extends State<NonPaymentView> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             flex: 3,
-            child: Text('병원명',
+            child: Text('non_payment.hospital'.tr(),
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: Colors.black87)),
           ),
-          _headerCell('최소'),
-          _headerCell('최대'),
-          _headerCell('평균'),
+          _headerCell('non_payment.min'.tr()),
+          _headerCell('non_payment.max'.tr()),
+          _headerCell('non_payment.avg'.tr()),
         ],
       ),
     );
@@ -258,7 +259,7 @@ class _NonPaymentViewState extends State<NonPaymentView> {
                       color: const Color(0xFFE8F5E9),
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: const Text('최저',
+                    child: Text('non_payment.lowest'.tr(),
                         style: TextStyle(
                             fontSize: 10,
                             color: Color(0xFF2E7D32),
@@ -304,12 +305,12 @@ class _NonPaymentViewState extends State<NonPaymentView> {
           Icon(Icons.info_outline, size: 52, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
-            '비급여 진료비 정보가 없어요',
+            'non_payment.empty_title'.tr(),
             style: TextStyle(fontSize: 14, color: Colors.grey[500]),
           ),
           const SizedBox(height: 8),
           Text(
-            '의원급은 비급여 정보가\n등록되지 않을 수 있어요',
+            'non_payment.empty_subtitle'.tr(),
             style: TextStyle(fontSize: 12, color: Colors.grey[400]),
             textAlign: TextAlign.center,
           ),
@@ -330,7 +331,7 @@ class _NonPaymentViewState extends State<NonPaymentView> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () => vm.loadNonPayments(),
-            child: const Text('다시 시도'),
+            child: Text('non_payment.error_retry'.tr()),
           ),
         ],
       ),

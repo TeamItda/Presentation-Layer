@@ -9,6 +9,7 @@ import '../../facility/viewmodel/facility_list_viewmodel.dart';
 import '../../map/viewmodel/map_viewmodel.dart';
 import '../../home/viewmodel/home_viewmodel.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
+import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -268,6 +269,7 @@ class _ChatViewState extends State<ChatView> {
                             context.read<MapViewModel>().changeLang(value);
                             context.read<HomeViewModel>().changeLang(value);
                             context.read<FavoriteViewModel>().changeLang(value);
+                            context.read<NonPaymentViewModel>().changeLang(value);
                             },
                   ),
                 ),

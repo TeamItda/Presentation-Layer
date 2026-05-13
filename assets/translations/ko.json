@@ -118,6 +118,20 @@
     "result_count": "검색 결과 {count}개",
     "popular_keywords": "#병원,#약국,#맛집,#어린이집,#문화시설"
   },
+  "non_payment": {
+    "title": "💰 비급여 진료비 비교",
+    "search_hint": "비급여 항목 검색 (예: MRI, 초음파)",
+    "hospital": "병원명",
+    "min": "최소",
+    "max": "최대",
+    "avg": "평균",
+    "lowest": "최저",
+    "empty_title": "비급여 진료비 정보가 없어요",
+    "empty_subtitle": "의원급은 비급여 정보가\n등록되지 않을 수 있어요",
+    "error_retry": "다시 시도",
+    "currency": "원"
+  },
+
   "favorite": {
     "title": "즐겨찾기",
     "count_suffix": "개",

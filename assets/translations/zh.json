@@ -101,6 +101,20 @@
     "result_count": "搜索结果 {count}个",
     "popular_keywords": "#医院,#药店,#餐厅,#托儿所,#文化设施"
   },
+  "non_payment": {
+    "title": "💰 非医保诊疗费比较",
+    "search_hint": "搜索项目 (例: MRI, 超声波)",
+    "hospital": "医院名",
+    "min": "最低",
+    "max": "最高",
+    "avg": "平均",
+    "lowest": "最低价",
+    "empty_title": "暂无非医保诊疗费信息",
+    "empty_subtitle": "诊所级别可能未登记\n非医保费用信息",
+    "error_retry": "重试",
+    "currency": "韩元"
+  },
+
   "favorite": {
     "title": "收藏",
     "count_suffix": "个",

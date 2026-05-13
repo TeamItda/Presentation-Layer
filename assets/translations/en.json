@@ -137,6 +137,20 @@
     "input_hint": "Enter a message",
     "date_format": "{month}/{day}/{year}"
   },
+  "non_payment": {
+    "title": "💰 Non-covered Treatment Fees",
+    "search_hint": "Search items (e.g. MRI, Ultrasound)",
+    "hospital": "Hospital",
+    "min": "Min",
+    "max": "Max",
+    "avg": "Avg",
+    "lowest": "Lowest",
+    "empty_title": "No non-covered fee info available",
+    "empty_subtitle": "Clinics may not have\nnon-covered fee information",
+    "error_retry": "Retry",
+    "currency": "won"
+  },
+
   "facility": {
     "loading": "Loading...",
     "medical_info": "🩺 Medical Info",
