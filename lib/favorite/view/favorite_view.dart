@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class FavoriteView extends StatefulWidget {
@@ -26,6 +27,22 @@ class _FavoriteViewState extends State<FavoriteView> {
         ..changeLang(lang)
         ..loadFavorites();
     });
+  }
+
+  String _getCategoryId(String category) {
+    switch (category) {
+      case '의료시설':
+      case '의원':
+      case '병원':
+      case '상급종합':
+        return 'medical';
+      case '약국':
+        return 'pharmacy';
+      case '교육시설':
+        return 'education';
+      default:
+        return 'medical';
+    }
   }
 
   Color _categoryColor(String category) {
@@ -190,7 +207,11 @@ class _FavoriteViewState extends State<FavoriteView> {
         ],
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push(
+            '/facility/${item.id}?category=${_getCategoryId(item.category)}',
+          );
+        },
         borderRadius: BorderRadius.circular(14),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
