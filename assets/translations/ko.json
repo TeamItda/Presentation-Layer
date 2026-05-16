@@ -42,6 +42,23 @@
     "version_prefix": "버전 ",
     "dev_info": "개발 정보"
   },
+  "categories": {
+    "medical": "의료시설",
+    "pharmacy": "약국",
+    "education": "교육시설",
+    "childcare": "육아돌봄",
+    "welfare": "노인복지",
+    "food": "맛집",
+    "culture": "문화시설",
+    "government": "공공기관"
+  },
+  "nav": {
+    "home": "홈",
+    "chat": "AI도우미",
+    "map": "지도",
+    "favorite": "즐겨찾기",
+    "profile": "프로필"
+  },
   "review": {
     "my_reviews": "내가 쓴 후기",
     "delete_title": "후기 삭제",
@@ -71,6 +88,15 @@
     "count_suffix": "개"
   },
   "map": {
+    "all": "전체",
+    "medical": "병원",
+    "pharmacy": "약국",
+    "education": "학교",
+    "childcare": "보육",
+    "welfare": "복지",
+    "food": "맛집",
+    "culture": "문화",
+    "government": "공공",
     "title": "종로구 지도",
     "refresh": "새로고침",
     "facility_count": "{count}개 시설",
@@ -89,8 +115,23 @@
     "popular": "인기 검색어",
     "no_result": "검색 결과가 없어요",
     "no_result_hint": "다른 키워드로 검색해보세요",
-    "result_count": "검색 결과 {count}개"
+    "result_count": "검색 결과 {count}개",
+    "popular_keywords": "#병원,#약국,#맛집,#어린이집,#문화시설"
   },
+  "non_payment": {
+    "title": "💰 비급여 진료비 비교",
+    "search_hint": "비급여 항목 검색 (예: MRI, 초음파)",
+    "hospital": "병원명",
+    "min": "최소",
+    "max": "최대",
+    "avg": "평균",
+    "lowest": "최저",
+    "empty_title": "비급여 진료비 정보가 없어요",
+    "empty_subtitle": "의원급은 비급여 정보가\n등록되지 않을 수 있어요",
+    "error_retry": "다시 시도",
+    "currency": "원"
+  },
+
   "favorite": {
     "title": "즐겨찾기",
     "count_suffix": "개",

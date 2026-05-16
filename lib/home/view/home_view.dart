@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../core/constants.dart';
 import '../viewmodel/home_viewmodel.dart';
 
+import '../../auth/viewmodel/auth_viewmodel.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -18,12 +20,15 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeViewModel>().loadFeatured();
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      // changeLang은 미로드 상태면 내부적으로 loadFeatured 호출 후 번역까지 처리
+      context.read<HomeViewModel>().changeLang(lang);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    context.locale; // locale 변경 시 rebuild 트리거
     final vm = context.watch<HomeViewModel>();
 
     return Scaffold(
@@ -169,7 +174,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         const Spacer(),
                         Text(
-                          cat.name,
+                          'categories.${cat.id}'.tr(),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -330,7 +335,7 @@ class _HomeViewState extends State<HomeView> {
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Text(
-                          cat.name,
+                          'categories.${cat.id}'.tr(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,

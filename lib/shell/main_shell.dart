@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,21 +34,12 @@ class MainShell extends StatelessWidget {
           unselectedItemColor: AppColors.subText,
           selectedFontSize: 11,
           unselectedFontSize: 11,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: '홈'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.smart_toy_rounded),
-              label: 'AI도우미',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.map_rounded), label: '지도'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_rounded),
-              label: '즐겨찾기',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded),
-              label: '프로필',
-            ),
+          items: [
+            BottomNavigationBarItem(icon: const Icon(Icons.home_rounded), label: 'nav.home'.tr()),
+            BottomNavigationBarItem(icon: const Icon(Icons.smart_toy_rounded), label: 'nav.chat'.tr()),
+            BottomNavigationBarItem(icon: const Icon(Icons.map_rounded), label: 'nav.map'.tr()),
+            BottomNavigationBarItem(icon: const Icon(Icons.favorite_rounded), label: 'nav.favorite'.tr()),
+            BottomNavigationBarItem(icon: const Icon(Icons.person_rounded), label: 'nav.profile'.tr()),
           ],
         ),
       ),

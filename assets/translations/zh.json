@@ -69,7 +69,17 @@
     "ai_title": "AI生活助手",
     "ai_subtitle": "有任何关于钟路区的问题都可以问我！",
     "count_suffix": "个"
-  },  "map": {
+  },
+  "map": {
+    "all": "全部",
+    "medical": "医院",
+    "pharmacy": "药店",
+    "education": "学校",
+    "childcare": "托育",
+    "welfare": "福利",
+    "food": "美食",
+    "culture": "文化",
+    "government": "公共",
     "title": "钟路区地图",
     "refresh": "刷新",
     "facility_count": "{count}个设施",
@@ -88,8 +98,23 @@
     "popular": "热门关键词",
     "no_result": "没有搜索结果",
     "no_result_hint": "请尝试其他关键词",
-    "result_count": "搜索结果 {count}个"
+    "result_count": "搜索结果 {count}个",
+    "popular_keywords": "#医院,#药店,#餐厅,#托儿所,#文化设施"
   },
+  "non_payment": {
+    "title": "💰 非医保诊疗费比较",
+    "search_hint": "搜索项目 (例: MRI, 超声波)",
+    "hospital": "医院名",
+    "min": "最低",
+    "max": "最高",
+    "avg": "平均",
+    "lowest": "最低价",
+    "empty_title": "暂无非医保诊疗费信息",
+    "empty_subtitle": "诊所级别可能未登记\n非医保费用信息",
+    "error_retry": "重试",
+    "currency": "韩元"
+  },
+
   "favorite": {
     "title": "收藏",
     "count_suffix": "个",
@@ -145,6 +170,23 @@
     "review_empty": "还没有写评价",
     "capacity_unit": "名",
     "staff_unit": "名"
+  },
+  "categories": {
+    "medical": "医疗设施",
+    "pharmacy": "药店",
+    "education": "教育设施",
+    "childcare": "育儿服务",
+    "welfare": "老年福利",
+    "food": "美食",
+    "culture": "文化设施",
+    "government": "公共机构"
+  },
+  "nav": {
+    "home": "首页",
+    "chat": "AI助手",
+    "map": "地图",
+    "favorite": "收藏",
+    "profile": "个人资料"
   },
   "facility_list": {
     "location": "📍 钟路区 · {count}个",

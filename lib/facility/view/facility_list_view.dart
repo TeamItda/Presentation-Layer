@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-
+import '../../auth/viewmodel/auth_viewmodel.dart';
 import '../../core/constants.dart';
 import '../../map/jongno_boundary_overlay.dart';
 import '../viewmodel/facility_list_viewmodel.dart';
+import '../../core/facility_type_translations.dart';
 
 class FacilityListView extends StatefulWidget {
   final String categoryId;
@@ -23,6 +24,8 @@ class _FacilityListViewState extends State<FacilityListView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final lang = context.read<AuthViewModel>().selectedLanguage;
+      context.read<FacilityListViewModel>().changeLang(lang);
       context.read<FacilityListViewModel>().loadFacilities(widget.categoryId);
     });
     _loadMaskPolygons();
@@ -82,7 +85,7 @@ class _FacilityListViewState extends State<FacilityListView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cat.name,
+                'categories.${cat.id}'.tr(),
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -219,7 +222,7 @@ class _FacilityListViewState extends State<FacilityListView> {
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                             decoration: BoxDecoration(color: cat.bgColor, borderRadius: BorderRadius.circular(4)),
                             child: Text(
-                              f['type'].toString(),
+                              FacilityTypeTranslations.translate(f['type'].toString(), vm.currentLang),
                               style: TextStyle(fontSize: 9, color: cat.color, fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -280,7 +283,7 @@ class _FacilityListViewState extends State<FacilityListView> {
               padding: const EdgeInsets.all(12),
               child: Text(
                 'facility_list.map_label'.tr(namedArgs: {
-                  'name': cat.name,
+                  'name': 'categories.${cat.id}'.tr(),
                   'count': '${facilities.length}',
                 }),
                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.text),

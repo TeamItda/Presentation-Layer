@@ -69,7 +69,17 @@
     "ai_title": "AI生活アシスタント",
     "ai_subtitle": "鍾路区について何でも聞いてください！",
     "count_suffix": "件"
-  },  "map": {
+  },
+  "map": {
+    "all": "全て",
+    "medical": "病院",
+    "pharmacy": "薬局",
+    "education": "学校",
+    "childcare": "保育",
+    "welfare": "福祉",
+    "food": "グルメ",
+    "culture": "文化",
+    "government": "公共",
     "title": "鍾路区マップ",
     "refresh": "更新",
     "facility_count": "{count}件の施設",
@@ -88,8 +98,23 @@
     "popular": "人気キーワード",
     "no_result": "検索結果がありません",
     "no_result_hint": "別のキーワードで検索してみてください",
-    "result_count": "検索結果 {count}件"
+    "result_count": "検索結果 {count}件",
+    "popular_keywords": "#病院,#薬局,#グルメ,#保育園,#文化施設"
   },
+  "non_payment": {
+    "title": "💰 自由診療費比較",
+    "search_hint": "項目を検索 (例: MRI, 超音波)",
+    "hospital": "病院名",
+    "min": "最低",
+    "max": "最高",
+    "avg": "平均",
+    "lowest": "最安値",
+    "empty_title": "自由診療費情報がありません",
+    "empty_subtitle": "クリニック級は自由診療情報が\n登録されていない場合があります",
+    "error_retry": "再試行",
+    "currency": "ウォン"
+  },
+
   "favorite": {
     "title": "お気に入り",
     "count_suffix": "件",
@@ -108,6 +133,23 @@
     "copied": "回答をコピーしました。",
     "input_hint": "メッセージを入力してください",
     "date_format": "{year}年{month}月{day}日"
+  },
+  "categories": {
+    "medical": "医療施設",
+    "pharmacy": "薬局",
+    "education": "教育施設",
+    "childcare": "育児支援",
+    "welfare": "高齢者福祉",
+    "food": "グルメ",
+    "culture": "文化施設",
+    "government": "公共機関"
+  },
+  "nav": {
+    "home": "ホーム",
+    "chat": "AIアシスタント",
+    "map": "地図",
+    "favorite": "お気に入り",
+    "profile": "プロフィール"
   },
   "facility": {
     "loading": "読み込み中...",

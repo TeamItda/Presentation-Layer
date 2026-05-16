@@ -10,6 +10,7 @@ import '../service/pharmacy_service.dart';
 import '../service/restaurant_service.dart';
 import '../service/school_service.dart';
 import '../service/welfare_service.dart';
+import '../service/facility_translation_service.dart'; // 추가
 
 class FacilityListViewModel extends ChangeNotifier {
   final HospitalService _hospitalService = HospitalService();
@@ -20,20 +21,28 @@ class FacilityListViewModel extends ChangeNotifier {
   final RestaurantService _restaurantService = RestaurantService();
   final CultureService _cultureService = CultureService();
   final GovernmentService _governmentService = GovernmentService();
+  final FacilityTranslationService _translationService = FacilityTranslationService(); // 추가
 
   final Map<String, LatLng?> _coordinateCache = <String, LatLng?>{};
+
+  // 번역 캐시: 'en_name_서울대학교병원' → 'Seoul National University Hospital'
+  final Map<String, String> _translationCache = {};
 
   List<Map<String, dynamic>> _facilities = [];
   bool _isLoading = false;
   bool _hasError = false;
   String _errorMessage = '';
   String _viewMode = 'list';
+  String _currentLang = 'ko'; // 현재 언어
+  bool _isTranslating = false; // 번역 로딩 상태
 
   List<Map<String, dynamic>> get facilities => _facilities;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
   String get viewMode => _viewMode;
+  String get currentLang => _currentLang;
+  bool get isTranslating => _isTranslating;
 
   List<Map<String, dynamic>> get mappableFacilities {
     return _facilities.where((facility) {
@@ -45,6 +54,121 @@ class FacilityListViewModel extends ChangeNotifier {
 
   void toggleViewMode() {
     _viewMode = _viewMode == 'list' ? 'map' : 'list';
+    notifyListeners();
+  }
+
+  /// 언어 변경 시 호출 — chat_viewmodel의 changeLang과 연동
+  Future<void> changeLang(String lang) async {
+    if (_currentLang == lang) return;
+    _currentLang = lang;
+
+    // 한국어면 번역 불필요
+    if (lang == 'ko') {
+      _restoreOriginals();
+      notifyListeners();
+      return;
+    }
+
+    await _translateFacilities(lang);
+  }
+
+  /// 원본 한국어로 복원
+  void _restoreOriginals() {
+    for (final f in _facilities) {
+      if (f['_originalName'] != null) f['name'] = f['_originalName'];
+      if (f['_originalAddr'] != null) f['addr'] = f['_originalAddr'];
+    }
+  }
+
+  /// 시설 목록 전체 배치 번역
+  Future<void> _translateFacilities(String lang) async {
+    _isTranslating = true;
+    notifyListeners();
+
+    // 원본 보존 (최초 1회)
+    for (final f in _facilities) {
+      f['_originalName'] ??= f['name'];
+      f['_originalAddr'] ??= f['addr'];
+      f['_originalDept'] ??= f['dept'];
+      f['_originalEquip'] ??= f['equip'];
+    }
+
+    // 캐시에 없는 것만 추려서 배치 번역
+    final namesToTranslate = <String>[];
+    final addrsToTranslate = <String>[];
+    final deptToTranslate = <String>[];
+    final equipToTranslate = <String>[];
+
+    for (final f in _facilities) {
+      final originalName = f['_originalName'] as String? ?? '';
+      final originalAddr = f['_originalAddr'] as String? ?? '';
+      final originalDept = f['_originalDept'] as String? ?? '';
+      final originalEquip = f['_originalEquip'] as String? ?? '';
+
+      if (!_translationCache.containsKey('${lang}_name_$originalName')) {
+        if (!namesToTranslate.contains(originalName)) namesToTranslate.add(originalName);
+      }
+      if (!_translationCache.containsKey('${lang}_addr_$originalAddr')) {
+        if (!addrsToTranslate.contains(originalAddr)) addrsToTranslate.add(originalAddr);
+      }
+      if (originalDept.isNotEmpty && !_translationCache.containsKey('${lang}_dept_$originalDept')) {
+        if (!deptToTranslate.contains(originalDept)) deptToTranslate.add(originalDept);
+      }
+      if (originalEquip.isNotEmpty && !_translationCache.containsKey('${lang}_equip_$originalEquip')) {
+        if (!equipToTranslate.contains(originalEquip)) equipToTranslate.add(originalEquip);
+      }
+    }
+
+    // 시설명 배치 번역 (API 1번 호출)
+    if (namesToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateBatch(namesToTranslate, lang);
+      for (var i = 0; i < namesToTranslate.length; i++) {
+        _translationCache['${lang}_name_${namesToTranslate[i]}'] = translated[i];
+      }
+    }
+
+    // 주소 배치 로마자 변환 + 번역 (병렬 처리)
+    if (addrsToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateAddressBatch(addrsToTranslate, lang);
+      for (var i = 0; i < addrsToTranslate.length; i++) {
+        _translationCache['${lang}_addr_${addrsToTranslate[i]}'] = translated[i];
+      }
+    }
+
+    // 진료과 배치 번역
+    if (deptToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateBatch(deptToTranslate, lang);
+      for (var i = 0; i < deptToTranslate.length; i++) {
+        _translationCache['${lang}_dept_${deptToTranslate[i]}'] = translated[i];
+      }
+    }
+
+    // 장비 배치 번역
+    if (equipToTranslate.isNotEmpty) {
+      final translated = await _translationService.translateBatch(equipToTranslate, lang);
+      for (var i = 0; i < equipToTranslate.length; i++) {
+        _translationCache['${lang}_equip_${equipToTranslate[i]}'] = translated[i];
+      }
+    }
+
+    // 캐시에서 번역 결과 적용
+    for (final f in _facilities) {
+      final originalName = f['_originalName'] as String? ?? '';
+      final originalAddr = f['_originalAddr'] as String? ?? '';
+      final originalDept = f['_originalDept'] as String? ?? '';
+      final originalEquip = f['_originalEquip'] as String? ?? '';
+
+      f['name'] = _translationCache['${lang}_name_$originalName'] ?? originalName;
+      f['addr'] = _translationCache['${lang}_addr_$originalAddr'] ?? originalAddr;
+      if (originalDept.isNotEmpty) {
+        f['dept'] = _translationCache['${lang}_dept_$originalDept'] ?? originalDept;
+      }
+      if (originalEquip.isNotEmpty) {
+        f['equip'] = _translationCache['${lang}_equip_$originalEquip'] ?? originalEquip;
+      }
+    }
+
+    _isTranslating = false;
     notifyListeners();
   }
 
@@ -83,6 +207,11 @@ class FacilityListViewModel extends ChangeNotifier {
         default:
           _facilities = [];
       }
+
+      // 로드 완료 후 현재 언어가 한국어가 아니면 바로 번역
+      if (_currentLang != 'ko') {
+        await _translateFacilities(_currentLang);
+      }
     } catch (e) {
       _hasError = true;
       _errorMessage = '데이터를 불러오지 못했습니다. $e';
@@ -93,31 +222,32 @@ class FacilityListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+
   Future<void> _loadHospitals() async {
     final hospitals = await _hospitalService.fetchHospitals();
     _facilities = hospitals
         .map(
           (h) => {
-            'id': h.id,
-            'name': h.name,
-            'addr': h.addr,
-            'tel': h.tel,
-            'rating': 0.0,
-            'dist': '',
-            'type': h.type,
-            'homepage': h.homepage,
-            'lat': h.lat,
-            'lng': h.lng,
-            'totalDocs': h.totalDocs,
-            'specialists': h.specialists,
-            'dept': h.departmentsText,
-            'equip': h.equipmentText,
-            'departments': h.departments,
-            'equipment': h.equipment
-                .map((e) => {'name': e.name, 'count': e.count})
-                .toList(),
-          },
-        )
+        'id': h.id,
+        'name': h.name,
+        'addr': h.addr,
+        'tel': h.tel,
+        'rating': 0.0,
+        'dist': '',
+        'type': h.type,
+        'homepage': h.homepage,
+        'lat': h.lat,
+        'lng': h.lng,
+        'totalDocs': h.totalDocs,
+        'specialists': h.specialists,
+        'dept': h.departmentsText,
+        'equip': h.equipmentText,
+        'departments': h.departments,
+        'equipment': h.equipment
+            .map((e) => {'name': e.name, 'count': e.count})
+            .toList(),
+      },
+    )
         .toList();
   }
 
@@ -126,16 +256,16 @@ class FacilityListViewModel extends ChangeNotifier {
     _facilities = pharmacies
         .map(
           (p) => {
-            'id': p.id,
-            'name': p.name,
-            'addr': p.addr,
-            'tel': p.tel,
-            'rating': 0.0,
-            'dist': '',
-            'lat': p.lat,
-            'lng': p.lng,
-          },
-        )
+        'id': p.id,
+        'name': p.name,
+        'addr': p.addr,
+        'tel': p.tel,
+        'rating': 0.0,
+        'dist': '',
+        'lat': p.lat,
+        'lng': p.lng,
+      },
+    )
         .toList();
   }
 
@@ -172,24 +302,24 @@ class FacilityListViewModel extends ChangeNotifier {
     final list = await _childcareService.fetchChildcares();
     _facilities = list
         .map((c) => {
-              'id': c.id,
-              'name': c.name,
-              'addr': c.addr,
-              'tel': c.tel,
-              'type': c.typeLabel,
-              'publicPrivate': c.publicPrivateLabel,
-              'operatingHours': c.operatingHours ?? '',
-              'homepage': c.homepage ?? '',
-              'rating': 0.0,
-              'dist': '',
-              'lat': c.lat ?? 0.0,
-              'lng': c.lng ?? 0.0,
-              'capacity': c.capacity,
-              'currentCount': c.currentCount,
-              'hasCctv': c.hasCctv,
-              'staffCount': c.staffCount,
-              'occupancyRate': c.occupancyRate,
-            })
+      'id': c.id,
+      'name': c.name,
+      'addr': c.addr,
+      'tel': c.tel,
+      'type': c.typeLabel,
+      'publicPrivate': c.publicPrivateLabel,
+      'operatingHours': c.operatingHours ?? '',
+      'homepage': c.homepage ?? '',
+      'rating': 0.0,
+      'dist': '',
+      'lat': c.lat ?? 0.0,
+      'lng': c.lng ?? 0.0,
+      'capacity': c.capacity,
+      'currentCount': c.currentCount,
+      'hasCctv': c.hasCctv,
+      'staffCount': c.staffCount,
+      'occupancyRate': c.occupancyRate,
+    })
         .toList();
   }
 
@@ -197,23 +327,23 @@ class FacilityListViewModel extends ChangeNotifier {
     final list = await _welfareService.fetchWelfares();
     _facilities = list
         .map((w) => {
-              'id': w.id,
-              'name': w.name,
-              'addr': w.addr,
-              'tel': w.tel,
-              'type': w.type,
-              'homepage': w.homepage ?? '',
-              'rating': 0.0,
-              'dist': '',
-              'lat': w.lat ?? 0.0,
-              'lng': w.lng ?? 0.0,
-              'capacity': w.capacity,
-              'staffCount': w.staffCount,
-              if (w.longTermAdminSym != null && w.longTermAdminSym!.isNotEmpty)
-                'longTermAdminSym': w.longTermAdminSym,
-              if (w.adminPttnCd != null && w.adminPttnCd!.isNotEmpty)
-                'adminPttnCd': w.adminPttnCd,
-            })
+      'id': w.id,
+      'name': w.name,
+      'addr': w.addr,
+      'tel': w.tel,
+      'type': w.type,
+      'homepage': w.homepage ?? '',
+      'rating': 0.0,
+      'dist': '',
+      'lat': w.lat ?? 0.0,
+      'lng': w.lng ?? 0.0,
+      'capacity': w.capacity,
+      'staffCount': w.staffCount,
+      if (w.longTermAdminSym != null && w.longTermAdminSym!.isNotEmpty)
+        'longTermAdminSym': w.longTermAdminSym,
+      if (w.adminPttnCd != null && w.adminPttnCd!.isNotEmpty)
+        'adminPttnCd': w.adminPttnCd,
+    })
         .toList();
   }
 
@@ -221,18 +351,18 @@ class FacilityListViewModel extends ChangeNotifier {
     final list = await _restaurantService.fetchRestaurants();
     _facilities = list
         .map((r) => {
-              'id': r.id,
-              'name': r.name,
-              'addr': r.addr,
-              'tel': r.tel,
-              'type': r.category,
-              'homepage': r.homepage ?? '',
-              'rating': r.rating,
-              'dist': '',
-              'lat': r.lat ?? 0.0,
-              'lng': r.lng ?? 0.0,
-              'category': r.category,
-            })
+      'id': r.id,
+      'name': r.name,
+      'addr': r.addr,
+      'tel': r.tel,
+      'type': r.category,
+      'homepage': r.homepage ?? '',
+      'rating': r.rating,
+      'dist': '',
+      'lat': r.lat ?? 0.0,
+      'lng': r.lng ?? 0.0,
+      'category': r.category,
+    })
         .toList();
   }
 
@@ -240,17 +370,17 @@ class FacilityListViewModel extends ChangeNotifier {
     final list = await _cultureService.fetchCultures();
     _facilities = list
         .map((c) => {
-              'id': c.id,
-              'name': c.name,
-              'addr': c.addr,
-              'tel': c.tel,
-              'type': c.type,
-              'homepage': c.homepage ?? '',
-              'rating': 0.0,
-              'dist': '',
-              'lat': c.lat ?? 0.0,
-              'lng': c.lng ?? 0.0,
-            })
+      'id': c.id,
+      'name': c.name,
+      'addr': c.addr,
+      'tel': c.tel,
+      'type': c.type,
+      'homepage': c.homepage ?? '',
+      'rating': 0.0,
+      'dist': '',
+      'lat': c.lat ?? 0.0,
+      'lng': c.lng ?? 0.0,
+    })
         .toList();
   }
 
@@ -258,18 +388,18 @@ class FacilityListViewModel extends ChangeNotifier {
     final list = await _governmentService.fetchGovernments();
     _facilities = list
         .map((g) => {
-              'id': g.id,
-              'name': g.name,
-              'addr': g.addr,
-              'tel': g.tel,
-              'type': g.type,
-              'homepage': g.homepage ?? '',
-              'operatingHours': g.displayOperatingHours,
-              'rating': 0.0,
-              'dist': '',
-              'lat': g.lat ?? 0.0,
-              'lng': g.lng ?? 0.0,
-            })
+      'id': g.id,
+      'name': g.name,
+      'addr': g.addr,
+      'tel': g.tel,
+      'type': g.type,
+      'homepage': g.homepage ?? '',
+      'operatingHours': g.displayOperatingHours,
+      'rating': 0.0,
+      'dist': '',
+      'lat': g.lat ?? 0.0,
+      'lng': g.lng ?? 0.0,
+    })
         .toList();
   }
 

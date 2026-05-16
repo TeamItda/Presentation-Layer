@@ -69,7 +69,34 @@
     "ai_title": "AI Life Assistant",
     "ai_subtitle": "Ask anything about Jongno-gu!",
     "count_suffix": ""
-  },  "map": {
+  },
+  "categories": {
+    "medical": "Medical",
+    "pharmacy": "Pharmacy",
+    "education": "Education",
+    "childcare": "Childcare",
+    "welfare": "Senior Welfare",
+    "food": "Restaurants",
+    "culture": "Culture",
+    "government": "Public Office"
+  },
+  "nav": {
+    "home": "Home",
+    "chat": "AI Assistant",
+    "map": "Map",
+    "favorite": "Favorites",
+    "profile": "Profile"
+  },
+  "map": {
+    "all": "All",
+    "medical": "Hospital",
+    "pharmacy": "Pharmacy",
+    "education": "School",
+    "childcare": "Childcare",
+    "welfare": "Welfare",
+    "food": "Food",
+    "culture": "Culture",
+    "government": "Public",
     "title": "Jongno-gu Map",
     "refresh": "Refresh",
     "facility_count": "{count} facilities",
@@ -88,7 +115,8 @@
     "popular": "Popular Keywords",
     "no_result": "No results found",
     "no_result_hint": "Try a different keyword",
-    "result_count": "{count} results"
+    "result_count": "{count} results",
+    "popular_keywords": "#Hospital,#Pharmacy,#Restaurant,#Daycare,#Culture"
   },
   "favorite": {
     "title": "Favorites",
@@ -109,6 +137,20 @@
     "input_hint": "Enter a message",
     "date_format": "{month}/{day}/{year}"
   },
+  "non_payment": {
+    "title": "💰 Non-covered Treatment Fees",
+    "search_hint": "Search items (e.g. MRI, Ultrasound)",
+    "hospital": "Hospital",
+    "min": "Min",
+    "max": "Max",
+    "avg": "Avg",
+    "lowest": "Lowest",
+    "empty_title": "No non-covered fee info available",
+    "empty_subtitle": "Clinics may not have\nnon-covered fee information",
+    "error_retry": "Retry",
+    "currency": "won"
+  },
+
   "facility": {
     "loading": "Loading...",
     "medical_info": "🩺 Medical Info",

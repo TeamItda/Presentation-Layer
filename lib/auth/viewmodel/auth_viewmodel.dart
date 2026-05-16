@@ -6,6 +6,18 @@ import '../service/auth_service.dart';
 class AuthViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
 
+  AuthViewModel() {
+    _initAuthState();
+  }
+
+  void _initAuthState() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _isLoggedIn = true;
+      loadUserInfo();
+    }
+  }
+
   bool _isLoggedIn = false;
   bool _isLoading = false;
   String? _errorMessage;

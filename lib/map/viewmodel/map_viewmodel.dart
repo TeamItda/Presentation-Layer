@@ -16,6 +16,7 @@ import '../../facility/service/restaurant_service.dart';
 import '../../facility/service/school_service.dart';
 import '../../facility/service/welfare_service.dart';
 import '../model/map_facility.dart';
+import '../../facility/service/facility_translation_service.dart';
 
 class MapViewModel extends ChangeNotifier {
   MapViewModel({
@@ -111,6 +112,8 @@ class MapViewModel extends ChangeNotifier {
   List<MapFacility>? _filteredCache;
   final Map<String, BitmapDescriptor> _markerIcons =
       <String, BitmapDescriptor>{};
+  final FacilityTranslationService _translationService = FacilityTranslationService();
+  String _currentLang = 'ko';
   final Map<String, LatLng?> _geocodeCache = <String, LatLng?>{};
 
   bool get isLoading => _isLoading;
@@ -202,6 +205,51 @@ class MapViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> changeLang(String lang) async {
+    print('MapViewModel changeLang 호출: $lang, 현재: $_currentLang');
+    if (_currentLang == lang) return;
+    _currentLang = lang;
+
+    if (lang == 'ko') {
+      _facilities = _facilities.map((f) => f.copyWith(
+        name: f.originalName ?? f.name,
+        address: f.originalAddress ?? f.address,
+      )).toList();
+      _filteredCache = null;
+      notifyListeners();
+      return;
+    }
+
+    await _translateMapFacilities(lang);
+  }
+
+  Future<void> _translateMapFacilities(String lang) async {
+    print('번역 시작: ${_facilities.length}개');
+    // 원본 저장 (최초 1회)
+    _facilities = _facilities.map((f) => f.copyWith(
+      name: f.name,
+      address: f.address,
+    )).toList();
+
+    // 시설명 배치 번역
+    final names = _facilities.map((f) => f.originalName ?? f.name).toList();
+    final translatedNames = await _translationService.translateBatch(names, lang);
+    print('번역 완료: ${translatedNames.first}');
+
+    // 주소 배치 번역
+    final addrs = _facilities.map((f) => f.originalAddress ?? f.address ?? '').toList();
+    final translatedAddrs = await _translationService.translateAddressBatch(addrs, lang);
+
+    _facilities = List.generate(_facilities.length, (i) {
+      return _facilities[i].copyWith(
+        name: translatedNames[i],
+        address: translatedAddrs[i],
+      );
+    });
+
+    _filteredCache = null;
+    notifyListeners();
+  }
   FacilityTypeOption optionFor(String typeId) {
     return typeOptions.firstWhere(
       (option) => option.id == typeId,
