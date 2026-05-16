@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 class FavoriteView extends StatefulWidget {
   final bool showBackButton;
@@ -22,6 +23,22 @@ class _FavoriteViewState extends State<FavoriteView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FavoriteViewModel>().loadFavorites();
     });
+  }
+
+  String _getCategoryId(String category) {
+    switch (category) {
+      case '의료시설':
+      case '의원':
+      case '병원':
+      case '상급종합':
+        return 'medical';
+      case '약국':
+        return 'pharmacy';
+      case '교육시설':
+        return 'education';
+      default:
+        return 'medical';
+    }
   }
 
   Color _categoryColor(String category) {
@@ -179,7 +196,9 @@ class _FavoriteViewState extends State<FavoriteView> {
       ),
       child: InkWell(
         onTap: () {
-          // 실제 구현 시: context.push('/facility/${item.id}')
+          context.push(
+            '/facility/${item.id}?category=${_getCategoryId(item.category)}',
+          );
         },
         borderRadius: BorderRadius.circular(14),
         child: Padding(

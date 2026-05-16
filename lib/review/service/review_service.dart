@@ -29,11 +29,21 @@ class ReviewService {
     required String content,
   }) async {
     final user = await _ensureUser();
+    // Firestore에서 닉네임 가져오기
+    final userDoc = await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    final nickname = userDoc.data()?['nickname'] ??
+        _auth.currentUser?.displayName ??
+        '익명';
+
     await _reviewsRef.add({
       'facilityId': facilityId,
       'facilityName': facilityName,
       'uid': user.uid,
-      'userName': user.displayName ?? '익명',
+      'userName': nickname, // 닉네임으로 저장!
       'rating': rating,
       'content': content,
       'createdAt': FieldValue.serverTimestamp(),
