@@ -18,7 +18,9 @@ class HospitalService {
   /// 이름으로 검색
   Future<List<HospitalModel>> search(String keyword) async {
     final all = await fetchHospitals();
-    return all.where((h) => h.name.contains(keyword) || h.addr.contains(keyword)).toList();
+    return all
+        .where((h) => h.name.contains(keyword) || h.addr.contains(keyword))
+        .toList();
   }
 
   /// 종별(의원, 병원, 상급종합 등) 필터

@@ -6,8 +6,21 @@ import 'package:provider/provider.dart';
 import '../../core/constants.dart';
 import '../viewmodel/home_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().loadFeatured();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +58,17 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              ...vm.featuredFacilities.map(
-                (f) => _buildFacilityCard(context, f),
-              ),
+              if (vm.isLoading)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              else
+                ...vm.featuredFacilities.map(
+                  (f) => _buildFacilityCard(context, f),
+                ),
             ],
           ),
         ),

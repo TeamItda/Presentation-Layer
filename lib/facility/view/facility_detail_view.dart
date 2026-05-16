@@ -7,6 +7,7 @@ import '../viewmodel/facility_detail_viewmodel.dart';
 import '../viewmodel/facility_list_viewmodel.dart';
 import '../../non_payment/view/non_payment_view.dart';
 import '../../review/view/review_write_view.dart';
+import '../../home/viewmodel/home_viewmodel.dart';
 
 class FacilityDetailView extends StatefulWidget {
   final String facilityId;
@@ -29,16 +30,33 @@ class _FacilityDetailViewState extends State<FacilityDetailView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final listVm = context.read<FacilityListViewModel>();
+      final homeVm = context.read<HomeViewModel>();
       final detailVm = context.read<FacilityDetailViewModel>();
 
-      if (listVm.facilities.isEmpty) {
-        listVm.loadFacilities(widget.categoryId).then((_) {
-          _findAndSetFacility(listVm, detailVm);
-        });
+      // 1. 먼저 리스트에서 찾기
+      Map<String, dynamic>? found = _findInList(listVm.facilities);
+
+      // 2. 리스트에 없으면 홈 대표시설에서 찾기
+      found ??= _findInList(homeVm.featuredFacilities);
+
+      // 3. 찾았으면 바로 세팅
+      if (found != null) {
+        detailVm.setFacility(found);
       } else {
-        _findAndSetFacility(listVm, detailVm);
+        // 4. 둘 다 없으면 Service에서 로딩 후 찾기
+        listVm.loadFacilities(widget.categoryId).then((_) {
+          final result = _findInList(listVm.facilities);
+          if (result != null) detailVm.setFacility(result);
+        });
       }
     });
+  }
+
+  Map<String, dynamic>? _findInList(List<Map<String, dynamic>> list) {
+    for (final f in list) {
+      if (f['id'] == widget.facilityId) return f;
+    }
+    return null;
   }
 
   void _findAndSetFacility(
