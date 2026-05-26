@@ -12,6 +12,7 @@ import '../map/view/map_view.dart';
 import '../profile/view/profile_view.dart';
 import '../search/view/search_view.dart';
 import '../shell/main_shell.dart';
+import '../smu/view/smu_view.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/splash',
@@ -75,5 +76,6 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(path: '/search', builder: (context, state) => const SearchView()),
+    GoRoute(path: '/smu', builder: (context, state) => const SmuView()),
   ],
 );

@@ -30,6 +30,7 @@ dependencies:
   package_info_plus: ^9.0.0
   google_maps_cluster_manager_2: ^3.2.0
   easy_localization: ^3.0.7
+  webview_flutter: ^4.10.0
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,8 @@ flutter:
     - assets/jongno_culture.json
     - assets/jongno_government.json
     - assets/YEOGIYO_LOGO.png
+    - assets/SMU_LOGO.jpg
+    - assets/SMU_CAMPUSMAP.png
     - assets/translations/
   fonts:
     - family: Pretendard
