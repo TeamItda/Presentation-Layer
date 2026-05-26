@@ -17,7 +17,10 @@ import '../viewmodel/map_viewmodel.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({super.key});
+  final String? initialCategory;
+  final String? initialMarkerId;
+
+  const MapView({super.key, this.initialCategory, this.initialMarkerId});
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -44,12 +47,96 @@ class _MapViewState extends State<MapView> {
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final lang = context.read<AuthViewModel>().selectedLanguage;
-      await context.read<MapViewModel>().ensureInitialized(); // 먼저 로드
+      final mapViewModel = context.read<MapViewModel>();
+
+      await mapViewModel.ensureInitialized();
+
       if (mounted) {
-        await context.read<MapViewModel>().changeLang(lang);  // 그 다음 번역
+        _applyInitialCategory();
+        await mapViewModel.changeLang(lang);
+        await _applyInitialFacility();
       }
     });
     unawaited(_loadMaskPolygons());
+  }
+
+  @override
+  void didUpdateWidget(covariant MapView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialCategory != widget.initialCategory ||
+        oldWidget.initialMarkerId != widget.initialMarkerId) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (!mounted) return;
+        _applyInitialCategory();
+        await _applyInitialFacility();
+      });
+    }
+  }
+
+  void _applyInitialCategory() {
+    final category = widget.initialCategory;
+
+    if (category == null || category.isEmpty) {
+      return;
+    }
+
+    final isValidCategory = MapViewModel.typeOptions.any(
+      (option) => option.id == category,
+    );
+
+    if (!isValidCategory) {
+      return;
+    }
+
+    context.read<MapViewModel>().selectType(category);
+  }
+
+  Future<void> _applyInitialFacility() async {
+    final markerId = widget.initialMarkerId;
+
+    if (markerId == null || markerId.isEmpty) {
+      return;
+    }
+
+    final viewModel = context.read<MapViewModel>();
+    final facility = viewModel.findFacilityByMarkerId(markerId);
+
+    if (facility == null) {
+      return;
+    }
+
+    viewModel.selectType(facility.type);
+    viewModel.selectFacility(facility.id);
+
+    if (!_mapController.isCompleted) {
+      return;
+    }
+
+    final controller = await _mapController.future;
+
+    // 선택한 시설 주변으로 충분히 확대
+    await controller.animateCamera(
+      CameraUpdate.newLatLngZoom(facility.position, 18.0),
+    );
+
+    // 카메라 이동 이후 클러스터/마커 갱신
+    await Future.delayed(const Duration(milliseconds: 400));
+    _clusterManager.updateMap();
+
+    // 마커가 실제로 생성될 시간 확보
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    // 하단 카드에 가리지 않게 화면 위치 보정
+    await controller.animateCamera(CameraUpdate.scrollBy(0, 150));
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    _clusterManager.updateMap();
+
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    // 마커 위 기본 정보창 표시
+    await controller.showMarkerInfoWindow(MarkerId(facility.id));
   }
 
   void _onMarkersUpdated(Set<Marker> markers) {
@@ -247,6 +334,7 @@ class _MapViewState extends State<MapView> {
                         _mapController.complete(controller);
                       }
                       _clusterManager.setMapId(controller.mapId);
+                      unawaited(_applyInitialFacility());
                     },
                     onCameraMove: _clusterManager.onCameraMove,
                     onCameraIdle: _clusterManager.updateMap,

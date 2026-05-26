@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../auth/view/login_view.dart';
 import '../auth/view/signup_view.dart';
 import '../auth/view/splash_view.dart';
@@ -41,7 +41,19 @@ final appRouter = GoRouter(
         ),
         StatefulShellBranch(
           routes: [
-            GoRoute(path: '/map', builder: (context, state) => const MapView()),
+            GoRoute(
+              path: '/map',
+              builder: (context, state) {
+                final category = state.uri.queryParameters['category'];
+                final markerId = state.uri.queryParameters['markerId'];
+
+                return MapView(
+                  key: ValueKey('${category ?? 'all'}-${markerId ?? ''}'),
+                  initialCategory: category,
+                  initialMarkerId: markerId,
+                );
+              },
+            ),
           ],
         ),
         StatefulShellBranch(
