@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../service/non_payment_service.dart';
+
 import '../../facility/service/facility_translation_service.dart';
+import '../service/non_payment_service.dart';
 
 class NonPaymentCategory {
   final String name;
@@ -28,26 +29,24 @@ class NonPaymentItem {
 
 class NonPaymentViewModel extends ChangeNotifier {
   final NonPaymentService _nonPaymentService = NonPaymentService();
+  final FacilityTranslationService _translationService =
+      FacilityTranslationService();
 
-  final FacilityTranslationService _translationService = FacilityTranslationService();
   String _currentLang = 'ko';
   List<NonPaymentCategory> _originalCategories = [];
-
-  // ── 상태 변수 ──────────────────────────────
   List<NonPaymentCategory> _categories = [];
   List<NonPaymentCategory> _filteredCategories = [];
   bool _isLoading = false;
   String? _errorMessage;
   String _searchText = '';
 
-  // ── Getter ─────────────────────────────────
   List<NonPaymentCategory> get categories => _filteredCategories;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  // ── 비급여 데이터 불러오기 ─────────────────
   Future<void> loadNonPayments({
     String? itemNm,
+    String? hospitalId,
     String? hospitalName,
   }) async {
     _isLoading = true;
@@ -55,7 +54,11 @@ class NonPaymentViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final data = await _nonPaymentService.getNonPaymentList(itemNm: itemNm, hospitalName: hospitalName,);
+      final data = await _nonPaymentService.getNonPaymentList(
+        itemNm: itemNm,
+        hospitalId: hospitalId,
+        hospitalName: hospitalName,
+      );
       final grouped = _nonPaymentService.groupByItem(data);
 
       _categories = grouped.entries.map((entry) {
@@ -74,7 +77,6 @@ class NonPaymentViewModel extends ChangeNotifier {
       _originalCategories = List.from(_categories);
       _filteredCategories = _categories;
 
-      // 현재 언어가 한국어가 아니면 번역
       if (_currentLang != 'ko') {
         await changeLang(_currentLang);
       }
@@ -87,7 +89,6 @@ class NonPaymentViewModel extends ChangeNotifier {
     }
   }
 
-  // ── 검색 필터링 ────────────────────────────
   void search(String query) {
     _searchText = query.trim();
 
@@ -95,9 +96,12 @@ class NonPaymentViewModel extends ChangeNotifier {
       _filteredCategories = _categories;
     } else {
       _filteredCategories = _categories
-          .where((c) =>
-      c.name.contains(_searchText) ||
-          c.items.any((i) => i.hospitalName.contains(_searchText)))
+          .where(
+            (category) =>
+                category.name.contains(_searchText) ||
+                category.items
+                    .any((item) => item.hospitalName.contains(_searchText)),
+          )
           .toList();
     }
     notifyListeners();
@@ -115,22 +119,23 @@ class NonPaymentViewModel extends ChangeNotifier {
 
     if (_originalCategories.isEmpty) return;
 
-    // 카테고리명 번역
     final categoryNames = _originalCategories.map((c) => c.name).toList();
-    final translatedCategoryNames = await _translationService.translateBatch(categoryNames, lang);
+    final translatedCategoryNames =
+        await _translationService.translateBatch(categoryNames, lang);
 
-    // 병원명 번역 (중복 제거)
     final allHospitalNames = _originalCategories
-        .expand((c) => c.items.map((i) => i.hospitalName))
+        .expand((category) => category.items.map((item) => item.hospitalName))
         .toSet()
         .toList();
-    final translatedHospitalNames = await _translationService.translateBatch(allHospitalNames, lang);
-    final hospitalNameMap = Map.fromIterables(allHospitalNames, translatedHospitalNames);
+    final translatedHospitalNames =
+        await _translationService.translateBatch(allHospitalNames, lang);
+    final hospitalNameMap =
+        Map.fromIterables(allHospitalNames, translatedHospitalNames);
 
-    _categories = List.generate(_originalCategories.length, (i) {
+    _categories = List.generate(_originalCategories.length, (index) {
       return NonPaymentCategory(
-        name: translatedCategoryNames[i],
-        items: _originalCategories[i].items.map((item) {
+        name: translatedCategoryNames[index],
+        items: _originalCategories[index].items.map((item) {
           return NonPaymentItem(
             hospitalName: hospitalNameMap[item.hospitalName] ?? item.hospitalName,
             minPrice: item.minPrice,

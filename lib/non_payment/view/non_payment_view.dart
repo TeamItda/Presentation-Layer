@@ -20,7 +20,10 @@ class _NonPaymentViewState extends State<NonPaymentView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<NonPaymentViewModel>().loadNonPayments(hospitalName: widget.hospitalName,);
+      context.read<NonPaymentViewModel>().loadNonPayments(
+            hospitalId: widget.hospitalId,
+            hospitalName: widget.hospitalName,
+          );
     });
     _searchController.addListener(() {
       context.read<NonPaymentViewModel>().search(_searchController.text);
@@ -330,7 +333,10 @@ class _NonPaymentViewState extends State<NonPaymentView> {
               style: TextStyle(fontSize: 14, color: Colors.grey[500])),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => vm.loadNonPayments(),
+            onPressed: () => vm.loadNonPayments(
+              hospitalId: widget.hospitalId,
+              hospitalName: widget.hospitalName,
+            ),
             child: Text('non_payment.error_retry'.tr()),
           ),
         ],
