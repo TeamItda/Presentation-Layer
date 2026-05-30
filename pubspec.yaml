@@ -31,6 +31,9 @@ dependencies:
   google_maps_cluster_manager_2: ^3.2.0
   easy_localization: ^3.0.7
   webview_flutter: ^4.10.0
+  web: ^1.1.0
+  pointer_interceptor: ^0.10.1+2
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +57,7 @@ flutter:
     - assets/YEOGIYO_LOGO.png
     - assets/SMU_LOGO.jpg
     - assets/SMU_CAMPUSMAP.png
+    - assets/smu_nearby_restaurants.json
     - assets/translations/
   fonts:
     - family: Pretendard

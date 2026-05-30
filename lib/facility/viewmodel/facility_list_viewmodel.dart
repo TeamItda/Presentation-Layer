@@ -355,7 +355,9 @@ class FacilityListViewModel extends ChangeNotifier {
       'name': r.name,
       'addr': r.addr,
       'tel': r.tel,
-      'type': r.category,
+      // 'type': sdsc2 표준 라벨(예: '일식 면 요리'/'카페'/'중국집').
+      // food_facility_code.csv 매핑 → indsSclsCd 또는 cuisine 기반 추정 라벨.
+      'type': r.displayCategoryLabel,
       'homepage': r.homepage ?? '',
       'rating': r.rating,
       'dist': '',

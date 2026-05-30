@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/constants.dart';
+import 'kakao_marker.dart';
 
 /// Android/iOS용 카카오 지도 뷰. webview_flutter로 HTML을 로드합니다.
 class KakaoMapPlatformView extends StatefulWidget {
@@ -9,6 +12,8 @@ class KakaoMapPlatformView extends StatefulWidget {
   final double lng;
   final String appKey;
   final String label;
+  final List<KakaoBuildingMarker>? markers;
+  final KakaoMarkerTap? onMarkerTap;
 
   const KakaoMapPlatformView({
     super.key,
@@ -16,6 +21,8 @@ class KakaoMapPlatformView extends StatefulWidget {
     required this.lng,
     required this.appKey,
     this.label = '',
+    this.markers,
+    this.onMarkerTap,
   });
 
   @override
@@ -60,13 +67,36 @@ class _KakaoMapPlatformViewState extends State<KakaoMapPlatformView> {
         )
         ..addJavaScriptChannel(
           'FlutterChannel',
-          onMessageReceived: (msg) {
-            if (mounted) setState(() => _error = msg.message);
-          },
+          onMessageReceived: (msg) => _handleChannelMessage(msg.message),
         )
         ..loadHtmlString(_html(), baseUrl: 'http://localhost');
     } catch (e) {
       _error = 'WebView init failed: $e';
+    }
+  }
+
+  void _handleChannelMessage(String raw) {
+    if (!mounted) return;
+    Map<String, dynamic>? data;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is Map<String, dynamic>) data = decoded;
+    } catch (_) {
+      // 옛 포맷(plain string) 호환
+    }
+    if (data == null) {
+      setState(() => _error = raw);
+      return;
+    }
+    switch (data['type']) {
+      case 'markerClick':
+        final id = data['id'];
+        if (id is String) widget.onMarkerTap?.call(id);
+        break;
+      case 'error':
+        final message = data['message'];
+        setState(() => _error = message is String ? message : raw);
+        break;
     }
   }
 
@@ -75,6 +105,31 @@ class _KakaoMapPlatformViewState extends State<KakaoMapPlatformView> {
     final lng = widget.lng;
     final key = widget.appKey;
     final label = widget.label;
+    final markers = widget.markers ?? const <KakaoBuildingMarker>[];
+    final hasMarkers = markers.isNotEmpty;
+
+    final markersJson = jsonEncode(markers
+        .map((m) => {
+              'id': m.id,
+              'label': m.label,
+              'lat': m.lat,
+              'lng': m.lng,
+              'color': m.color,
+            })
+        .toList());
+
+    // 중앙 라벨 마커는 건물 마커가 없을 때만 표시
+    final showCenterMarker = !hasMarkers && label.isNotEmpty;
+    final centerMarkerJs = showCenterMarker
+        ? '''
+        var centerMarker = new kakao.maps.Marker({ position: center, map: map });
+        var info = new kakao.maps.InfoWindow({
+          content: '<div style="padding:6px 10px;font-size:13px;font-weight:600;">${_escapeHtml(label)}</div>'
+        });
+        info.open(map, centerMarker);
+        '''
+        : '';
+
     return '''
 <!DOCTYPE html>
 <html>
@@ -86,10 +141,13 @@ class _KakaoMapPlatformViewState extends State<KakaoMapPlatformView> {
 <body>
   <div id="map"></div>
   <script>
-    function reportError(msg) {
+    function postFlutter(payload) {
       if (window.FlutterChannel && window.FlutterChannel.postMessage) {
-        window.FlutterChannel.postMessage(msg);
+        window.FlutterChannel.postMessage(JSON.stringify(payload));
       }
+    }
+    function reportError(msg) {
+      postFlutter({type: 'error', message: msg});
     }
     window.onerror = function(msg, src) {
       reportError('JS Error: ' + msg + (src ? ' @ ' + src : ''));
@@ -108,13 +166,41 @@ class _KakaoMapPlatformViewState extends State<KakaoMapPlatformView> {
             var map = new kakao.maps.Map(document.getElementById('map'), {
               center: center, level: 3
             });
-            var marker = new kakao.maps.Marker({ position: center, map: map });
-            ${label.isEmpty ? '' : '''
-            var info = new kakao.maps.InfoWindow({
-              content: '<div style="padding:6px 10px;font-size:13px;font-weight:600;">$label</div>'
+
+            $centerMarkerJs
+
+            function buildColoredMarkerImage(color) {
+              var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="36" viewBox="0 0 26 36">' +
+                '<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 23 13 23s13-13.3 13-23C26 5.8 20.2 0 13 0z" fill="' + color + '" stroke="white" stroke-width="2"/>' +
+                '<circle cx="13" cy="13" r="4.5" fill="white"/>' +
+                '</svg>';
+              var dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+              return new kakao.maps.MarkerImage(
+                dataUrl,
+                new kakao.maps.Size(26, 36),
+                { offset: new kakao.maps.Point(13, 36) }
+              );
+            }
+
+            var buildings = $markersJson;
+            buildings.forEach(function(b) {
+              var pos = new kakao.maps.LatLng(b.lat, b.lng);
+              var opts = { position: pos, map: map, title: b.label };
+              if (b.color) opts.image = buildColoredMarkerImage(b.color);
+              var marker = new kakao.maps.Marker(opts);
+              kakao.maps.event.addListener(marker, 'click', function() {
+                postFlutter({type: 'markerClick', id: b.id});
+              });
             });
-            info.open(map, marker);
-            '''}
+
+            if (buildings.length > 0) {
+              var bounds = new kakao.maps.LatLngBounds();
+              buildings.forEach(function(b) {
+                bounds.extend(new kakao.maps.LatLng(b.lat, b.lng));
+              });
+              map.setBounds(bounds);
+            }
+
             map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
           } catch (e) { reportError('Map init error: ' + e.message); }
         });
@@ -125,6 +211,13 @@ class _KakaoMapPlatformViewState extends State<KakaoMapPlatformView> {
 </html>
 ''';
   }
+
+  String _escapeHtml(String s) => s
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll("'", '&#39;')
+      .replaceAll('"', '&quot;');
 
   @override
   Widget build(BuildContext context) {

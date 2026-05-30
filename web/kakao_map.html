@@ -24,11 +24,30 @@
       el.style.display = 'block';
     }
 
+    function postToParent(payload) {
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage(JSON.stringify(payload), window.location.origin);
+        }
+      } catch (e) { /* ignore */ }
+    }
+
     var params = new URLSearchParams(window.location.search);
     var lat = parseFloat(params.get('lat'));
     var lng = parseFloat(params.get('lng'));
     var key = params.get('key');
     var label = params.get('label') ? decodeURIComponent(params.get('label')) : '';
+
+    var buildings = [];
+    var buildingsRaw = params.get('buildings');
+    if (buildingsRaw) {
+      try {
+        buildings = JSON.parse(decodeURIComponent(buildingsRaw));
+        if (!Array.isArray(buildings)) buildings = [];
+      } catch (e) {
+        buildings = [];
+      }
+    }
 
     if (!key) {
       showError('Missing Kakao appkey.');
@@ -46,13 +65,47 @@
               center: center,
               level: 3
             });
-            var marker = new kakao.maps.Marker({ position: center, map: map });
-            if (label) {
+
+            // 건물 마커가 없을 때만 중앙 라벨 마커 표시
+            if (buildings.length === 0 && label) {
+              var centerMarker = new kakao.maps.Marker({ position: center, map: map });
               var info = new kakao.maps.InfoWindow({
                 content: '<div style="padding:6px 10px;font-size:13px;font-weight:600;">' + label + '</div>'
               });
-              info.open(map, marker);
+              info.open(map, centerMarker);
             }
+
+            function buildColoredMarkerImage(color) {
+              var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="36" viewBox="0 0 26 36">' +
+                '<path d="M13 0C5.8 0 0 5.8 0 13c0 9.7 13 23 13 23s13-13.3 13-23C26 5.8 20.2 0 13 0z" fill="' + color + '" stroke="white" stroke-width="2"/>' +
+                '<circle cx="13" cy="13" r="4.5" fill="white"/>' +
+                '</svg>';
+              var dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+              return new kakao.maps.MarkerImage(
+                dataUrl,
+                new kakao.maps.Size(26, 36),
+                { offset: new kakao.maps.Point(13, 36) }
+              );
+            }
+
+            buildings.forEach(function(b) {
+              var pos = new kakao.maps.LatLng(b.lat, b.lng);
+              var opts = { position: pos, map: map, title: b.label };
+              if (b.color) opts.image = buildColoredMarkerImage(b.color);
+              var marker = new kakao.maps.Marker(opts);
+              kakao.maps.event.addListener(marker, 'click', function() {
+                postToParent({ type: 'markerClick', id: b.id });
+              });
+            });
+
+            if (buildings.length > 0) {
+              var bounds = new kakao.maps.LatLngBounds();
+              buildings.forEach(function(b) {
+                bounds.extend(new kakao.maps.LatLng(b.lat, b.lng));
+              });
+              map.setBounds(bounds);
+            }
+
             map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
           });
         } catch (e) {

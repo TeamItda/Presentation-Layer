@@ -28,6 +28,8 @@ class AppConstants {
 
   // 카카오 지도 JavaScript SDK 키 (WebView용)
   static const String kakaoMapAppKey = 'a9f70751c51791b399a2b5b56eb8f889';
+  // 카카오 디벨로퍼스 REST API 키. 
+  static const String kakaoRestApiKey = 'f1a3cd800714f4b8835a3193f3949873';
   // 상명대학교 서울캠퍼스 정문 인근 좌표
   static const double smuCenterLat = 37.602493;
   static const double smuCenterLng = 126.955243;
