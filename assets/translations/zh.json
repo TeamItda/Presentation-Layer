@@ -70,6 +70,18 @@
     "ai_subtitle": "有任何关于钟路区的问题都可以问我！",
     "count_suffix": "个"
   },
+  "smu": {
+    "title": "祥明大学周边信息",
+    "card_title": "祥明大学周边信息",
+    "card_subtitle": "在 Kakao 地图和校园地图上一目了然",
+    "tab_kakao": "Kakao 地图",
+    "tab_campus": "校园地图",
+    "campus_empty": "校园地图图片尚未准备。\n请添加 assets/SMU_CAMPUSMAP.png 文件。",
+    "campus_hint": "点击建筑可查看详细信息",
+    "section_departments": "主要院系 / 设施",
+    "section_floors": "楼层指南",
+    "section_contact": "联系电话"
+  },
   "map": {
     "all": "全部",
     "medical": "医院",

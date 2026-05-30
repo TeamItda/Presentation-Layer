@@ -70,6 +70,18 @@
     "ai_subtitle": "鍾路区について何でも聞いてください！",
     "count_suffix": "件"
   },
+  "smu": {
+    "title": "祥明大学校 周辺情報",
+    "card_title": "祥明大学校 周辺情報",
+    "card_subtitle": "カカオマップとキャンパスマップを一目で確認",
+    "tab_kakao": "カカオマップ",
+    "tab_campus": "キャンパスマップ",
+    "campus_empty": "キャンパスマップ画像がありません。\nassets/SMU_CAMPUSMAP.png を追加してください。",
+    "campus_hint": "建物をタップすると詳細情報が表示されます",
+    "section_departments": "主な学科 / 施設",
+    "section_floors": "フロアガイド",
+    "section_contact": "代表連絡先"
+  },
   "map": {
     "all": "全て",
     "medical": "病院",

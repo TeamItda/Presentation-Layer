@@ -51,6 +51,8 @@ class _HomeViewState extends State<HomeView> {
               ),
               const SizedBox(height: 14),
               _buildCategoryGrid(context),
+              const SizedBox(height: 14),
+              _buildSmuCard(context),
               const SizedBox(height: 24),
               _buildAiBanner(context),
               const SizedBox(height: 24),
@@ -199,6 +201,78 @@ class _HomeViewState extends State<HomeView> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildSmuCard(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => context.push('/smu'),
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppColors.border),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    'assets/SMU_LOGO.jpg',
+                    width: 52,
+                    height: 52,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'smu.card_title'.tr(),
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'smu.card_subtitle'.tr(),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.subText,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: AppColors.subText,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 

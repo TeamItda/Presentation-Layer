@@ -70,6 +70,18 @@
     "ai_subtitle": "Ask anything about Jongno-gu!",
     "count_suffix": ""
   },
+  "smu": {
+    "title": "Sangmyung Univ. Area",
+    "card_title": "Around Sangmyung University",
+    "card_subtitle": "View Kakao Map and the campus map together",
+    "tab_kakao": "Kakao Map",
+    "tab_campus": "Campus Map",
+    "campus_empty": "Campus map image is not available.\nPlease add assets/SMU_CAMPUSMAP.png.",
+    "campus_hint": "Tap a building to see its details",
+    "section_departments": "Departments / Facilities",
+    "section_floors": "Floor Guide",
+    "section_contact": "Contact"
+  },
   "categories": {
     "medical": "Medical",
     "pharmacy": "Pharmacy",
