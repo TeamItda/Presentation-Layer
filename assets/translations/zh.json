@@ -80,7 +80,11 @@
     "campus_hint": "点击建筑可查看详细信息",
     "section_departments": "主要院系 / 设施",
     "section_floors": "楼层指南",
-    "section_contact": "联系电话"
+    "section_contact": "联系电话",
+    "layer_campus": "校园 ({count})",
+    "layer_campus_loading": "餐厅 (加载中…)",
+    "layer_food": "餐厅 ({count})",
+    "kakaoplace_button": "在KakaoPlace查看营业时间和菜单"
   },
   "map": {
     "all": "全部",

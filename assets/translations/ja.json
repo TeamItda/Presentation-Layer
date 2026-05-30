@@ -80,7 +80,12 @@
     "campus_hint": "建物をタップすると詳細情報が表示されます",
     "section_departments": "主な学科 / 施設",
     "section_floors": "フロアガイド",
-    "section_contact": "代表連絡先"
+    "section_contact": "代表連絡先",
+    "layer_campus": "キャンパス ({count})",
+    "layer_campus_loading": "レストラン (読込中…)",
+    "layer_food": "レストラン ({count})",
+    "kakaoplace_button": "カカオプレイスで営業時間・メニューを見る"
+
   },
   "map": {
     "all": "全て",
