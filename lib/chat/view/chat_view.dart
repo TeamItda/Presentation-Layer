@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../auth/viewmodel/auth_viewmodel.dart';
-import '../../auth/viewmodel/auth_viewmodel.dart';
 import '../../facility/viewmodel/facility_list_viewmodel.dart';
+import '../../map/model/map_facility.dart';
 import '../../map/viewmodel/map_viewmodel.dart';
 import '../../home/viewmodel/home_viewmodel.dart';
 import '../../favorite/viewmodel/favorite_viewmodel.dart';
 import '../../non_payment/viewmodel/non_payment_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -160,16 +161,137 @@ class _ChatViewState extends State<ChatView> {
     ],
   };
 
-
   String _todayText() {
     final now = DateTime.now();
-    return 'chat.date_format'.tr(namedArgs: {
-      'year': '${now.year}',
-      'month': '${now.month}',
-      'day': '${now.day}',
-    });
+    return 'chat.date_format'.tr(
+      namedArgs: {
+        'year': '${now.year}',
+        'month': '${now.month}',
+        'day': '${now.day}',
+      },
+    );
   }
 
+  Future<List<MapFacility>> _findFacilitiesInMessage(
+    String message,
+    String category,
+  ) async {
+    final mapViewModel = context.read<MapViewModel>();
+
+    // 지도 데이터가 아직 로드되지 않았을 수 있으므로 먼저 초기화
+    await mapViewModel.ensureInitialized();
+
+    final normalizedMessage = _normalizeFacilityText(message);
+    final matches = <MapFacility>[];
+    final seenNames = <String>{};
+
+    for (final facility in mapViewModel.allFacilities) {
+      if (facility.type != category) {
+        continue;
+      }
+
+      final normalizedName = _normalizeFacilityText(facility.name);
+
+      if (normalizedName.isEmpty) {
+        continue;
+      }
+
+      if (!normalizedMessage.contains(normalizedName)) {
+        continue;
+      }
+
+      // 같은 시설명이 여러 데이터 소스에서 중복으로 잡히는 것 방지
+      if (seenNames.contains(normalizedName)) {
+        continue;
+      }
+
+      seenNames.add(normalizedName);
+      matches.add(facility);
+    }
+
+    matches.sort((a, b) {
+      final aIndex = normalizedMessage.indexOf(_normalizeFacilityText(a.name));
+      final bIndex = normalizedMessage.indexOf(_normalizeFacilityText(b.name));
+      return aIndex.compareTo(bIndex);
+    });
+
+    return matches;
+  }
+
+  String _normalizeFacilityText(String value) {
+    return value
+        .toLowerCase()
+        .replaceAll(RegExp(r'\s+'), '')
+        .replaceAll(RegExp(r'[()（）\[\]{}·ㆍ\-.]'), '')
+        .trim();
+  }
+
+  void _goToMapWithFacility(MapFacility facility) {
+    final uri = Uri(
+      path: '/map',
+      queryParameters: {'category': facility.type, 'markerId': facility.id},
+    );
+
+    context.go(uri.toString());
+  }
+
+  void _showFacilitySelectSheet(List<MapFacility> facilities) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '지도에서 볼 시설을 선택하세요',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 12),
+                ...facilities.map((facility) {
+                  return ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.location_on_outlined),
+                    title: Text(facility.name),
+                    subtitle:
+                        facility.address == null || facility.address!.isEmpty
+                        ? null
+                        : Text(
+                            facility.address!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _goToMapWithFacility(facility);
+                    },
+                  );
+                }),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  String _mapButtonText(String lang) {
+    switch (lang) {
+      case 'en':
+        return 'View on map';
+      case 'zh':
+        return '在地图中查看';
+      case 'ja':
+        return '地図で見る';
+      default:
+        return '지도에서 보기';
+    }
+  }
 
   void _showFaqBottomSheet(String category, List<String> questions) {
     showModalBottomSheet(
@@ -265,12 +387,16 @@ class _ChatViewState extends State<ChatView> {
                             context.read<ChatViewModel>().changeLang(value);
                             context.setLocale(Locale(value));
                             context.read<AuthViewModel>().selectLanguage(value);
-                            context.read<FacilityListViewModel>().changeLang(value);
+                            context.read<FacilityListViewModel>().changeLang(
+                              value,
+                            );
                             context.read<MapViewModel>().changeLang(value);
                             context.read<HomeViewModel>().changeLang(value);
                             context.read<FavoriteViewModel>().changeLang(value);
-                            context.read<NonPaymentViewModel>().changeLang(value);
-                            },
+                            context.read<NonPaymentViewModel>().changeLang(
+                              value,
+                            );
+                          },
                   ),
                 ),
               );
@@ -322,6 +448,8 @@ class _ChatViewState extends State<ChatView> {
                 final msg = vm.messages[messageIndex];
                 final isUser = msg['role'] == 'user';
                 final canCopy = !isUser && messageIndex != 0;
+                final category = msg['category'];
+                final canOpenMap = !isUser && category != null;
 
                 return Align(
                   alignment: isUser
@@ -353,32 +481,81 @@ class _ChatViewState extends State<ChatView> {
                           ),
                         ),
                       ),
-                      if (canCopy)
+                      if (canCopy || canOpenMap)
                         Padding(
                           padding: const EdgeInsets.only(left: 4, bottom: 4),
-                          child: IconButton(
-                            tooltip: 'chat.copy'.tr(),
-                            onPressed: () {
-                              Clipboard.setData(
-                                ClipboardData(text: msg['text'] ?? ''),
-                              );
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (canOpenMap)
+                                TextButton.icon(
+                                  onPressed: () async {
+                                    final facilities =
+                                        await _findFacilitiesInMessage(
+                                          msg['text'] ?? '',
+                                          category,
+                                        );
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'chat.copied'.tr(),
+                                    if (!mounted) return;
+
+                                    if (facilities.isEmpty) {
+                                      context.go('/map?category=$category');
+                                      return;
+                                    }
+
+                                    if (facilities.length == 1) {
+                                      _goToMapWithFacility(facilities.first);
+                                      return;
+                                    }
+
+                                    _showFacilitySelectSheet(facilities);
+                                  },
+                                  icon: const Icon(
+                                    Icons.location_on_outlined,
+                                    size: 16,
                                   ),
-                                  duration: const Duration(seconds: 1),
+                                  label: Text(
+                                    _mapButtonText(vm.selectedLang),
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    visualDensity: VisualDensity.compact,
+                                  ),
                                 ),
-                              );
-                            },
-                            icon: const Icon(Icons.content_copy, size: 16),
-                            visualDensity: VisualDensity.compact,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                              minWidth: 28,
-                              minHeight: 28,
-                            ),
+                              if (canCopy)
+                                IconButton(
+                                  tooltip: 'chat.copy'.tr(),
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                      ClipboardData(text: msg['text'] ?? ''),
+                                    );
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('chat.copied'.tr()),
+                                        duration: const Duration(seconds: 1),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.content_copy,
+                                    size: 16,
+                                  ),
+                                  visualDensity: VisualDensity.compact,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 28,
+                                    minHeight: 28,
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                     ],
@@ -388,7 +565,6 @@ class _ChatViewState extends State<ChatView> {
             ),
           ),
 
-          // AI 응답 대기 중일 때 안내 문구 표시
           // AI 응답 대기 중일 때 안내 문구 표시
           if (vm.isLoading)
             Padding(

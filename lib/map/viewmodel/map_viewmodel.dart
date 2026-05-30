@@ -112,13 +112,15 @@ class MapViewModel extends ChangeNotifier {
   List<MapFacility>? _filteredCache;
   final Map<String, BitmapDescriptor> _markerIcons =
       <String, BitmapDescriptor>{};
-  final FacilityTranslationService _translationService = FacilityTranslationService();
+  final FacilityTranslationService _translationService =
+      FacilityTranslationService();
   String _currentLang = 'ko';
   final Map<String, LatLng?> _geocodeCache = <String, LatLng?>{};
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String get selectedTypeId => _selectedTypeId;
+  List<MapFacility> get allFacilities => _facilities;
 
   BitmapDescriptor? iconFor(String type) => _markerIcons[type];
 
@@ -126,8 +128,8 @@ class MapViewModel extends ChangeNotifier {
     return _filteredCache ??= _selectedTypeId == 'all'
         ? _facilities
         : _facilities
-            .where((facility) => facility.type == _selectedTypeId)
-            .toList();
+              .where((facility) => facility.type == _selectedTypeId)
+              .toList();
   }
 
   MapFacility? get selectedFacility {
@@ -141,6 +143,50 @@ class MapViewModel extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  MapFacility? findFacilityByName({
+    required String facilityName,
+    String? typeId,
+  }) {
+    final target = _normalizeFacilityName(facilityName);
+
+    if (target.isEmpty) {
+      return null;
+    }
+
+    final candidates = typeId == null
+        ? _facilities
+        : _facilities.where((facility) => facility.type == typeId).toList();
+
+    for (final facility in candidates) {
+      final candidate = _normalizeFacilityName(facility.name);
+
+      if (candidate == target ||
+          candidate.contains(target) ||
+          target.contains(candidate)) {
+        return facility;
+      }
+    }
+
+    return null;
+  }
+
+  MapFacility? findFacilityByMarkerId(String markerId) {
+    for (final facility in _facilities) {
+      if (facility.id == markerId) {
+        return facility;
+      }
+    }
+    return null;
+  }
+
+  String _normalizeFacilityName(String value) {
+    return value
+        .toLowerCase()
+        .replaceAll(RegExp(r'\s+'), '')
+        .replaceAll(RegExp(r'[()（）\[\]{}·ㆍ\-.]'), '')
+        .trim();
   }
 
   CameraPosition get initialCameraPosition => const CameraPosition(
@@ -211,10 +257,14 @@ class MapViewModel extends ChangeNotifier {
     _currentLang = lang;
 
     if (lang == 'ko') {
-      _facilities = _facilities.map((f) => f.copyWith(
-        name: f.originalName ?? f.name,
-        address: f.originalAddress ?? f.address,
-      )).toList();
+      _facilities = _facilities
+          .map(
+            (f) => f.copyWith(
+              name: f.originalName ?? f.name,
+              address: f.originalAddress ?? f.address,
+            ),
+          )
+          .toList();
       _filteredCache = null;
       notifyListeners();
       return;
@@ -226,19 +276,26 @@ class MapViewModel extends ChangeNotifier {
   Future<void> _translateMapFacilities(String lang) async {
     print('번역 시작: ${_facilities.length}개');
     // 원본 저장 (최초 1회)
-    _facilities = _facilities.map((f) => f.copyWith(
-      name: f.name,
-      address: f.address,
-    )).toList();
+    _facilities = _facilities
+        .map((f) => f.copyWith(name: f.name, address: f.address))
+        .toList();
 
     // 시설명 배치 번역
     final names = _facilities.map((f) => f.originalName ?? f.name).toList();
-    final translatedNames = await _translationService.translateBatch(names, lang);
+    final translatedNames = await _translationService.translateBatch(
+      names,
+      lang,
+    );
     print('번역 완료: ${translatedNames.first}');
 
     // 주소 배치 번역
-    final addrs = _facilities.map((f) => f.originalAddress ?? f.address ?? '').toList();
-    final translatedAddrs = await _translationService.translateAddressBatch(addrs, lang);
+    final addrs = _facilities
+        .map((f) => f.originalAddress ?? f.address ?? '')
+        .toList();
+    final translatedAddrs = await _translationService.translateAddressBatch(
+      addrs,
+      lang,
+    );
 
     _facilities = List.generate(_facilities.length, (i) {
       return _facilities[i].copyWith(
@@ -250,6 +307,7 @@ class MapViewModel extends ChangeNotifier {
     _filteredCache = null;
     notifyListeners();
   }
+
   FacilityTypeOption optionFor(String typeId) {
     return typeOptions.firstWhere(
       (option) => option.id == typeId,
@@ -494,7 +552,9 @@ class MapViewModel extends ChangeNotifier {
     if (selectedId == null) {
       return;
     }
-    final exists = filteredFacilities.any((facility) => facility.id == selectedId);
+    final exists = filteredFacilities.any(
+      (facility) => facility.id == selectedId,
+    );
     if (!exists) {
       _selectedFacilityMarkerId = null;
     }
@@ -511,8 +571,7 @@ class MapViewModel extends ChangeNotifier {
       ..maskFilter = const ui.MaskFilter.blur(BlurStyle.normal, 4);
     canvas.drawCircle(center.translate(0, 3), 30, shadowPaint);
 
-    final outerPaint = Paint()
-      ..color = option.color.withValues(alpha: 0.18);
+    final outerPaint = Paint()..color = option.color.withValues(alpha: 0.18);
     canvas.drawCircle(center, 36, outerPaint);
 
     final fillPaint = Paint()..color = option.color;
