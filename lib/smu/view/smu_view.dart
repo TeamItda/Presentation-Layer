@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants.dart';
 import '../../facility/model/restaurant_model.dart';
+import '../../facility/service/facility_translation_service.dart';
 import '../data/smu_buildings.dart';
 import '../data/smu_map_geo.dart';
 import '../model/smu_building.dart';
@@ -22,7 +23,6 @@ class SmuView extends StatefulWidget {
 }
 
 class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
-  // 캠퍼스 맵 이미지 가로/세로 비율 (assets/SMU_CAMPUSMAP.png: 994x1249)
   static const double _campusAspectRatio = 994 / 1249;
 
   late final TabController _tabController;
@@ -45,8 +45,6 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
   }
 
   Future<List<RestaurantModel>> _loadNearbyRestaurants() async {
-    // 카카오 로컬 카테고리 검색(FD6 음식점 + CE7 카페)으로 상명대 중심
-    // 반경 500m 안의 식당 데이터를 미리 수집해 둔 정적 파일.
     final jsonString = await rootBundle.loadString(
       'assets/smu_nearby_restaurants.json',
     );
@@ -137,8 +135,6 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
       builder: (context, snapshot) {
         final restaurants = snapshot.data ?? const <RestaurantModel>[];
         final markers = _buildMarkers(restaurants);
-        // 토글/식당 로드 상태가 바뀌면 KakaoMapPlatformView 를 통째로 재생성해
-        // 카카오 SDK 가 새 마커 세트로 다시 그리도록 함.
         final reloadKey = 'kakao-'
             '${_showCampusMarkers ? '1' : '0'}'
             '${_showFoodMarkers ? '1' : '0'}'
@@ -156,7 +152,6 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
             Positioned(
               top: 12,
               right: 28,
-              // Web: HtmlElementView(iframe) 위 클릭이 iframe 으로 새지 않게 인터셉트.
               child: PointerInterceptor(
                 child: _MarkerLayerToggles(
                   showCampus: _showCampusMarkers,
@@ -177,20 +172,20 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
     );
   }
 
-  // 캠퍼스 마커 = 파랑(primary), 식당 마커 = 주황(food). 카카오 지도 / 토글 UI 공통.
   static const String _campusMarkerColor = '#2563EB';
   static const String _foodMarkerColor = '#F97316';
 
   List<KakaoBuildingMarker> _buildMarkers(
-    List<RestaurantModel> restaurants,
-  ) {
+      List<RestaurantModel> restaurants,
+      ) {
+    final lang = context.locale.languageCode;
     final list = <KakaoBuildingMarker>[];
     if (_showCampusMarkers) {
       for (final b in smuBuildings) {
         final pos = SmuMapGeo.markerPositionOf(b);
         list.add(KakaoBuildingMarker(
           id: 'b:${b.id}',
-          label: b.name,
+          label: b.localizedName(lang), // ← 지도 마커 이름도 현지화
           lat: pos.lat,
           lng: pos.lng,
           color: _campusMarkerColor,
@@ -205,7 +200,7 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
         final cat = r.displayCategoryLabel;
         list.add(KakaoBuildingMarker(
           id: 'r:${r.id}',
-          label: cat.isEmpty ? r.name : '${r.name} (${r.displayCategoryLabel})',
+          label: cat.isEmpty ? r.name : '${r.name} ($cat)',
           lat: lat,
           lng: lng,
           color: _foodMarkerColor,
@@ -217,14 +212,15 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
 
   void _onMarkerTap(String id, List<RestaurantModel> restaurants) {
     if (!mounted) return;
+    final lang = context.locale.languageCode;
     if (id.startsWith('b:')) {
       final buildingId = id.substring(2);
       final b = smuBuildings.firstWhere(
-        (x) => x.id == buildingId,
+            (x) => x.id == buildingId,
         orElse: () => smuBuildings.first,
       );
       if (b.id != buildingId) return;
-      _showBuildingSheet(context, b);
+      _showBuildingSheet(context, b, lang);
     } else if (id.startsWith('r:')) {
       final rid = id.substring(2);
       RestaurantModel? r;
@@ -288,12 +284,15 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
       key: ValueKey('hotspot_${b.id}'),
       child: _BuildingHotspot(
         points: b.points,
-        onTap: () => _showBuildingSheet(context, b),
+        onTap: () {
+          final lang = context.locale.languageCode;
+          _showBuildingSheet(context, b, lang);
+        },
       ),
     );
   }
 
-  void _showBuildingSheet(BuildContext context, SmuBuilding b) {
+  void _showBuildingSheet(BuildContext context, SmuBuilding b, String lang) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -301,7 +300,7 @@ class _SmuViewState extends State<SmuView> with SingleTickerProviderStateMixin {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
       ),
-      builder: (_) => _BuildingInfoSheet(building: b),
+      builder: (_) => _BuildingInfoSheet(building: b, lang: lang),
     );
   }
 
@@ -354,7 +353,8 @@ class _MarkerLayerToggles extends StatelessWidget {
           children: [
             _chip(
               dotColor: campusDotColor,
-              label: '캠퍼스 (${smuBuildings.length})',
+              label: 'smu.layer_campus'
+                  .tr(namedArgs: {'count': '${smuBuildings.length}'}),
               selected: showCampus,
               loading: false,
               onSelected: onCampusChanged,
@@ -362,7 +362,9 @@ class _MarkerLayerToggles extends StatelessWidget {
             const SizedBox(height: 6),
             _chip(
               dotColor: foodDotColor,
-              label: foodLoading ? '식당 (로딩…)' : '식당 ($foodCount)',
+              label: foodLoading
+                  ? 'smu.layer_campus_loading'.tr()
+                  : 'smu.layer_food'.tr(namedArgs: {'count': '$foodCount'}),
               selected: showFood,
               loading: foodLoading,
               onSelected: foodLoading ? null : onFoodChanged,
@@ -383,22 +385,22 @@ class _MarkerLayerToggles extends StatelessWidget {
     return FilterChip(
       avatar: loading
           ? const SizedBox(
-              width: 14,
-              height: 14,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
+        width: 14,
+        height: 14,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      )
           : Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: dotColor,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.5),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black26, blurRadius: 2),
-                ],
-              ),
-            ),
+        width: 12,
+        height: 12,
+        decoration: BoxDecoration(
+          color: dotColor,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 1.5),
+          boxShadow: const [
+            BoxShadow(color: Colors.black26, blurRadius: 2),
+          ],
+        ),
+      ),
       label: Text(
         label,
         style: TextStyle(
@@ -500,7 +502,6 @@ class _BuildingHotspotState extends State<_BuildingHotspot>
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // 1) 폴리곤 hit-test 영역 (아래 깔림; 시각적으로는 안 보임)
         Positioned.fill(
           child: _PolygonHitArea(
             points: widget.points,
@@ -518,7 +519,6 @@ class _BuildingHotspotState extends State<_BuildingHotspot>
             ),
           ),
         ),
-        // 2) hover/press 시 떠오르는 폴리곤 클립 이미지 오버레이
         Positioned.fill(
           child: IgnorePointer(
             child: AnimatedBuilder(
@@ -539,10 +539,9 @@ class _BuildingHotspotState extends State<_BuildingHotspot>
   }
 }
 
-/// hover/press 시 떠오르는 폴리곤 클립 이미지 + 그림자 + 외곽선
 class _PoppedOutBuilding extends StatelessWidget {
   final List<Offset> points;
-  final double progress; // 0~1
+  final double progress;
 
   const _PoppedOutBuilding({required this.points, required this.progress});
 
@@ -587,7 +586,7 @@ class _PoppedOutBuilding extends StatelessWidget {
                   points: points,
                   fillColor: Colors.transparent,
                   strokeColor:
-                      AppColors.primary.withValues(alpha: 0.55 + 0.4 * progress),
+                  AppColors.primary.withValues(alpha: 0.55 + 0.4 * progress),
                   strokeWidth: 1.2 + 1.6 * progress,
                 ),
               ),
@@ -598,10 +597,6 @@ class _PoppedOutBuilding extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────
-// 폴리곤 유틸: Clipper / Painter / HitArea
-// ─────────────────────────────────────────────────────────────────────────
 
 Path _buildPolygonPath(List<Offset> points, Size size) {
   final path = Path();
@@ -699,7 +694,6 @@ class _PolygonShadowPainter extends CustomPainter {
   }
 }
 
-/// 폴리곤 내부에 있을 때만 hit-test 를 통과시키는 영역. 바깥은 sibling 으로 패스스루.
 class _PolygonHitArea extends SingleChildRenderObjectWidget {
   final List<Offset> points;
 
@@ -759,11 +753,16 @@ class _RenderPolygonHitArea extends RenderProxyBox {
 
 class _BuildingInfoSheet extends StatelessWidget {
   final SmuBuilding building;
+  final String lang;
 
-  const _BuildingInfoSheet({required this.building});
+  const _BuildingInfoSheet({required this.building, required this.lang});
 
   @override
   Widget build(BuildContext context) {
+    final name = building.localizedName(lang);
+    final description = building.localizedDescription(lang);
+    final departments = building.localizedDepartments(lang);
+
     return DraggableScrollableSheet(
       initialChildSize: 0.55,
       minChildSize: 0.3,
@@ -809,17 +808,17 @@ class _BuildingInfoSheet extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          building.name,
+                          name,
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.w800,
                             color: AppColors.text,
                           ),
                         ),
-                        if (building.description.isNotEmpty) ...[
+                        if (description.isNotEmpty) ...[
                           const SizedBox(height: 3),
                           Text(
-                            building.description,
+                            description,
                             style: const TextStyle(
                               fontSize: 13,
                               color: AppColors.subText,
@@ -850,34 +849,34 @@ class _BuildingInfoSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              if (building.departments.isNotEmpty) ...[
+              if (departments.isNotEmpty) ...[
                 const SizedBox(height: 22),
                 _sectionTitle('smu.section_departments'.tr()),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: building.departments
+                  children: departments
                       .map(
                         (d) => Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryLight,
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: Text(
-                            d,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
-                            ),
-                          ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryLight,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        d,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
                         ),
-                      )
+                      ),
+                    ),
+                  )
                       .toList(),
                 ),
               ],
@@ -885,7 +884,7 @@ class _BuildingInfoSheet extends StatelessWidget {
                 const SizedBox(height: 22),
                 _sectionTitle('smu.section_floors'.tr()),
                 const SizedBox(height: 8),
-                ...building.floors.map(_buildFloorRow),
+                ...building.floors.map((f) => _buildFloorRow(f, lang)),
               ],
               if (building.phone != null && building.phone!.isNotEmpty) ...[
                 const SizedBox(height: 22),
@@ -928,7 +927,7 @@ class _BuildingInfoSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildFloorRow(SmuBuildingFloor f) {
+  Widget _buildFloorRow(SmuBuildingFloor f, String lang) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -954,7 +953,7 @@ class _BuildingInfoSheet extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              f.content,
+              f.localizedContent(lang),
               style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.text,
@@ -968,14 +967,55 @@ class _BuildingInfoSheet extends StatelessWidget {
   }
 }
 
-class _RestaurantInfoSheet extends StatelessWidget {
+class _RestaurantInfoSheet extends StatefulWidget {
   final RestaurantModel restaurant;
 
   const _RestaurantInfoSheet({required this.restaurant});
 
+  @override
+  State<_RestaurantInfoSheet> createState() => _RestaurantInfoSheetState();
+}
+
+class _RestaurantInfoSheetState extends State<_RestaurantInfoSheet> {
+  final _translationService = FacilityTranslationService();
+
+  String? _translatedName;
+  String? _translatedCategory;
+  String? _translatedAddr;
+  bool _isTranslating = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _translate());
+  }
+
+  Future<void> _translate() async {
+    final lang = context.locale.languageCode;
+    if (lang == 'ko') return;
+    if (!mounted) return;
+    setState(() => _isTranslating = true);
+    try {
+      final r = widget.restaurant;
+      final nameResult = await _translationService.translateBatch([r.name], lang);
+      final addrResult = r.addr.isNotEmpty
+          ? await _translationService.translateAddressBatch([r.addr], lang)
+          : <String>[];
+      if (!mounted) return;
+      setState(() {
+        _translatedName = nameResult.isNotEmpty ? nameResult[0] : null;
+        _translatedCategory = r.displayCategoryLabelLocalized(lang);
+        _translatedAddr = addrResult.isNotEmpty ? addrResult[0] : null;
+        _isTranslating = false;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _isTranslating = false);
+    }
+  }
+
   Future<void> _openKakaoSearch() async {
     final url =
-        'https://map.kakao.com/?q=${Uri.encodeQueryComponent(restaurant.name)}';
+        'https://map.kakao.com/?q=${Uri.encodeQueryComponent(widget.restaurant.name)}';
     final uri = Uri.tryParse(url);
     if (uri == null) return;
     await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -983,6 +1023,12 @@ class _RestaurantInfoSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = widget.restaurant;
+    final lang = context.locale.languageCode;
+    final displayName = _translatedName ?? r.name;
+    final displayCategory = _translatedCategory ?? r.displayCategoryLabelLocalized(lang);
+    final displayAddr = _translatedAddr ?? r.addr;
+
     return DraggableScrollableSheet(
       initialChildSize: 0.45,
       minChildSize: 0.3,
@@ -1027,18 +1073,27 @@ class _RestaurantInfoSheet extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          restaurant.name,
+                        _isTranslating
+                            ? Container(
+                          height: 22,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: AppColors.border,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        )
+                            : Text(
+                          displayName,
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.w800,
                             color: AppColors.text,
                           ),
                         ),
-                        if (restaurant.displayCategoryLabel.isNotEmpty) ...[
+                        if (displayCategory.isNotEmpty) ...[
                           const SizedBox(height: 3),
                           Text(
-                            restaurant.displayCategoryLabel,
+                            displayCategory,
                             style: const TextStyle(
                               fontSize: 13,
                               color: AppColors.subText,
@@ -1069,7 +1124,7 @@ class _RestaurantInfoSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              if (restaurant.rating > 0) ...[
+              if (r.rating > 0) ...[
                 const SizedBox(height: 18),
                 Row(
                   children: [
@@ -1080,17 +1135,17 @@ class _RestaurantInfoSheet extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      restaurant.rating.toStringAsFixed(1),
+                      r.rating.toStringAsFixed(1),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: AppColors.text,
                       ),
                     ),
-                    if (restaurant.userRatingsTotal != null) ...[
+                    if (r.userRatingsTotal != null) ...[
                       const SizedBox(width: 6),
                       Text(
-                        '(${restaurant.userRatingsTotal})',
+                        '(${r.userRatingsTotal})',
                         style: const TextStyle(
                           fontSize: 13,
                           color: AppColors.subText,
@@ -1100,7 +1155,7 @@ class _RestaurantInfoSheet extends StatelessWidget {
                   ],
                 ),
               ],
-              if (restaurant.addr.isNotEmpty) ...[
+              if (displayAddr.isNotEmpty) ...[
                 const SizedBox(height: 14),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1112,8 +1167,17 @@ class _RestaurantInfoSheet extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Expanded(
-                      child: Text(
-                        restaurant.addr,
+                      child: _isTranslating
+                          ? Container(
+                        height: 16,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: AppColors.border,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      )
+                          : Text(
+                        displayAddr,
                         style: const TextStyle(
                           fontSize: 14,
                           color: AppColors.text,
@@ -1124,7 +1188,7 @@ class _RestaurantInfoSheet extends StatelessWidget {
                   ],
                 ),
               ],
-              if (restaurant.tel.isNotEmpty) ...[
+              if (r.tel.isNotEmpty) ...[
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -1135,7 +1199,7 @@ class _RestaurantInfoSheet extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      restaurant.tel,
+                      r.tel,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -1151,7 +1215,7 @@ class _RestaurantInfoSheet extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: _openKakaoSearch,
                   icon: const Icon(Icons.open_in_new_rounded, size: 16),
-                  label: const Text('카카오플레이스에서 영업시간·메뉴 보기'),
+                  label: Text('smu.kakaoplace_button'.tr()),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primary,
                     side: const BorderSide(color: AppColors.primary),
